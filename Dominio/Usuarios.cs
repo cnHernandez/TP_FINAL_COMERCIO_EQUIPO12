@@ -14,13 +14,13 @@ namespace Dominio
             vendedor = 2   
         }
         public int IdUsuario {  get; set; }
-        public string Mail {  get; set; }
+        public string Nombre {  get; set; }
         public string Contrasena {  get; set; }
         public TipoUsuarios TipoUsuario { get; set; }
 
         public Usuarios(string user, string pass, bool esAdmin, bool esVendedor)
         {
-            Mail = user;
+            Nombre = user;
             Contrasena = pass;
 
             TipoUsuario = esAdmin ? TipoUsuarios.administrador : TipoUsuarios.vendedor;
