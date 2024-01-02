@@ -1,4 +1,11 @@
-﻿.card-login {
+﻿
+﻿body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+.card-login {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 4px 20px #215b30;
     background-color: #f8f9fa;
@@ -35,3 +42,454 @@
         border-radius: 5px;
         cursor: pointer;
     }
+
+.navbar {
+    background-color: #212529 !important;
+    border-bottom: 2px solid #28a745;
+}
+
+.navbar-brand {
+    color: #28a745;
+    font-size: 24px;
+}
+
+    .navbar-brand img {
+        height: 40px;
+        margin-right: 10px;
+        border-radius: 50%;
+    }
+
+.navbar-toggler-icon {
+    background-color: #28a745;
+}
+
+.navbar-nav .nav-item .nav-link {
+    color: #28a745;
+}
+
+
+    .navbar-nav .nav-item .nav-link:hover {
+        color: #fff;
+    }
+
+.navbar-nav .nav-item {
+    margin-right: 15px;
+}
+
+/* Estilo del filtro */
+.filter-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: 0 auto; /* Centra horizontalmente */
+    max-width: 600px; /* Ajusta según sea necesario */
+}
+
+.card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.card {
+    margin-top: 50px;
+    margin-left: 100px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 20px rgba(255, 255, 0, 0.5);
+}
+
+.carousel-card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 4px 8px #215b30;
+    margin-top: 80px;
+    position: absolute;
+    top: 20px;
+    margin-left: 200px !important;
+    width: 700px;
+    background-color: #f8f9fa;
+    padding: 10px;
+    text-align: center;
+    margin-right: 25%;
+}
+
+.carosuel-container {
+    padding: 20px;
+    margin-left: 40px;
+    max-width: 18rem;
+    margin: 10px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.card img {
+    width: 260px;
+    height: 200px;
+}
+
+.card-title {
+    font-size: 1.25rem;
+}
+
+.cart-item {
+    margin-left: auto;
+}
+
+
+
+.gridview-style {
+    width: 80%;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    border: 1px solid #ccc;
+    margin-top: 50px;
+}
+
+.gridview-header {
+    background-color: #333;
+    border: 1px solid #333;
+    color: #fff;
+}
+
+.gridview-row-alt {
+    border: 1px solid #ccc;
+}
+
+.gridview-row {
+    background-color: #215b30;
+    color: #fff;
+    border: 1px solid #ccc;
+}
+
+.gridview-row-alt {
+    background-color: #333;
+    color: #fff;
+}
+
+.gridview-cell {
+    border: 1px solid #ccc;
+}
+
+.Profesionales {
+    font-size: 30px;
+    color: #28a745;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    margin-top: 40px;
+}
+
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 4px 8px #215b30;
+    width: 300px; /* Ajusta el ancho según sea necesario */
+    background-color: #f8f9fa;
+    padding: 20px;
+    text-align: center;
+    margin: 10px; /* Ajusta según sea necesario */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 8px 16px #215b30;
+    }
+
+
+.card-container a {
+    background-image: linear-gradient(45deg, #215b30, #14421f);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    .card-container a:hover {
+        background-image: linear-gradient(45deg, #14421f, #215b30);
+    }
+
+
+.login-container a.btn.btn-primary {
+    margin-top: 50px;
+    background-image: linear-gradient(45deg, #14421f, #215b30) !important;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    .login-container a.btn.btn-primary:hover {
+        background-image: linear-gradient(45deg, #14421f, #215b30);
+        color: white;
+    }
+
+.login-container .btn.btn-primary {
+    margin-top: 50px;
+    background-image: linear-gradient(45deg, #14421f, #215b30) !important;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    .login-container .btn.btn-primary:hover {
+        background-image: linear-gradient(45deg, #14421f, #215b30);
+        color: white;
+    }
+
+
+.modificar-button {
+    background-color: firebrick; /* Fondo transparente */
+    color: white; /* Color del texto azul */
+    border: 1px solid firebrick; /* Borde azul */
+    padding: 2px 4px; /* Espaciado dentro del botón */
+    font-size: 14px;
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor al pasar el ratón */
+    text-decoration: none; /* Quitar subrayado en el enlace */
+    display: inline-block;
+    transition: background-color 0.3s; /* Efecto de transición al pasar el ratón */
+}
+
+    .modificar-button:hover {
+        background-color: black; /* Fondo azul al pasar el ratón */
+        color: #fff; /* Color del texto blanco */
+    }
+
+
+.eliminar-button {
+    background-color: firebrick; /* Fondo transparente */
+    color: white; /* Color del texto azul */
+    border: 1px solid firebrick; /* Borde azul */
+    padding: 2px 4px; /* Espaciado dentro del botón */
+    font-size: 14px;
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor al pasar el ratón */
+    text-decoration: none; /* Quitar subrayado en el enlace */
+    display: inline-block;
+    transition: background-color 0.3s; /* Efecto de transición al pasar el ratón */
+}
+
+    .eliminar-button:hover {
+        background-color: black; /* Fondo azul al pasar el ratón */
+        color: #fff; /* Color del texto blanco */
+    }
+
+.custom-dropdown {
+    background-color: #EFEFEF;
+    border: 1px solid #CCCCCC;
+    color: firebrick !important;
+    /* Otros estilos que desees agregar */
+}
+
+.container {
+    text-align: left; /* Alinear a la izquierda */
+}
+
+.UserH1 {
+    font-weight: bold;
+    font-size: 30px;
+    color: #28a745;
+    margin-top: 20px; /* Espacio superior */
+    margin-bottom: 20px; /* Espacio inferior */
+    margin-left: 20px; /* Margen izquierdo */
+}
+
+.img-container {
+    text-align: left; /* Alinear a la izquierda */
+    position: relative;
+    overflow: hidden;
+    margin-left: 20px; /* Margen izquierdo */
+}
+
+    .img-container img {
+        max-width: 100%; /* Imagen se ajusta al ancho del contenedor */
+        border-radius: 8px; /* Bordes redondeados */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+        opacity: 0.7; /* Opacidad de la imagen */
+        transition: opacity 0.5s ease; /* Agregar transición suave a la opacidad */
+    }
+
+        .img-container img:hover {
+            opacity: 1; /* Al pasar el ratón, restaurar la opacidad completa */
+        }
+
+.especialidades-section {
+    margin-top: 20px;
+    margin-left: 20px;
+    text-align: center;
+}
+
+.btn-especialidades {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.servicios-section {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f8f9fa; /* Color de fondo */
+    border-radius: 8px;
+}
+
+.content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alinear a la izquierda */
+    justify-content: center;
+    min-height: 100vh;
+    overflow-y: auto;
+    margin-bottom: 150px;
+    margin-left: 20px; /* Ajusta el margen izquierdo según sea necesario */
+}
+
+.img-container-custom {
+    text-align: left; /* Alinear a la izquierda */
+    position: relative;
+    overflow: hidden;
+    margin: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 4px 20px #6c757d;
+}
+
+    .img-container-custom img {
+        max-width: 100%; /* Imagen se ajusta al ancho del contenedor */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+        opacity: 0.7; /* Opacidad de la imagen */
+        transition: opacity 0.5s ease; /* Agregar transición suave a la opacidad */
+    }
+
+        .img-container-custom img:hover {
+            opacity: 1; /* Al pasar el ratón, restaurar la opacidad completa */
+        }
+
+.user-h1-custom {
+    margin-top: 0px !important;
+    font-weight: bold;
+    font-size: 30px;
+    color: #28a745;
+    margin: 20px;
+    text-align: left; /* Alinear a la izquierda */
+}
+
+.card-login-custom {
+    margin-left: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 4px 20px #215b30;
+    background-color: #f8f9fa;
+    padding: 20px;
+    text-align: left; /* Alinear a la izquierda */
+    width: 60%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.login-container-custom {
+    text-align: left; /* Alinear a la izquierda */
+}
+
+    .login-container-custom h3 {
+        margin-bottom: 20px;
+    }
+
+.btn-custom {
+    background-image: linear-gradient(45deg, #215b30, #14421f);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    .btn-custom:hover {
+        background-image: linear-gradient(45deg, #14421f, #215b30);
+    }
+
+.especialidades-text {
+    font-size: 18px;
+    color: #6c757d; /* Color de texto gris oscuro */
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+
+.logout-link:hover {
+    color: red !important; /* Cambia el color a rojo o el que desees */
+}
+
+
+
+.content-container {
+    margin-top: 0px !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow-y: auto;
+    margin-bottom: 150px !important;
+    padding-bottom: 20px; /* Ajusta el espacio inferior para las cards */
+    margin-left: 20px;
+    position: relative !important;
+}
+
+/* Estilos para las cards en el container */
+.cards-container {
+    margin-bottom: 150px !important;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    flex-grow: 1; /* Asegura que el contenedor de las tarjetas crezca para ocupar el espacio disponible */
+}
+
+    .cards-container a {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centra horizontalmente el contenido */
+        background-image: linear-gradient(45deg, #215b30, #14421f);
+        color: white;
+        padding: 220px; /* Ajusta el padding para el contenido */
+        border: none;
+        border-radius: 15px; /* Bordes más redondeados */
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-image 0.3s ease;
+        width: 250px; /* Ancho de las cards */
+        height: 50px; /* Altura de las cards */
+        margin: 30px !important; /* Ajusta el margen entre las cards */
+    }
+
+        .cards-container a:hover {
+            background-image: linear-gradient(45deg, #14421f, #215b30);
+            text-decoration: none;
+        }
+
+.footer {
+    position: absolute; /* Asegura que el footer tenga posición absoluta */
+    bottom: 0; /* Fija el footer en la parte inferior del contenedor principal */
+    width: 100%; /* Ajusta el ancho del footer según sea necesario */
+    background-color: #212529;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    z-index: 0; /* Asegura que el footer esté detrás de las cards */
+}
