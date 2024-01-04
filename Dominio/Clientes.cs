@@ -12,5 +12,7 @@ namespace Dominio
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public string Mail {  get; set; }
+        public long Dni {  get; set; }  
+        public long Telefono { get; set; }
     }
 }

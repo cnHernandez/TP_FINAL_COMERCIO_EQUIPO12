@@ -40,6 +40,8 @@ namespace Comercio
                 cliente.Nombre = txtNombre.Text;
                 cliente.Apellido = txtApellido.Text;
                 cliente.Mail = txtMail.Text;
+                cliente.Dni = long.Parse(txtDni.Text);
+                cliente.Telefono = long.Parse(txtTelefono.Text);
 
 
                 if (Request.QueryString["IdCliente"] != null)
