@@ -1,8 +1,6 @@
-﻿﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="WebMaster.master.cs" Inherits="Turnos.WebMaster" %>
-
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Web.master.cs" Inherits="Comercio.Web" %>
 
 <!DOCTYPE html>
-
 <html>
 <head runat="server">
     <title>Comercio</title>
@@ -38,7 +36,7 @@
                             </ul>
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                                <a class="nav-link" href="/Login.aspx">Hola, <span runat="server" id="spanNombreAdmin"></span><i class="fas fa-user"></i></a>
+                                <a class="nav-link" href="/Login.aspx"><span runat="server" id="Admin"></span><i class="fas fa-user"></i></a>
                             </li>
                             <li class="nav-item">
                                 <asp:LinkButton ID="btnLogout" runat="server" Text="Cerrar sesión" OnClick="Logout_Click" CssClass="nav-link logout-link">

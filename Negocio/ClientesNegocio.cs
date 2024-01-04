@@ -17,7 +17,7 @@ namespace Negocio
 
             try
             {
-                datos.SetearQuery("select ClienteID, Nombre, Apellido, Mail, Dni, Telefono from Clientes");
+                datos.SetearQuery("select ClienteID, Nombre, Apellido, Mail, Dni, Telefono, Estado from Clientes where Estado = 0");
                 if (!string.IsNullOrEmpty(id))
                 {
                     datos.Comando.CommandText += " Where ClienteID = @Id";
@@ -36,6 +36,7 @@ namespace Negocio
                     aux.Mail = (string)datos.lector["Mail"];
                     aux.Dni = (long)datos.lector["Dni"];
                     aux.Telefono = (long)datos.lector["Telefono"];
+                    aux.Estado = (bool)datos.lector["Estado"];
                     Lista.Add(aux);
                 }
 
@@ -57,13 +58,14 @@ namespace Negocio
             {
                 using (AccesoDatos Datos = new AccesoDatos())
                 {
-                    Datos.SetearQuery("INSERT INTO Clientes (Nombre, Apellido, Mail, Dni, Telefono) VALUES (@Nombre, @Apellido, @Mail, @Dni, @Telefono); SELECT SCOPE_IDENTITY();");
+                    Datos.SetearQuery("INSERT INTO Clientes (Nombre, Apellido, Mail, Dni, Telefono, Estado) VALUES (@Nombre, @Apellido, @Mail, @Dni, @Telefono, @Estado); SELECT SCOPE_IDENTITY();");
 
                     Datos.setearParametros("@Nombre", nuevo.Nombre);
                     Datos.setearParametros("@Apellido", nuevo.Apellido);
                     Datos.setearParametros("@Mail", nuevo.Mail);
                     Datos.setearParametros("@Dni", nuevo.Dni);
                     Datos.setearParametros("@Telefono", nuevo.Telefono);
+                    Datos.setearParametros("@Estado", 0);
 
                     long legajo = Convert.ToInt64(Datos.ejecutarScalar());
 
@@ -78,5 +80,31 @@ namespace Negocio
                 throw Ex;
             }
         }
+
+        public void EliminarCliente(int IdCliente)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.SetearQuery("update Clientes set estado=1 where ClienteID =@IdCliente");
+                datos.setearParametros("@IdCliente", IdCliente);
+                datos.ejecutarAccion();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
+
+
+
     }
 }

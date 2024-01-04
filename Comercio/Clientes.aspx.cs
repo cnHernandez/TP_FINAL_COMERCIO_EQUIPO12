@@ -48,7 +48,10 @@ namespace Comercio
 
         protected void dataGridViewClientes_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
-
+            string ID= dataGridViewClientes.DataKeys[e.RowIndex].Value.ToString();
+            ClientesNegocio negocio = new ClientesNegocio();
+            negocio.EliminarCliente(int.Parse(ID));
+            BindGridViewData();
         }
     }
 }

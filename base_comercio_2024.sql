@@ -13,7 +13,8 @@ CREATE TABLE Clientes (
 	Apellido varchar(50) NOT NULL,
 	Mail varchar (100) NOT NULL,
 	Dni BIGINT UNIQUE NOT NULL,
-    Telefono BIGINT UNIQUE NOT NULL
+    Telefono BIGINT UNIQUE NOT NULL,
+	Estado BIT NOT NULL
 );
 GO
 
@@ -112,3 +113,6 @@ GO
 
 
 select * from Clientes
+select * from Usuarios
+
+insert into Usuarios(NombreUsuario, Contraseña, TipoUsuario) VALUES('Nico', 'Hernandez', 1)
