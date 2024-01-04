@@ -20,7 +20,7 @@ namespace Negocio
                 datos.SetearQuery("select ClienteID, Nombre, Apellido, Mail, Dni, Telefono, Estado from Clientes where Estado = 0");
                 if (!string.IsNullOrEmpty(id))
                 {
-                    datos.Comando.CommandText += " Where ClienteID = @Id";
+                    datos.Comando.CommandText += " and ClienteID = @Id";
                     datos.setearParametros("@Id", Convert.ToInt32(id));
                 }
 
@@ -78,6 +78,36 @@ namespace Negocio
             catch (Exception Ex)
             {
                 throw Ex;
+            }
+        }
+
+        public void ModificarCliente(Clientes nuevo)
+        {
+            AccesoDatos Datos = new AccesoDatos();
+
+            try
+            {
+                Datos.SetearQuery("UPDATE Clientes\r\nSET Nombre = @Nombre,\r\n    Apellido = @Apellido,\r\n    Mail = @Mail,\r\n    Dni = @Dni,\r\n    Telefono = @Telefono,\r\n    Estado = @Estado\r\nWHERE ClienteID = @IdCliente;");
+
+                Datos.setearParametros("@Nombre", nuevo.Nombre);
+                Datos.setearParametros("@Apellido", nuevo.Apellido);
+                Datos.setearParametros("@Mail", nuevo.Mail);
+                Datos.setearParametros("@Dni", nuevo.Dni);
+                Datos.setearParametros("@Telefono", nuevo.Telefono);
+                Datos.setearParametros("@Estado", 0);
+                Datos.setearParametros("@IdCliente", nuevo.IdCliente);
+
+
+                Datos.ejecutarAccion();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                Datos.CerrarConexion();
             }
         }
 

@@ -20,15 +20,16 @@
             </div>
 
             <div class="mb-3">
-                <label for="txtDni" class="form-label">DNI del Usuario</label>
+                <label for="txtDni" class="form-label">DNI del Cliente</label>
                 <asp:TextBox runat="server" ID="txtDni" CssClass="form-control" name="txtDni" />
-                <div id="DniHelp" class="form-text">Ingrese el DNI del usuario.</div>
+                <div id="DniHelp" class="form-text">Ingrese el DNI del Cliente.</div>
+                <asp:Label runat="server" ID="lblDniError" CssClass="error-message" />
             </div>
 
             <div class="mb-3">
                 <label for="txtTelefono" class="form-label">Telefono</label>
                 <asp:TextBox runat="server" ID="txtTelefono" CssClass="form-control" name="txtTelefono" />
-                <div id="TelefonoHelp" class="form-text">Ingrese el telefono del usuario.</div>
+                <div id="TelefonoHelp" class="form-text">Ingrese el telefono del Cliente.</div>
             </div>
 
             <div class="mb-3">
@@ -40,6 +41,7 @@
             <div class="mb-3">
                 <asp:Button runat="server" ID="btnAgregar" Text="Aceptar" CssClass="btn btn-primary" OnClientClick="return validarFormulario();" OnClick="btnAgregar_Click" />
                 <asp:Button runat="server" ID="btnCancelar" Text="Cancelar" CssClass="btn btn-primary" OnClick="btnCancelar_Click" />
+                <asp:Label runat="server" ID="lblMensaje" CssClass="error-message" />
             </div>
 
             <div class="row">

@@ -26,6 +26,8 @@ namespace Comercio
                 txtNombre.Text = seleccionado.Nombre;
                 txtApellido.Text = seleccionado.Apellido;
                 txtMail.Text = seleccionado.Mail;
+                txtTelefono.Text = seleccionado.Telefono.ToString();
+                txtDni.Text= seleccionado.Dni.ToString();
 
             }
         }
@@ -40,22 +42,44 @@ namespace Comercio
                 cliente.Nombre = txtNombre.Text;
                 cliente.Apellido = txtApellido.Text;
                 cliente.Mail = txtMail.Text;
-                cliente.Dni = long.Parse(txtDni.Text);
-                cliente.Telefono = long.Parse(txtTelefono.Text);
 
-
-                if (Request.QueryString["IdCliente"] != null)
+                // Validar que el DNI sea un número válido antes de intentar convertirlo
+                if (long.TryParse(txtDni.Text, out long dni))
                 {
-                   /* string legajo = Request.QueryString["IdCliente"];
-                    cliente.IdCliente= long.TryParse(legajo, out long legajoComoLong) ? legajoComoLong : 0;
-                    nuevo.Modificar(sede);*/
+                    cliente.Dni = dni;
+
+                    // Validar que el DNI no exista ya en la base de datos
+                    if (!DNIExiste(cliente.Dni, cliente.IdCliente))
+                    {
+                        // Continuar con la asignación de otros campos
+                        cliente.Telefono = long.Parse(txtTelefono.Text);
+
+                        if (Request.QueryString["IdCliente"] != null)
+                        {
+                            string legajo = Request.QueryString["IdCliente"];
+                            cliente.IdCliente = (int)(long.TryParse(legajo, out long legajoComoLong) ? legajoComoLong : 0);
+                            nuevo.ModificarCliente(cliente);
+                        }
+                        else
+                        {
+                            nuevo.AgregarClientes(cliente);
+                        }
+
+                        Response.Redirect("Clientes.aspx", false);
+                    }
+                    else
+                    {
+                        // El DNI ya existe en la base de datos, mostrar mensaje al usuario
+                        lblMensaje.Text = "El DNI ya ha sido utilizado. Por favor, ingrese un DNI diferente.";
+                        lblMensaje.ForeColor = System.Drawing.Color.Red;
+                    }
                 }
-
                 else
-
-                { nuevo.AgregarClientes(cliente); }
-
-                Response.Redirect("Clientes.aspx", false);
+                {
+                    // El DNI no es un número válido, mostrar mensaje de error
+                    lblMensaje.Text = "Ingrese un valor válido para el DNI.";
+                    lblMensaje.ForeColor = System.Drawing.Color.Red;
+                }
             }
             catch (Exception ex)
             {
@@ -65,9 +89,26 @@ namespace Comercio
         }
 
 
-        protected void btnCancelar_Click(object sender, EventArgs e)
+    protected void btnCancelar_Click(object sender, EventArgs e)
         {
             Response.Redirect("Sedes.aspx", false);
+        }
+
+        private bool DNIExiste(long dni, int idCliente)
+        {
+            // Lógica para verificar si el DNI ya existe en la base de datos
+            // Excluye el DNI del cliente actual durante la verificación
+            // Retorna true si el DNI existe, false si no existe
+
+            // Ejemplo (ajusta la consulta y la conexión a tu base de datos):
+            using (AccesoDatos Datos = new AccesoDatos())
+            {
+                Datos.SetearQuery("SELECT COUNT(*) FROM Clientes WHERE Dni = @Dni AND ClienteID = @IdCliente");
+                Datos.setearParametros("@Dni", dni);
+                Datos.setearParametros("@IdCliente", idCliente);
+                int count = Convert.ToInt32(Datos.ejecutarScalar());
+                return count > 0;
+            }
         }
     }
 }
