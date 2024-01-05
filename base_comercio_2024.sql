@@ -30,7 +30,9 @@ GO
 -- Crear tabla de Marcas
 CREATE TABLE Marcas (
     MarcaID INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-    Nombre NVARCHAR(50) NOT NULL
+    Nombre NVARCHAR(50) NOT NULL,
+	UrlImagen NVARCHAR(1000) NULL,
+	Estado BIT NOT NULL
 );
 GO
 
@@ -114,5 +116,9 @@ GO
 
 select * from Clientes
 select * from Usuarios
+select * from Marcas
 
 insert into Usuarios(NombreUsuario, Contraseña, TipoUsuario) VALUES('Nico', 'Hernandez', 1)
+insert into Marcas(Nombre, UrlImagen, Estado) VALUES('Arcor', 'https://upload.wikimedia.org/wikipedia/commons/9/9d/Arcor_textlogo.png', 0)
+insert into Marcas(Nombre, UrlImagen, Estado) VALUES('Ferrero', 'https://sgfm.elcorteingles.es/SGFM/dctm/MEDIA03/202211/18/00120602500447____6__600x600.jpg', 0)
+

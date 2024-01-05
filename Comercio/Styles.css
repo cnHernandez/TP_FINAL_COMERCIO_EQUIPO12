@@ -493,3 +493,9 @@
     text-align: center;
     z-index: 0; /* Asegura que el footer esté detrás de las cards */
 }
+
+
+
+.eliminar-btn {
+    margin-top: 60px !important; /* ajusta según sea necesario */
+}

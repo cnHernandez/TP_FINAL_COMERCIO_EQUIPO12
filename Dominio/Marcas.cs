@@ -10,5 +10,7 @@ namespace Dominio
     {
         public int IdMarcas {  get; set; }
         public string Nombre { get; set; }
+        public String UrlImagen {  get; set; }
+        public bool Estado { get; set; }
     }
 }

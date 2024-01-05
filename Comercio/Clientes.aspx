@@ -15,6 +15,8 @@
                 
                 <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
                 <asp:BoundField DataField="Apellido" HeaderText="Apellido" />
+                <asp:BoundField DataField="Dni" HeaderText="Dni" />
+                <asp:BoundField DataField="Telefono" HeaderText="Telefono" />
                 <asp:BoundField DataField="Mail" HeaderText="Mail" />
                 <asp:TemplateField HeaderText="Eliminar">
                     <ItemTemplate>
@@ -29,4 +31,5 @@
 </asp:UpdatePanel>
 <div class="login-container">
     <a href="AgregarClientes.aspx" class="btn btn-primary">Agregar Cliente</a>
+</div>
 </asp:Content>
