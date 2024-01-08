@@ -1,3 +1,4 @@
+drop database Base_Comercio_2024;
 -- Crear base de datos
 CREATE DATABASE Base_Comercio_2024;
 GO
@@ -52,9 +53,12 @@ CREATE TABLE Productos (
     StockActual INT NOT NULL,
     StockMinimo INT NOT NULL,
     MarcaID INT FOREIGN KEY REFERENCES Marcas(MarcaID) NOT NULL,
-    TipoID INT FOREIGN KEY REFERENCES Tipos(TipoID) NOT NULL
+    TipoID INT FOREIGN KEY REFERENCES Tipos(TipoID) NOT NULL,
+	UrlImagen NVARCHAR(1000) NULL,
+	Estado BIT NOT NULL
 );
 GO
+
 
 -- Crear tabla de Asociación Producto-Proveedor
 CREATE TABLE ProductoProveedor (
