@@ -84,6 +84,37 @@ namespace Negocio
                 throw Ex;
             }
         }
+        ///HAY QUE PROBAR ESTE MODIFICAR 
+        public void Modificar(Productos nuevo)
+        {
+            AccesoDatos Datos = new AccesoDatos();
+
+            try
+            {
+                Datos.SetearQuery("UPDATE Productos SET Nombre = @nombre,PrecioCompra=@precioCompra, PorcentajeGanancia=@PorcentajeGanancia,StockActual=@StockActual,StockMinimo=@stockMinimo,MarcaID=@IdMarca,TipoID=@idCategoria,Estado=@Estado,UrlImagen=@urlImagen WHERE ProductoID=@idProductos");
+
+                Datos.setearParametros("@nombre", nuevo.Nombre);
+
+                Datos.setearParametros("@precioCompra",nuevo.PrecioCompra);
+                Datos.setearParametros("@PorcentajeGanancia",nuevo.PorcentajeGanancia);
+                Datos.setearParametros("@StockActual",nuevo.StockActual);
+                Datos.setearParametros("@stockMinimo",nuevo.StockMinimo);
+                Datos.setearParametros("@IdMarca",nuevo.IdMarca);
+                Datos.setearParametros("@idCategoria",nuevo.IdCategoria);
+                Datos.setearParametros("@Estado",nuevo.Estado);
+                Datos.setearParametros("@urlImagen",nuevo.UrlImagen);
+                Datos.ejecutarAccion();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                Datos.CerrarConexion();
+            }
+        }
 
         public void EliminarProducto(int IdProducto)
         {
