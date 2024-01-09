@@ -11,5 +11,6 @@ namespace Dominio
         public int IdProveedor {  get; set; }
         public string Nombre {  get; set; }
         public string Categoria { get; set; }
+        public bool Estado { get; set; }
     }
 }

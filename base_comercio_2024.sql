@@ -126,3 +126,24 @@ insert into Usuarios(NombreUsuario, Contraseña, TipoUsuario) VALUES('Nico', 'Her
 insert into Marcas(Nombre, UrlImagen, Estado) VALUES('Arcor', 'https://upload.wikimedia.org/wikipedia/commons/9/9d/Arcor_textlogo.png', 0)
 insert into Marcas(Nombre, UrlImagen, Estado) VALUES('Ferrero', 'https://sgfm.elcorteingles.es/SGFM/dctm/MEDIA03/202211/18/00120602500447____6__600x600.jpg', 0)
 
+
+/*
+  public int IdProductos {  get; set; }
+        public string Nombre {  get; set; }
+        public decimal PrecioCompra {  get; set; }
+        public decimal PorcentajeGanancia { get; set; }
+        public int StockActual {  get; set; }
+        public int StockMinimo { get; set; }
+        public int IdMarca { get; set; }
+        public int IdCategoria { get; set; }
+        public bool Estado {  get; set; }
+        public string UrlImagen { get; set; }
+*/
+
+alter table Proveedores
+add estado bit not null ;
+
+select p.ProveedorID,p.Nombre,p.Rubro,
+from Proveedores p where 
+select p.Nombre, p.PrecioCompra, p.PorcentajeGanancia, p.StockActual, p.StockMinimo, p.TipoID, p.MarcaID from Productos p where Estado = 0
+UPDATE Productos SET Nombre = @nombre,PrecioCompra=@precioCompra, PorcentajeGanancia=@PorcentajeGanancia,StockActual=@StockActual,StockMinimo=@stockMinimo,MarcaID=@IdMarca,TipoID=@idCategoria,Estado=@Estado,UrlImagen=@urlImagen WHERE ProductoID=@idProductos
