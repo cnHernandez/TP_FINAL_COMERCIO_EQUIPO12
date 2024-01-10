@@ -16,7 +16,7 @@ namespace Negocio
 
             try
             {
-                datos.SetearQuery("select p.Nombre, p.PrecioCompra, p.PorcentajeGanancia, p.StockActual, p.StockMinimo, p.TipoID, p.MarcaID from Productos p where Estado = 0");
+                datos.SetearQuery("select p.ProductoID, p.Nombre, p.PrecioCompra, p.PorcentajeGanancia, p.StockActual, p.StockMinimo, p.UrlImagen, p.TipoID, p.MarcaID, p.Estado from Productos p where Estado = 0");
                 if (!string.IsNullOrEmpty(id))
                 {
                     datos.Comando.CommandText += " and ProductoID = @Id";
@@ -34,6 +34,8 @@ namespace Negocio
                     aux.PrecioCompra = (decimal)datos.lector["PrecioCompra"];
                     aux.PorcentajeGanancia = (decimal)datos.lector["PorcentajeGanancia"];
                     aux.StockActual = (int)datos.lector["StockActual"];
+                    aux.StockMinimo = (int)datos.lector["StockMinimo"];
+                    aux.UrlImagen = (string)datos.lector["UrlImagen"];
                     aux.IdCategoria = (int)datos.lector["TipoID"];
                     aux.IdMarca = (int)datos.lector["MarcaID"];
                     aux.Estado = (bool)datos.lector["Estado"];
@@ -59,13 +61,13 @@ namespace Negocio
             {
                 using (AccesoDatos Datos = new AccesoDatos())
                 {
-                    Datos.SetearQuery("insert into Productos (Nombre, PrecioCompra, PorcentajeGanancia, StockActual, StockMinimo, TipoID,MarcaID, UrlImagen, Estado) values (@Nombre, @PrecioCompra, @PorcentajeGanancia, @StockActual,@StockMinimo, @TipoID, @MarcaID,@UrlImagen, @Estado); SELECT SCOPE_IDENTITY();");
+                    Datos.SetearQuery("insert into Productos (Nombre, PrecioCompra, PorcentajeGanancia, StockActual, StockMinimo, TipoID, MarcaID, UrlImagen, Estado) values (@Nombre, @PrecioCompra, @PorcentajeGanancia, @StockActual,@StockMinimo, @TipoID, @MarcaID,@UrlImagen, @Estado); SELECT SCOPE_IDENTITY();");
 
                     Datos.setearParametros("@Nombre", nuevo.Nombre);
                     Datos.setearParametros("@PrecioCompra", nuevo.PrecioCompra);
                     Datos.setearParametros("@PorcentajeGanancia", nuevo.PorcentajeGanancia);
                     Datos.setearParametros("@StockActual", nuevo.StockActual);
-                    Datos.setearParametros("@StockMinimo", 50);
+                    Datos.setearParametros("@StockMinimo", nuevo.StockMinimo);
                     Datos.setearParametros("@TipoID", nuevo.IdCategoria);
                     Datos.setearParametros("@MarcaID", nuevo.IdMarca);
                     Datos.setearParametros("@UrlImagen", nuevo.UrlImagen);
@@ -84,17 +86,16 @@ namespace Negocio
                 throw Ex;
             }
         }
-        ///HAY QUE PROBAR ESTE MODIFICAR 
+
         public void Modificar(Productos nuevo)
         {
             AccesoDatos Datos = new AccesoDatos();
 
             try
             {
-                Datos.SetearQuery("UPDATE Productos SET Nombre = @nombre,PrecioCompra=@precioCompra, PorcentajeGanancia=@PorcentajeGanancia,StockActual=@StockActual,StockMinimo=@stockMinimo,MarcaID=@IdMarca,TipoID=@idCategoria,Estado=@Estado,UrlImagen=@urlImagen WHERE ProductoID=@idProductos");
-
+                Datos.SetearQuery("UPDATE Productos SET Nombre = @nombre,PrecioCompra=@precioCompra, PorcentajeGanancia=@PorcentajeGanancia,StockActual=@StockActual,StockMinimo=@stockMinimo,MarcaID=@IdMarca,TipoID=@idCategoria,Estado=@Estado,UrlImagen=@urlImagen WHERE ProductoID=@IdProductos");
                 Datos.setearParametros("@nombre", nuevo.Nombre);
-
+                Datos.setearParametros("@IdProductos", nuevo.IdProductos);
                 Datos.setearParametros("@precioCompra",nuevo.PrecioCompra);
                 Datos.setearParametros("@PorcentajeGanancia",nuevo.PorcentajeGanancia);
                 Datos.setearParametros("@StockActual",nuevo.StockActual);

@@ -91,7 +91,7 @@ namespace Comercio
 
     protected void btnCancelar_Click(object sender, EventArgs e)
         {
-            Response.Redirect("Sedes.aspx", false);
+            Response.Redirect("Clientes.aspx", false);
         }
 
         private bool DNIExiste(long dni, int idCliente)

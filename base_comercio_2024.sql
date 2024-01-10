@@ -23,8 +23,8 @@ GO
 CREATE TABLE Proveedores (
     ProveedorID INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
     Nombre NVARCHAR(100) NOT NULL,
-    Rubro NVARCHAR(50) NOT NULL -- Agregado el campo RUBRO
-    -- Agrega otros campos según sea necesario
+    Rubro NVARCHAR(50) NOT NULL, 
+    estado bit not null 
 );
 GO
 
@@ -122,9 +122,13 @@ select * from Clientes
 select * from Usuarios
 select * from Marcas
 
+INSERT INTO Tipos(Nombre)VALUES('Gaseosas')
+INSERT INTO Tipos(Nombre)VALUES('Chocolates')
 insert into Usuarios(NombreUsuario, Contraseña, TipoUsuario) VALUES('Nico', 'Hernandez', 1)
 insert into Marcas(Nombre, UrlImagen, Estado) VALUES('Arcor', 'https://upload.wikimedia.org/wikipedia/commons/9/9d/Arcor_textlogo.png', 0)
 insert into Marcas(Nombre, UrlImagen, Estado) VALUES('Ferrero', 'https://sgfm.elcorteingles.es/SGFM/dctm/MEDIA03/202211/18/00120602500447____6__600x600.jpg', 0)
+insert into Productos(Nombre, PrecioCompra, PorcentajeGanancia, StockActual, StockMinimo, MarcaID, TipoID, UrlImagen, Estado)VALUES('Bombon ferrero', 100, 50.50, 1000, 500, 1, 2, 'https://http2.mlstatic.com/D_NQ_NP_744945-MLU70065031137_062023-O.webp', 0)
+insert into Productos(Nombre, PrecioCompra, PorcentajeGanancia, StockActual, StockMinimo, MarcaID, TipoID, UrlImagen, Estado)VALUES('Huevo Kinder', 100, 50.50, 1000, 500, 1, 2, 'https://camoga.ar/media/catalog/product/cache/17183a23c5d57b885c9e1f3d66234d68/5/0/50081000_huevo_kinder_con_leche_sorpresa_x20_gramos.jpg', 0)
 
 
 /*
@@ -140,8 +144,6 @@ insert into Marcas(Nombre, UrlImagen, Estado) VALUES('Ferrero', 'https://sgfm.el
         public string UrlImagen { get; set; }
 */
 
-alter table Proveedores
-add estado bit not null ;
 
 select p.ProveedorID,p.Nombre,p.Rubro,
 from Proveedores p where 
