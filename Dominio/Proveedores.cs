@@ -12,5 +12,6 @@ namespace Dominio
         public string Nombre {  get; set; }
         public string Categoria { get; set; }
         public bool Estado { get; set; }
+        public string UrlImagen { get; set; }
     }
 }

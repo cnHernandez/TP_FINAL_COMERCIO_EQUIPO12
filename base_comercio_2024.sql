@@ -24,7 +24,8 @@ CREATE TABLE Proveedores (
     ProveedorID INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
     Nombre NVARCHAR(100) NOT NULL,
     Rubro NVARCHAR(50) NOT NULL, 
-    estado bit not null 
+    estado bit not null,
+	UrlImagen NVARCHAR(1000) NULL,
 );
 GO
 
@@ -58,7 +59,8 @@ CREATE TABLE Productos (
 	Estado BIT NOT NULL
 );
 GO
-
+ALTER TABLE Proveedores
+ALTER COLUMN UrlImagen VARCHAR(MAX);
 
 -- Crear tabla de Asociación Producto-Proveedor
 CREATE TABLE ProductoProveedor (
@@ -117,6 +119,7 @@ CREATE TABLE Usuarios (
 );
 GO
 
+select * from Proveedores
 
 select * from Clientes
 select * from Usuarios

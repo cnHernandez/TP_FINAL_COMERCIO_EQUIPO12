@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Dominio;
 namespace Negocio
 {
-    class ProveedoresNegocio
+   public class  ProveedoresNegocio
     {
         public List<Proveedores> ListarProveedores(string id = "")
         {
@@ -55,11 +55,12 @@ namespace Negocio
             {
                 using (AccesoDatos Datos = new AccesoDatos())
                 {
-                    Datos.SetearQuery("insert into Proveedores(ProveedorID,Nombre,Rubro,estado) values(@ProveedorID, @Nombre, @Rubro, @estado); SELECT SCOPE_IDENTITY(); ");
-                    Datos.setearParametros("@proveedorID", nuevo.IdProveedor);
+                    Datos.SetearQuery("insert into Proveedores(Nombre,Rubro, UrlImagen, estado) values(@Nombre, @Rubro, @UrlImagen, @estado); SELECT SCOPE_IDENTITY(); ");
+                   
                     Datos.setearParametros("@Nombre", nuevo.Nombre);
                     Datos.setearParametros("@Rubro", nuevo.Categoria);
                     Datos.setearParametros("@estado", nuevo.Estado);
+                    Datos.setearParametros("@UrlImagen", nuevo.UrlImagen);
                    
 
                     long ID = Convert.ToInt64(Datos.ejecutarScalar());
@@ -82,11 +83,12 @@ namespace Negocio
 
             try
             {
-                Datos.SetearQuery("UPDATE Proveedores SET Nombre = @nombre,Rubro=@Rubro ,estado=@estado where ProveedorID=@IdProveedor");
+                Datos.SetearQuery("UPDATE Proveedores SET Nombre = @nombre,Rubro=@Rubro, UrlImagen= @UrlImagen ,estado=@estado where ProveedorID=@IdProveedor");
 
                 Datos.setearParametros("@nombre", nuevo.Nombre);
                 Datos.setearParametros("@Rubro", nuevo.Categoria);
                 Datos.setearParametros("@estado", nuevo.Estado);
+                Datos.setearParametros("@UrlImagen", nuevo.UrlImagen);
                
                 Datos.ejecutarAccion();
 
@@ -100,14 +102,14 @@ namespace Negocio
                 Datos.CerrarConexion();
             }
         }
-        public void EliminarProducto(int idProveedor)
+        public void EliminarProveedor(int idProveedor)
         {
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
                 datos.SetearQuery("update Proveedores set estado=1 where ProveedorID=@IdProveedor");
-                datos.setearParametros("@IdProvedor", idProveedor);
+                datos.setearParametros("@IdProveedor", idProveedor);
                 datos.ejecutarAccion();
 
             }

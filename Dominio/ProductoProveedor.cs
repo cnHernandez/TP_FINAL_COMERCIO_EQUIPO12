@@ -10,6 +10,6 @@ namespace Dominio
     {
         public int IdProductoProveedor {  get; set; }
         public int IdProveedor { get; set; }
-        public int IdProducto {  get; set; }
+        public int IdProducto {  get; set; }      
     }
 }

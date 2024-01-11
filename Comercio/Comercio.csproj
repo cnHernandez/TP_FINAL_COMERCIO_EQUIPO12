@@ -68,12 +68,15 @@
     <Content Include="AgregarClientes.aspx" />
     <Content Include="AgregarMarca.aspx" />
     <Content Include="AgregarProducto.aspx" />
+    <Content Include="AgregarProveedor.aspx" />
     <Content Include="Clientes.aspx" />
     <Content Include="default.aspx" />
     <Content Include="Error.aspx" />
     <Content Include="ListarProductos.aspx" />
+    <Content Include="ListarProveedores.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="ListarMarcas.aspx" />
+    <Content Include="productoXproveedor.aspx" />
     <Content Include="Styles.css" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -98,6 +101,13 @@
     </Compile>
     <Compile Include="AgregarProducto.aspx.designer.cs">
       <DependentUpon>AgregarProducto.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AgregarProveedor.aspx.cs">
+      <DependentUpon>AgregarProveedor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AgregarProveedor.aspx.designer.cs">
+      <DependentUpon>AgregarProveedor.aspx</DependentUpon>
     </Compile>
     <Compile Include="Clientes.aspx.cs">
       <DependentUpon>Clientes.aspx</DependentUpon>
@@ -127,6 +137,13 @@
     <Compile Include="ListarProductos.aspx.designer.cs">
       <DependentUpon>ListarProductos.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ListarProveedores.aspx.cs">
+      <DependentUpon>ListarProveedores.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ListarProveedores.aspx.designer.cs">
+      <DependentUpon>ListarProveedores.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -140,6 +157,13 @@
     </Compile>
     <Compile Include="ListarMarcas.aspx.designer.cs">
       <DependentUpon>ListarMarcas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="productoXproveedor.aspx.cs">
+      <DependentUpon>productoXproveedor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="productoXproveedor.aspx.designer.cs">
+      <DependentUpon>productoXproveedor.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Web.Master.cs">
