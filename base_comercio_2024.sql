@@ -1,3 +1,5 @@
+use master
+go
 drop database Base_Comercio_2024;
 -- Crear base de datos
 CREATE DATABASE Base_Comercio_2024;
@@ -152,3 +154,8 @@ select p.ProveedorID,p.Nombre,p.Rubro,
 from Proveedores p where 
 select p.Nombre, p.PrecioCompra, p.PorcentajeGanancia, p.StockActual, p.StockMinimo, p.TipoID, p.MarcaID from Productos p where Estado = 0
 UPDATE Productos SET Nombre = @nombre,PrecioCompra=@precioCompra, PorcentajeGanancia=@PorcentajeGanancia,StockActual=@StockActual,StockMinimo=@stockMinimo,MarcaID=@IdMarca,TipoID=@idCategoria,Estado=@Estado,UrlImagen=@urlImagen WHERE ProductoID=@idProductos
+
+
+alter table ventas 
+add Estado bit not null
+select VentaID,ClienteID,FechaVenta,TotalVenta from Ventas 
