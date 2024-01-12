@@ -12,5 +12,6 @@ namespace Dominio
         public int IdProveedor { get; set; }
         public DateTime FechaCompra { get; set; }
         public decimal TotalCompra { get; set; }
+        public bool  Estado { get; set; }
     }
 }

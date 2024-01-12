@@ -155,7 +155,16 @@ from Proveedores p where
 select p.Nombre, p.PrecioCompra, p.PorcentajeGanancia, p.StockActual, p.StockMinimo, p.TipoID, p.MarcaID from Productos p where Estado = 0
 UPDATE Productos SET Nombre = @nombre,PrecioCompra=@precioCompra, PorcentajeGanancia=@PorcentajeGanancia,StockActual=@StockActual,StockMinimo=@stockMinimo,MarcaID=@IdMarca,TipoID=@idCategoria,Estado=@Estado,UrlImagen=@urlImagen WHERE ProductoID=@idProductos
 
-
+//Estado Para ventas y compras 
 alter table ventas 
 add Estado bit not null
+alter table Compras
+add Estado bit not null
+
+
 select VentaID,ClienteID,FechaVenta,TotalVenta from Ventas 
+
+select CompraID,ProveedorID,FechaCompra,TotalCompra,Estado from Compras where Estado=0
+INSERT INTO Ventas(ClienteID,FechaVenta,TotalVenta,Estado) VALUES (@ClienteID,@FechaVenta,@TotalVenta,@Estado)
+insert into Compras (ProveedorID,FechaCompra,TotalCompra,Estado) values (@ProveedorID,@FechaCompra,@TotalCompra,@Estado)
+UPDATE Compras SET proveedorid=@ProveedorID,FechaCompra=@FechaCompra,TotalCompra=@TotalCompra where CompraID=@CompraID"

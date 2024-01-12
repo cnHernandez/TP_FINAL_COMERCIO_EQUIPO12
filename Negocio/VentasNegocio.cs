@@ -28,8 +28,8 @@ namespace Negocio
                 while (datos.lector.Read())
                 {
                     Ventas aux = new Ventas();
-                    aux.IdCliente = (int)datos.lector["CLienteID"];
                     aux.IdVenta = (int)datos.lector["VentaID"];
+                    aux.IdCliente = (int)datos.lector["CLienteID"];
                     aux.FechaVenta = (DateTime)datos.lector["FechaVenta"];
                     aux.TotalVenta = (decimal)datos.lector["TotalVenta"];
                     aux.Estado = (bool)datos.lector["Estado"]; 
@@ -48,7 +48,7 @@ namespace Negocio
             }
         }
 
-        public long AgregarClientes(Ventas nuevo)
+        public long AgregarVenta(Ventas nuevo)
         {
             try
             {
@@ -75,7 +75,7 @@ namespace Negocio
             }
         }
 
-        public void ModificarCliente(Ventas nuevo)
+        public void ModificarVenta(Ventas nuevo)
         {
             AccesoDatos Datos = new AccesoDatos();
 
@@ -103,7 +103,7 @@ namespace Negocio
             }
         }
 
-        public void EliminarCliente(int VentaID)
+        public void EliminarVenta(int VentaID)
         {
             AccesoDatos datos = new AccesoDatos();
 
