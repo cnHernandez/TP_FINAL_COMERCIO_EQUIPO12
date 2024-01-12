@@ -13,6 +13,7 @@ namespace Comercio
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+           
             if (!(Session["Usuario"] is Dominio.Usuarios usuario && usuario.TipoUsuario == Dominio.Usuarios.TipoUsuarios.administrador))
             {
                 Session.Add("Error", "no eres administrador");
@@ -20,10 +21,27 @@ namespace Comercio
             }
             if (!IsPostBack)
             {
-                BindGridViewData();
+                if (Request.QueryString["IdProveedor"] != null)
+                {
+                    BindGridViewDataProveedor();
+                }
+                else
+                {
+                    BindGridViewData();
+                }
+                
             }
         }
 
+        private void BindGridViewDataProveedor()
+        {
+            ProductosNegocio negocio = new ProductosNegocio();
+            int idProveedor = Convert.ToInt32(Request.QueryString["IdProveedor"]);
+            List<Dominio.Productos> listaProductos = negocio.ListarProductosPorProveedor(idProveedor);
+
+            dataGridViewProductos.DataSource = listaProductos;
+            dataGridViewProductos.DataBind();
+        }
         private void BindGridViewData()
         {
             ProductosNegocio negocio = new ProductosNegocio();

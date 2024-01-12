@@ -12,7 +12,7 @@
               <ItemTemplate>
                   <div class="col-md-4">
                       <div class="card mb-3">
-                          <a href='<%# "productoXproveedor.aspx?IdProveedor=" + Eval("IdProveedor") %>'>
+                          <a href='<%# "ListarProductos.aspx?IdProveedor=" + Eval("IdProveedor") %>' style="text-decoration: none; color: inherit;">
                           <img src="<%#Eval("UrlImagen") %>" class="card-image card-img-top" alt="..." onerror="this.src='https://camarasal.com/wp-content/uploads/2020/08/default-image-5-1.jpg'">
                           <div class="card-body">
                               <h5 class="card-title"><%#Eval("Nombre") %></h5>
@@ -34,7 +34,7 @@
   <script>
       function confirmarEliminacion(IdProveedor) {
           // Muestra un modal de Bootstrap para confirmar la eliminación
-          return confirm("¿Estás seguro de que quieres eliminar esta marca?");
+          return confirm("¿Estás seguro de que quieres eliminar este proveedor?");
       }
   </script>
 

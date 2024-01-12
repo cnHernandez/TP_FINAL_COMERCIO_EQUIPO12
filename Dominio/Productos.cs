@@ -16,6 +16,7 @@ namespace Dominio
         public int StockMinimo { get; set; }
         public int IdMarca { get; set; }
         public int IdCategoria { get; set; }
+        public int IdProveedor {  get; set; }
         public bool Estado {  get; set; }
         public string UrlImagen { get; set; }
 

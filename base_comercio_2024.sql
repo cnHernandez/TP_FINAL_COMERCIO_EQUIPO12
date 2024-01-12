@@ -57,12 +57,11 @@ CREATE TABLE Productos (
     StockMinimo INT NOT NULL,
     MarcaID INT FOREIGN KEY REFERENCES Marcas(MarcaID) NOT NULL,
     TipoID INT FOREIGN KEY REFERENCES Tipos(TipoID) NOT NULL,
+	ProveedorID INT FOREIGN KEY REFERENCES Proveedores (ProveedorID) NOT NULL,
 	UrlImagen NVARCHAR(1000) NULL,
 	Estado BIT NOT NULL
 );
 GO
-ALTER TABLE Proveedores
-ALTER COLUMN UrlImagen VARCHAR(MAX);
 
 -- Crear tabla de Asociación Producto-Proveedor
 CREATE TABLE ProductoProveedor (
@@ -128,7 +127,7 @@ select * from Usuarios
 select * from Marcas
 
 INSERT INTO Tipos(Nombre)VALUES('Gaseosas')
-INSERT INTO Tipos(Nombre)VALUES('Chocolates')
+INSERT INTO Tipos(Nombre)VALUES('Snacks')
 insert into Usuarios(NombreUsuario, Contraseña, TipoUsuario) VALUES('Nico', 'Hernandez', 1)
 insert into Marcas(Nombre, UrlImagen, Estado) VALUES('Arcor', 'https://upload.wikimedia.org/wikipedia/commons/9/9d/Arcor_textlogo.png', 0)
 insert into Marcas(Nombre, UrlImagen, Estado) VALUES('Ferrero', 'https://sgfm.elcorteingles.es/SGFM/dctm/MEDIA03/202211/18/00120602500447____6__600x600.jpg', 0)
@@ -168,3 +167,4 @@ select CompraID,ProveedorID,FechaCompra,TotalCompra,Estado from Compras where Es
 INSERT INTO Ventas(ClienteID,FechaVenta,TotalVenta,Estado) VALUES (@ClienteID,@FechaVenta,@TotalVenta,@Estado)
 insert into Compras (ProveedorID,FechaCompra,TotalCompra,Estado) values (@ProveedorID,@FechaCompra,@TotalCompra,@Estado)
 UPDATE Compras SET proveedorid=@ProveedorID,FechaCompra=@FechaCompra,TotalCompra=@TotalCompra where CompraID=@CompraID"
+

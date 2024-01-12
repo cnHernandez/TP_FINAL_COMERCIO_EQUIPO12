@@ -76,7 +76,6 @@
     <Content Include="ListarProveedores.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="ListarMarcas.aspx" />
-    <Content Include="productoXproveedor.aspx" />
     <Content Include="Styles.css" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -157,13 +156,6 @@
     </Compile>
     <Compile Include="ListarMarcas.aspx.designer.cs">
       <DependentUpon>ListarMarcas.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="productoXproveedor.aspx.cs">
-      <DependentUpon>productoXproveedor.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="productoXproveedor.aspx.designer.cs">
-      <DependentUpon>productoXproveedor.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Web.Master.cs">

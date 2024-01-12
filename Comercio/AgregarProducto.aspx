@@ -47,11 +47,14 @@
 
             <div class="mb-3">
                 <label for="ddlMarca" class="form-label">Marca</label>
-                Marca/label>
                 <asp:DropDownList runat="server" ID="ddlMarca" CssClass="form-control" DataTextField="Marca" DataValueField="IdMarcas" />
                 <div id="MarcaHelp" class="form-text">Seleccione la marca del producto</div>
             </div>
-
+            <div class="mb-3">
+                <label for="ddlProveedor" class="form-label">Proveedor</label>
+                <asp:DropDownList runat="server" ID="ddlProveedor" CssClass="form-control" DataTextField="Proveedor" DataValueField="IdProveedor" />
+                <div id="ProveedorHelp" class="form-text">Seleccione el proveedor del producto</div>
+            </div>
             <div class="mb-3">
                 <label for="txtUrl" class="form-label">Url de imagen</label>
                 <asp:TextBox runat="server" ID="txtUrl" CssClass="form-control" name="txtUrl" AutoPostBack="true" OnTextChanged="txtURLImagen_TextChanged" />

@@ -15,7 +15,7 @@ namespace Negocio
 
             try
             {
-                datos.SetearQuery("select p.ProveedorID,p.Nombre,p.Rubro,p.estado from Proveedores p where p.estado=0");
+                datos.SetearQuery("select p.ProveedorID,p.Nombre,p.Rubro, p.UrlImagen, p.estado from Proveedores p where p.estado=0");
                 if (!string.IsNullOrEmpty(id))
                 {
                     datos.Comando.CommandText += " and ProveedorID = @Id";
@@ -30,6 +30,7 @@ namespace Negocio
                     aux.IdProveedor = (int)datos.lector["ProveedorID"];
                     aux.Nombre = (string)datos.lector["Nombre"];
                     aux.Categoria = (string)datos.lector["Rubro"];
+                    aux.UrlImagen = (string)datos.lector["UrlImagen"];
                     aux.Estado = (bool)datos.lector["estado"];
 
                     

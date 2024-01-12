@@ -16,7 +16,7 @@ namespace Negocio
 
             try
             {
-                datos.SetearQuery("select p.ProductoID, p.Nombre, p.PrecioCompra, p.PorcentajeGanancia, p.StockActual, p.StockMinimo, p.UrlImagen, p.TipoID, p.MarcaID, p.Estado from Productos p where Estado = 0");
+                datos.SetearQuery("select p.ProductoID, p.Nombre, p.PrecioCompra, p.PorcentajeGanancia, p.StockActual, p.StockMinimo, p.UrlImagen, p.TipoID, p.MarcaID, p.ProveedorID, p.Estado from Productos p where Estado = 0");
                 if (!string.IsNullOrEmpty(id))
                 {
                     datos.Comando.CommandText += " and ProductoID = @Id";
@@ -38,6 +38,7 @@ namespace Negocio
                     aux.UrlImagen = (string)datos.lector["UrlImagen"];
                     aux.IdCategoria = (int)datos.lector["TipoID"];
                     aux.IdMarca = (int)datos.lector["MarcaID"];
+                    aux.IdProveedor = (int)datos.lector["ProveedorID"];
                     aux.Estado = (bool)datos.lector["Estado"];
                     Lista.Add(aux);
                 }
@@ -54,6 +55,51 @@ namespace Negocio
             }
         }
 
+        public List<Productos> ListarProductosPorProveedor(int Id)
+        {
+            List<Productos> Lista = new List<Productos>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                // Usar un marcador de posición para el parámetro
+                string query = "select p.ProductoID, p.Nombre, p.PrecioCompra, p.PorcentajeGanancia, p.StockActual, p.StockMinimo, p.UrlImagen, p.TipoID, p.MarcaID, p.ProveedorID, p.Estado from Productos p where Estado = 0 and p.ProveedorID = @Id";
+                datos.SetearQuery(query);
+
+                // Establecer el valor del parámetro
+                datos.setearParametros("@Id", Id);
+
+                datos.EjecutarLectura();
+
+                while (datos.lector.Read())
+                {
+                    Productos aux = new Productos();
+
+                    aux.IdProductos = (int)datos.lector["ProductoID"];
+                    aux.Nombre = (string)datos.lector["Nombre"];
+                    aux.PrecioCompra = (decimal)datos.lector["PrecioCompra"];
+                    aux.PorcentajeGanancia = (decimal)datos.lector["PorcentajeGanancia"];
+                    aux.StockActual = (int)datos.lector["StockActual"];
+                    aux.StockMinimo = (int)datos.lector["StockMinimo"];
+                    aux.UrlImagen = (string)datos.lector["UrlImagen"];
+                    aux.IdCategoria = (int)datos.lector["TipoID"];
+                    aux.IdMarca = (int)datos.lector["MarcaID"];
+                    aux.IdProveedor = (int)datos.lector["ProveedorID"];
+                    aux.Estado = (bool)datos.lector["Estado"];
+                    Lista.Add(aux);
+                }
+
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
 
         public long AgregarProducto(Productos nuevo)
         {
@@ -61,7 +107,7 @@ namespace Negocio
             {
                 using (AccesoDatos Datos = new AccesoDatos())
                 {
-                    Datos.SetearQuery("insert into Productos (Nombre, PrecioCompra, PorcentajeGanancia, StockActual, StockMinimo, TipoID, MarcaID, UrlImagen, Estado) values (@Nombre, @PrecioCompra, @PorcentajeGanancia, @StockActual,@StockMinimo, @TipoID, @MarcaID,@UrlImagen, @Estado); SELECT SCOPE_IDENTITY();");
+                    Datos.SetearQuery("insert into Productos (Nombre, PrecioCompra, PorcentajeGanancia, StockActual, StockMinimo, TipoID, MarcaID, ProveedorID, UrlImagen, Estado) values (@Nombre, @PrecioCompra, @PorcentajeGanancia, @StockActual,@StockMinimo, @TipoID, @MarcaID, @ProveedorID, @UrlImagen, @Estado); SELECT SCOPE_IDENTITY();");
 
                     Datos.setearParametros("@Nombre", nuevo.Nombre);
                     Datos.setearParametros("@PrecioCompra", nuevo.PrecioCompra);
@@ -70,6 +116,7 @@ namespace Negocio
                     Datos.setearParametros("@StockMinimo", nuevo.StockMinimo);
                     Datos.setearParametros("@TipoID", nuevo.IdCategoria);
                     Datos.setearParametros("@MarcaID", nuevo.IdMarca);
+                    Datos.setearParametros("@ProveedorID", nuevo.IdProveedor);
                     Datos.setearParametros("@UrlImagen", nuevo.UrlImagen);
                     Datos.setearParametros("@Estado", 0);
 
@@ -93,7 +140,7 @@ namespace Negocio
 
             try
             {
-                Datos.SetearQuery("UPDATE Productos SET Nombre = @nombre,PrecioCompra=@precioCompra, PorcentajeGanancia=@PorcentajeGanancia,StockActual=@StockActual,StockMinimo=@stockMinimo,MarcaID=@IdMarca,TipoID=@idCategoria,Estado=@Estado,UrlImagen=@urlImagen WHERE ProductoID=@IdProductos");
+                Datos.SetearQuery("UPDATE Productos SET Nombre = @nombre,PrecioCompra=@precioCompra, PorcentajeGanancia=@PorcentajeGanancia,StockActual=@StockActual,StockMinimo=@stockMinimo,MarcaID=@IdMarca,TipoID=@idCategoria, ProveedorID=@IdProveedor, Estado=@Estado,UrlImagen=@urlImagen WHERE ProductoID=@IdProductos");
                 Datos.setearParametros("@nombre", nuevo.Nombre);
                 Datos.setearParametros("@IdProductos", nuevo.IdProductos);
                 Datos.setearParametros("@precioCompra",nuevo.PrecioCompra);
@@ -101,7 +148,8 @@ namespace Negocio
                 Datos.setearParametros("@StockActual",nuevo.StockActual);
                 Datos.setearParametros("@stockMinimo",nuevo.StockMinimo);
                 Datos.setearParametros("@IdMarca",nuevo.IdMarca);
-                Datos.setearParametros("@idCategoria",nuevo.IdCategoria);
+                Datos.setearParametros("@IdCategoria",nuevo.IdCategoria);
+                Datos.setearParametros("@IdProveedor", nuevo.IdProveedor);
                 Datos.setearParametros("@Estado",nuevo.Estado);
                 Datos.setearParametros("@urlImagen",nuevo.UrlImagen);
                 Datos.ejecutarAccion();
