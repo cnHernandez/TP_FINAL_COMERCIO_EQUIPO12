@@ -65,6 +65,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AgregarCategoria.aspx" />
     <Content Include="AgregarClientes.aspx" />
     <Content Include="AgregarMarca.aspx" />
     <Content Include="AgregarProducto.aspx" />
@@ -72,6 +73,7 @@
     <Content Include="Clientes.aspx" />
     <Content Include="default.aspx" />
     <Content Include="Error.aspx" />
+    <Content Include="ListarCategorias.aspx" />
     <Content Include="ListarProductos.aspx" />
     <Content Include="ListarProveedores.aspx" />
     <Content Include="Login.aspx" />
@@ -80,6 +82,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AgregarCategoria.aspx.cs">
+      <DependentUpon>AgregarCategoria.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AgregarCategoria.aspx.designer.cs">
+      <DependentUpon>AgregarCategoria.aspx</DependentUpon>
+    </Compile>
     <Compile Include="AgregarClientes.aspx.cs">
       <DependentUpon>AgregarClientes.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -128,6 +137,13 @@
     </Compile>
     <Compile Include="Error.aspx.designer.cs">
       <DependentUpon>Error.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ListarCategorias.aspx.cs">
+      <DependentUpon>ListarCategorias.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ListarCategorias.aspx.designer.cs">
+      <DependentUpon>ListarCategorias.aspx</DependentUpon>
     </Compile>
     <Compile Include="ListarProductos.aspx.cs">
       <DependentUpon>ListarProductos.aspx</DependentUpon>

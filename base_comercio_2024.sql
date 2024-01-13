@@ -43,7 +43,9 @@ GO
 -- Crear tabla de Tipos/Categorías
 CREATE TABLE Tipos (
     TipoID INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-    Nombre NVARCHAR(50) NOT NULL
+    Nombre NVARCHAR(50) NOT NULL,
+	UrlImagen NVARCHAR(1000) NULL,
+	Estado BIT NOT NULL
 );
 GO
 
@@ -63,20 +65,13 @@ CREATE TABLE Productos (
 );
 GO
 
--- Crear tabla de Asociación Producto-Proveedor
-CREATE TABLE ProductoProveedor (
-    ProductoProveedorID INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-    ProductoID INT FOREIGN KEY REFERENCES Productos(ProductoID) NOT NULL,
-    ProveedorID INT FOREIGN KEY REFERENCES Proveedores(ProveedorID) NOT NULL
-);
-GO
-
 -- Crear tabla de Compras
 CREATE TABLE Compras (
     CompraID INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
     ProveedorID INT FOREIGN KEY REFERENCES Proveedores(ProveedorID) NOT NULL,
     FechaCompra DATE NOT NULL,
-    TotalCompra DECIMAL(10, 2) NOT NULL
+    TotalCompra DECIMAL(10, 2) NOT NULL,
+	Estado BIT NOT NULL
 );
 GO
 
@@ -96,7 +91,8 @@ CREATE TABLE Ventas (
     VentaID INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
     ClienteID INT FOREIGN KEY REFERENCES Clientes(ClienteID) NOT NULL,
     FechaVenta DATE NOT NULL,
-    TotalVenta DECIMAL(10, 2) NOT NULL
+    TotalVenta DECIMAL(10, 2) NOT NULL,
+	Estado BIT NOT NULL
 );
 GO
 
@@ -121,7 +117,7 @@ CREATE TABLE Usuarios (
 GO
 
 select * from Proveedores
-
+select * from Tipos
 select * from Clientes
 select * from Usuarios
 select * from Marcas
@@ -153,12 +149,6 @@ select p.ProveedorID,p.Nombre,p.Rubro,
 from Proveedores p where 
 select p.Nombre, p.PrecioCompra, p.PorcentajeGanancia, p.StockActual, p.StockMinimo, p.TipoID, p.MarcaID from Productos p where Estado = 0
 UPDATE Productos SET Nombre = @nombre,PrecioCompra=@precioCompra, PorcentajeGanancia=@PorcentajeGanancia,StockActual=@StockActual,StockMinimo=@stockMinimo,MarcaID=@IdMarca,TipoID=@idCategoria,Estado=@Estado,UrlImagen=@urlImagen WHERE ProductoID=@idProductos
-
-//Estado Para ventas y compras 
-alter table ventas 
-add Estado bit not null
-alter table Compras
-add Estado bit not null
 
 
 select VentaID,ClienteID,FechaVenta,TotalVenta from Ventas 

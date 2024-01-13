@@ -91,10 +91,10 @@ namespace Negocio
 
             try
             {
-                Datos.SetearQuery("UPDATE Marcas SET Nombre = @nombre WHERE MarcaID = @Marca");
+                Datos.SetearQuery("UPDATE Marcas SET Nombre = @nombre, UrlImagen = @UrlImagen WHERE MarcaID = @Marca");
 
                 Datos.setearParametros("@nombre", nuevo.Nombre);
-
+                Datos.setearParametros("@UrlImagen", nuevo.UrlImagen);
                 Datos.setearParametros("@Marca", nuevo.IdMarcas);
 
                 Datos.ejecutarAccion();

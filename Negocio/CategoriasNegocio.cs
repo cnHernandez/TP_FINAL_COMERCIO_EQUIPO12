@@ -17,7 +17,7 @@ namespace Negocio
 
             try
             {
-                datos.SetearQuery("SELECT TipoID, Nombre FROM Tipos");
+                datos.SetearQuery("SELECT TipoID, Nombre, UrlImagen FROM Tipos WHERE Estado = 0");
 
                 if (!string.IsNullOrEmpty(id))
                 {
@@ -33,6 +33,7 @@ namespace Negocio
 
                     aux.IdCategoria = (int)datos.lector["TipoID"];
                     aux.Nombre = (string)datos.lector["Nombre"];
+                    aux.UrlImagen = (string)datos.lector["UrlImagen"];
 
                     Lista.Add(aux);
                 }
@@ -51,10 +52,77 @@ namespace Negocio
 
 
 
+        public void AgregarCategoria(Categorias nuevo)
+        {
+            try
+            {
+                using (AccesoDatos Datos = new AccesoDatos())
+                {
+
+                    Datos.SetearQuery("INSERT INTO Tipos  (Nombre, UrlImagen, Estado) VALUES ( @Nombre, @UrlImagen, @Estado ); SELECT SCOPE_IDENTITY();");
 
 
+                    Datos.setearParametros("@Nombre", nuevo.Nombre);
+                    Datos.setearParametros("@UrlImagen", nuevo.UrlImagen);
+                    Datos.setearParametros("@Estado", 0);
+                    long Id = Convert.ToInt64(Datos.ejecutarScalar());
+
+                    // Asignar el ID generado al objeto Medico
+                    nuevo.IdCategoria = (int)Id;
+                }
+            }
+            catch (Exception Ex)
+            {
+                throw Ex;
+            }
+        }
 
 
+        public void Modificar(Categorias nuevo)
+        {
+            AccesoDatos Datos = new AccesoDatos();
 
+            try
+            {
+                Datos.SetearQuery("UPDATE Tipos SET Nombre = @nombre, UrlImagen = @UrlImagen WHERE TipoID = @TipoID");
+
+                Datos.setearParametros("@nombre", nuevo.Nombre);
+                Datos.setearParametros("@UrlImagen", nuevo.UrlImagen);
+                Datos.setearParametros("@TipoID", nuevo.IdCategoria);
+
+                Datos.ejecutarAccion();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                Datos.CerrarConexion();
+            }
+        }
+
+        public void EliminarCategoria(int IdCat)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.SetearQuery("update Tipos set estado=1 where TipoID =@TipoID");
+                datos.setearParametros("@TipoID", IdCat);
+                datos.ejecutarAccion();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
     }
 }
