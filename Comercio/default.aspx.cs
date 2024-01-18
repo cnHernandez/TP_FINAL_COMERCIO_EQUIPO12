@@ -11,7 +11,11 @@ namespace Comercio
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!(Session["Usuario"] is Dominio.Usuarios usuario && usuario.TipoUsuario == Dominio.Usuarios.TipoUsuarios.administrador))
+            {
+                Session.Add("Error", "no eres administrador");
+                Response.Redirect("Login.aspx", false);
+            }
         }
     }
 }

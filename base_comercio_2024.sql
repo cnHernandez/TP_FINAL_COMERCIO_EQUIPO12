@@ -25,7 +25,7 @@ GO
 CREATE TABLE Proveedores (
     ProveedorID INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
     Nombre NVARCHAR(100) NOT NULL,
-    Rubro NVARCHAR(50) NOT NULL, 
+    Rubro NVARCHAR(50) NOT NULL, -- sacar
     estado bit not null,
 	UrlImagen NVARCHAR(1000) NULL,
 );
@@ -81,8 +81,8 @@ CREATE TABLE DetalleCompra (
     CompraID INT FOREIGN KEY REFERENCES Compras(CompraID) NOT NULL,
     ProductoID INT FOREIGN KEY REFERENCES Productos(ProductoID) NOT NULL,
     Cantidad INT NOT NULL,
-    PrecioCompra DECIMAL(10, 2) NOT NULL,
-    Subtotal DECIMAL(10, 2) NOT NULL
+    PrecioCompra DECIMAL(10, 2) NOT NULL, 
+    Subtotal DECIMAL(10, 2) NOT NULL 
 );
 GO
 
