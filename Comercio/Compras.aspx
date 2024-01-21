@@ -10,51 +10,44 @@
         <ContentTemplate>
 
             <div class="mb-3" style="max-width: 300px; margin-left: 190px;">
-                <!-- Puedes ajustar el valor según tus necesidades -->
                 <label for="ddlProveedor" class="form-label">Proveedor</label>
                 <asp:DropDownList runat="server" ID="ddlProveedor" CssClass="form-control" DataTextField="Proveedor" DataValueField="IdProveedor" OnSelectedIndexChanged="ddlProveedor_SelectedIndexChanged" AutoPostBack="True"/>
                 <div id="ProveedorHelp" class="form-text">Seleccione el proveedor del producto</div>
             </div>
 
             <asp:GridView ID="dataGridViewProductos" runat="server" AutoGenerateColumns="False" CssClass="gridview-style" DataKeyNames="IdProductos"
-                AllowPaging="true" PageSize="10" OnPageIndexChanging="dataGridViewProductos_PageIndexChanging" OnSelectedIndexChanged="dataGridViewProductos_SelectedIndexChanged" OnRowDeleting="dataGridViewProductos_RowDeleting">
-                <RowStyle CssClass="gridview-row" />
-                <HeaderStyle CssClass="gridview-header" />
+                AllowPaging="true" PageSize="10" OnPageIndexChanging="dataGridViewProductos_PageIndexChanging" OnRowDeleting="dataGridViewProductos_RowDeleting">
                 <Columns>
                     <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
+                    <asp:BoundField DataField="PrecioCompra" HeaderText="Precio Compra" />
+                    <asp:BoundField DataField="PorcentajeGanancia" HeaderText="Porcentaje Ganancia" />
                     <asp:BoundField DataField="StockActual" HeaderText="Stock Actual" />
                     <asp:BoundField DataField="StockMinimo" HeaderText="Stock Mínimo" />
-                    <asp:BoundField DataField="IdMarca" HeaderText="Id Marca" />
-                    <asp:TemplateField HeaderText="Cantidad a agregar">
+                    <asp:BoundField DataField="IdMarca" HeaderText="ID Marca" />
+                    <asp:BoundField DataField="IdCategoria" HeaderText="ID Categoria" />
+                    <asp:BoundField DataField="IdProveedor" HeaderText="ID Proveedor" />
+
+                    <asp:TemplateField HeaderText="Cantidad a Comprar">
                         <ItemTemplate>
-                            <asp:TextBox ID="txtCantidad" runat="server" CssClass="form-control" Text="0" />
+                            <asp:TextBox ID="txtCantidad" runat="server" CssClass="form-control" Text="0" AutoPostBack="true" OnTextChanged="txtCantidad_TextChanged" />
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Agregar a la compra">
+
+                    <asp:TemplateField HeaderText="Subtotal">
                         <ItemTemplate>
-                            <asp:Button ID="btnAgregarCompra" runat="server" Text="Agregar" CommandName="AgregarCompra" CommandArgument='<%# Container.DataItemIndex %>' CssClass="btn btn-primary" OnClientClick="return confirm('¿Seguro que desea agregar este producto a la compra?');" />
+                            <asp:Label ID="lblSubtotal" runat="server"></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>
             </asp:GridView>
 
-            <h2 class="Profesionales">Productos en la Compra</h2>
-            <asp:GridView ID="dataGridViewCompra" runat="server" AutoGenerateColumns="False" CssClass="gridview-style" DataKeyNames="IdProductos">
-                <RowStyle CssClass="gridview-row" />
-                <HeaderStyle CssClass="gridview-header" />
-                <Columns>
-                    <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
-                    <asp:BoundField DataField="StockActual" HeaderText="Stock Actual" />
-                    <asp:BoundField DataField="StockMinimo" HeaderText="Stock Mínimo" />
-                    <asp:BoundField DataField="IdMarca" HeaderText="Id Marca" />
-                    <asp:BoundField DataField="Cantidad" HeaderText="Cantidad" />
-                    <asp:TemplateField HeaderText="Eliminar">
-                        <ItemTemplate>
-                            <asp:LinkButton ID="lnkEliminarCompra" runat="server" Text="Eliminar" CommandName="EliminarCompra" CommandArgument='<%# Container.DataItemIndex %>' OnClientClick="return confirm('¿Seguro que desea eliminar este producto de la compra?');" />
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                </Columns>
-            </asp:GridView>
+            <div style="margin-top: 20px;">
+                <asp:Button ID="btnFinalizarCompra" runat="server" Text="Finalizar Compra" OnClick="btnFinalizarCompra_Click" CssClass="btn btn-primary" />
+            </div>
+            <div style="margin-top: 10px;">
+                <label>Total de la Compra: </label>
+                <asp:Label ID="lblTotalCompra" runat="server" CssClass="font-weight-bold"></asp:Label>
+            </div>
 
         </ContentTemplate>
     </asp:UpdatePanel>

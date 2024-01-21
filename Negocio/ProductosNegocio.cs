@@ -84,7 +84,7 @@ namespace Negocio
                     aux.UrlImagen = (string)datos.lector["UrlImagen"];
                     aux.IdCategoria = (int)datos.lector["TipoID"];
                     aux.IdMarca = (int)datos.lector["MarcaID"];
-                    aux.IdProveedor = (int)datos.lector["ProveedorID"];
+                    //aux.IdProveedor = (int)datos.lector["ProveedorID"];
                     aux.Estado = (bool)datos.lector["Estado"];
                     Lista.Add(aux);
                 }

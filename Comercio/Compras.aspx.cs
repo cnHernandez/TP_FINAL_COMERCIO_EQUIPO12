@@ -1,9 +1,6 @@
 ﻿using Negocio;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace Comercio
@@ -12,18 +9,25 @@ namespace Comercio
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
             if (!(Session["Usuario"] is Dominio.Usuarios usuario && usuario.TipoUsuario == Dominio.Usuarios.TipoUsuarios.administrador))
             {
-                Session.Add("Error", "no eres administrador");
+                Session.Add("Error", "No eres administrador");
                 Response.Redirect("Login.aspx", false);
             }
+
             if (!IsPostBack)
             {
                 CargarProveedor();
+            }
 
+            // Comprueba si se ha seleccionado un proveedor antes de cargar la GridView
+            if (!string.IsNullOrEmpty(ddlProveedor.SelectedValue))
+            {
+                int idProveedor = Convert.ToInt32(ddlProveedor.SelectedValue);
+                BindGridViewDataProveedor(idProveedor);
             }
         }
+
         private void CargarProveedor()
         {
             ProveedoresNegocio pro = new ProveedoresNegocio();
@@ -34,15 +38,25 @@ namespace Comercio
 
             ddlProveedor.Items.Insert(0, new ListItem("-- Seleccione un proveedor --", ""));
         }
-        private void BindGridViewDataProveedor()
-        {
-            ProductosNegocio negocio = new ProductosNegocio();
-            int idProveedor = Convert.ToInt32(Request.QueryString["IdProveedor"]);
-            List<Dominio.Productos> listaProductos = negocio.ListarProductosPorProveedor(idProveedor);
 
-            dataGridViewProductos.DataSource = listaProductos;
-            dataGridViewProductos.DataBind();
+        private void BindGridViewDataProveedor(int idProveedor)
+        {
+            if (idProveedor > 0) // Solo carga los productos si se ha seleccionado un proveedor válido
+            {
+                ProductosNegocio negocio = new ProductosNegocio();
+                List<Dominio.Productos> listaProductos = negocio.ListarProductosPorProveedor(idProveedor);
+
+                dataGridViewProductos.DataSource = listaProductos;
+                dataGridViewProductos.DataBind();
+            }
+            else
+            {
+                dataGridViewProductos.DataSource = null; // Limpia el origen de datos
+                dataGridViewProductos.DataBind();
+            }
         }
+
+
         private void BindGridViewData()
         {
             ProductosNegocio negocio = new ProductosNegocio();
@@ -56,13 +70,6 @@ namespace Comercio
         {
             dataGridViewProductos.PageIndex = e.NewPageIndex;
             BindGridViewData();
-        }
-
-        protected void dataGridViewProductos_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            GridViewRow selectedRow = dataGridViewProductos.SelectedRow;
-            string IdCliente = dataGridViewProductos.DataKeys[selectedRow.RowIndex].Value.ToString();
-            Response.Redirect("AgregarProducto.aspx?IdProductos=" + IdCliente);
         }
 
         protected void dataGridViewProductos_RowDeleting(object sender, GridViewDeleteEventArgs e)
@@ -81,17 +88,83 @@ namespace Comercio
 
                 // Llama al método para cargar los productos asociados al proveedor
                 BindGridViewDataProveedor(idProveedor);
-                ddlProveedor.Enabled = false;
+
+                // Habilita el DropDownList
+                ddlProveedor.Enabled = true;
+
+                // Llama a BindGridViewData al final para asegurarte de que la GridView se actualice
+                BindGridViewData();
             }
         }
 
-        private void BindGridViewDataProveedor(int idProveedor)
-        {
-        ProductosNegocio negocio = new ProductosNegocio();
-        List<Dominio.Productos> listaProductos = negocio.ListarProductosPorProveedor(idProveedor);
 
-        dataGridViewProductos.DataSource = listaProductos;
-        dataGridViewProductos.DataBind();
-}
+        protected void btnFinalizarCompra_Click(object sender, EventArgs e)
+        {
+            CalcularTotalCompra();
+            // Aquí puedes realizar otras acciones relacionadas con finalizar la compra
+        }
+
+        protected void dataGridViewProductos_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                TextBox txtCantidad = (TextBox)e.Row.FindControl("txtCantidad");
+                txtCantidad.TextChanged += new EventHandler(txtCantidad_TextChanged);
+            }
+        }
+
+        protected void txtCantidad_TextChanged(object sender, EventArgs e)
+        {
+            TextBox txtCantidad = (TextBox)sender;
+            GridViewRow row = (GridViewRow)txtCantidad.NamingContainer;
+
+            CalcularSubtotales(row);
+            CalcularTotalCompra();
+        }
+
+        private void CalcularSubtotales(GridViewRow row)
+        {
+            TextBox txtCantidad = (TextBox)row.FindControl("txtCantidad");
+            Label lblSubtotal = (Label)row.FindControl("lblSubtotal");
+
+            if (txtCantidad != null && lblSubtotal != null)
+            {
+                // Acceder directamente a las celdas de GridView para obtener los valores
+                decimal precioCompra = Convert.ToDecimal(row.Cells[1].Text); // Cambia el índice según la posición de la columna PrecioCompra en tu GridView
+                int cantidad = Convert.ToInt32(txtCantidad.Text);
+                decimal subtotal = precioCompra * cantidad;
+
+                lblSubtotal.Text = subtotal.ToString();
+            }
+        }
+
+
+
+        private void CalcularTotalCompra()
+        {
+            decimal totalCompra = 0;
+
+            foreach (GridViewRow row in dataGridViewProductos.Rows)
+            {
+                Label lblSubtotal = (Label)row.FindControl("lblSubtotal");
+
+                if (lblSubtotal != null)
+                {
+                    decimal subtotal;
+
+                    if (decimal.TryParse(lblSubtotal.Text, out subtotal))
+                    {
+                        totalCompra += subtotal;
+                    }
+                    else
+                    {
+                        // Manejo de error: Puedes mostrar un mensaje o tomar otra acción en caso de que haya un problema con el formato.
+                    }
+                }
+            }
+
+            lblTotalCompra.Text = totalCompra.ToString();
+        }
+
     }
 }
