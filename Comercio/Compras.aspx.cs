@@ -18,13 +18,7 @@ namespace Comercio
             if (!IsPostBack)
             {
                 CargarProveedor();
-            }
-
-            // Comprueba si se ha seleccionado un proveedor antes de cargar la GridView
-            if (!string.IsNullOrEmpty(ddlProveedor.SelectedValue))
-            {
-                int idProveedor = Convert.ToInt32(ddlProveedor.SelectedValue);
-                BindGridViewDataProveedor(idProveedor);
+              
             }
         }
 
@@ -41,7 +35,7 @@ namespace Comercio
 
         private void BindGridViewDataProveedor(int idProveedor)
         {
-            if (idProveedor > 0) // Solo carga los productos si se ha seleccionado un proveedor válido
+            if (idProveedor > 0)
             {
                 ProductosNegocio negocio = new ProductosNegocio();
                 List<Dominio.Productos> listaProductos = negocio.ListarProductosPorProveedor(idProveedor);
@@ -51,7 +45,7 @@ namespace Comercio
             }
             else
             {
-                dataGridViewProductos.DataSource = null; // Limpia el origen de datos
+                dataGridViewProductos.DataSource = null;
                 dataGridViewProductos.DataBind();
             }
         }
@@ -89,13 +83,11 @@ namespace Comercio
                 // Llama al método para cargar los productos asociados al proveedor
                 BindGridViewDataProveedor(idProveedor);
 
-                // Habilita el DropDownList
-                ddlProveedor.Enabled = true;
-
-                // Llama a BindGridViewData al final para asegurarte de que la GridView se actualice
-                BindGridViewData();
+                // Deshabilita el DropDownList después de seleccionar un proveedor
+                ddlProveedor.Enabled = false;
             }
         }
+
 
 
         protected void btnFinalizarCompra_Click(object sender, EventArgs e)
@@ -137,9 +129,6 @@ namespace Comercio
                 lblSubtotal.Text = subtotal.ToString();
             }
         }
-
-
-
         private void CalcularTotalCompra()
         {
             decimal totalCompra = 0;
