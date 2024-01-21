@@ -18,6 +18,7 @@
             <asp:GridView ID="dataGridViewProductos" runat="server" AutoGenerateColumns="False" CssClass="gridview-style" DataKeyNames="IdProductos"
                 AllowPaging="true" PageSize="10" OnPageIndexChanging="dataGridViewProductos_PageIndexChanging" OnRowDeleting="dataGridViewProductos_RowDeleting">
                 <Columns>
+                    <asp:BoundField DataField="IdProductos" HeaderText="ID Producto" />
                     <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
                     <asp:BoundField DataField="PrecioCompra" HeaderText="Precio Compra" />
                     <asp:BoundField DataField="PorcentajeGanancia" HeaderText="Porcentaje Ganancia" />
