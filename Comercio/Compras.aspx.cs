@@ -211,7 +211,7 @@ namespace Comercio
             if (txtCantidad != null && lblSubtotal != null)
             {
                 // Acceder directamente a las celdas de GridView para obtener los valores
-                decimal precioCompra = Convert.ToDecimal(row.Cells[1].Text); // Cambia el índice según la posición de la columna PrecioCompra en tu GridView
+                decimal precioCompra = Convert.ToDecimal(row.Cells[2].Text); // Cambia el índice según la posición de la columna PrecioCompra en tu GridView
                 int cantidad = Convert.ToInt32(txtCantidad.Text);
                 decimal subtotal = precioCompra * cantidad;
 
