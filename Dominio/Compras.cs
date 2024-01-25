@@ -12,7 +12,7 @@ namespace Dominio
         public int IdProveedor { get; set; }
         public DateTime FechaCompra { get; set; }
         public decimal TotalCompra { get; set; }
-        public List<DetalleCompra> DetallesCompra { get; set; }
+        //public List<DetalleCompra> DetallesCompra { get; set; }
         public bool  Estado { get; set; }
     }
 }

@@ -41,6 +41,7 @@
                     </asp:TemplateField>
                 </Columns>
             </asp:GridView>
+            <asp:Label ID="lblMensajeError" runat="server" Text="" ForeColor="Red"></asp:Label>
 
             <div style="margin-top: 20px;">
                 <asp:Button ID="btnFinalizarCompra" runat="server" Text="Finalizar Compra" OnClick="btnFinalizarCompra_Click" CssClass="btn btn-primary" />

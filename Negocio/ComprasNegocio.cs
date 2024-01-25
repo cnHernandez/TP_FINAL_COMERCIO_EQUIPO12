@@ -7,7 +7,7 @@ using Dominio;
 
 namespace Negocio
 {
-    class ComprasNegocio
+    public class ComprasNegocio
     {
         public List<Compras> ListarVentas(string id = "")
         {
@@ -63,7 +63,7 @@ namespace Negocio
 
                     long idCompra = Convert.ToInt64(Datos.ejecutarScalar());
 
-                    // Asignar el ID generado al objeto Medico
+                    
                     nuevo.IdCompras = (int)idCompra;
 
                     return idCompra;

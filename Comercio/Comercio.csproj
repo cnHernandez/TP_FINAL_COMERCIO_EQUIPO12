@@ -181,6 +181,7 @@
     <Compile Include="ListarMarcas.aspx.designer.cs">
       <DependentUpon>ListarMarcas.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Negocio\CompraNegocio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Web.Master.cs">
       <DependentUpon>Web.Master</DependentUpon>
