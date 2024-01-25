@@ -45,7 +45,8 @@ namespace Comercio
                 // Cargar proveedores solo en la carga inicial
                 CargarProveedor();
             }
-            CalcularTotalCompra(); 
+            CalcularTotalCompra();
+
         }
 
         private void CargarProveedor()
@@ -130,7 +131,7 @@ namespace Comercio
             decimal totalCompra = 0;
 
             totalCompra = Convert.ToDecimal(lblTotalCompra.Text);
-                
+
 
             return totalCompra;
         }
@@ -140,11 +141,10 @@ namespace Comercio
 
         protected void btnFinalizarCompra_Click(object sender, EventArgs e)
         {
-            // CalcularTotalCompra(); // Esto no es necesario ya que se vuelve a calcular en el Page_Load
             ComprasNegocio compra = new ComprasNegocio();
             long idCompra;
+            ProductosNegocio productos = new ProductosNegocio();
 
-            // agrego a la tabla compra 
             if (productosSeleccionados.Count > 0)
             {
                 Dominio.Compras nuevaCompra = new Dominio.Compras();
@@ -155,20 +155,20 @@ namespace Comercio
 
                 idCompra = compra.AgregarCompra(nuevaCompra);
 
-                // Insertar en la tabla DetalleCompra
                 InsertarDetalleCompra((int)idCompra, detallesCompra);
 
-                // Limpiar las listas en ViewState después de la inserción
+                foreach (DetalleCompra detalle in detallesCompra)
+                {
+                    productos.ModificarStock(detalle.IdProducto, detalle.Cantidad);
+                }
+
                 productosSeleccionados.Clear();
                 detallesCompra.Clear();
 
                 // Actualizar las etiquetas de subtotal y total de compra después de la inserción
-                CalcularTotalCompra();
-
-                // Recargar la página después de la inserción
-                Response.Redirect(Request.RawUrl);
+                //UpdatePanel1.Update();
+                lblMensajeError.Text = "";
             }
-            // No es necesario repetir Response.Redirect aquí
         }
 
 
@@ -180,18 +180,18 @@ namespace Comercio
             DetalleCompraNegocio negocio = new DetalleCompraNegocio();
             foreach (DetalleCompra detalles in detallesCompra)
             {
-                
+
                 detalles.IdCompra = idCompra;
-               
+
 
                 negocio.InsertarDetalleCompra(detalles);
 
-              
+
             }
 
         }
 
-      
+
 
         protected void dataGridViewProductos_RowDataBound(object sender, GridViewRowEventArgs e)
         {
@@ -211,6 +211,9 @@ namespace Comercio
             {
                 CalcularSubtotales(row);
                 CalcularTotalCompra();
+
+                // Actualizar el UpdatePanel después de cada cambio para reflejar los subtotales y el total de la compra.
+                //UpdatePanel1.Update();
 
                 ActualizarProductosSeleccionados(row);
                 lblMensajeError.Text = "";
@@ -256,7 +259,7 @@ namespace Comercio
             // a partir de los valores en la GridViewRow.
             // Puedes acceder a los valores mediante los índices de las celdas.
             int idProducto = Convert.ToInt32(row.Cells[0].Text);  // Ajusta el índice según la posición de la columna IdProducto en tu GridView
-                                                                  
+
             string nombre = row.Cells[1].Text;
             decimal precioCompra = Convert.ToDecimal(row.Cells[2].Text);
             decimal porcentaje = Convert.ToDecimal(row.Cells[3].Text);
@@ -265,7 +268,7 @@ namespace Comercio
             int idMarca = Convert.ToInt32(row.Cells[6].Text);
             int idCategoria = Convert.ToInt32(row.Cells[7].Text);
             int IdProveedor = Convert.ToInt32(row.Cells[8].Text);
-          
+
 
 
             // Crea el objeto Productos y devuelve
@@ -294,7 +297,7 @@ namespace Comercio
             decimal precioCompra = Convert.ToDecimal(row.Cells[2].Text);
             decimal subtotal = Convert.ToDecimal(((Label)row.FindControl("lblSubtotal")).Text);
 
-            
+
             detalleCompra.IdProducto = idProducto;
             detalleCompra.Cantidad = cantidad;
             detalleCompra.PrecioCompra = precioCompra;
@@ -311,14 +314,19 @@ namespace Comercio
 
             if (txtCantidad != null && lblSubtotal != null)
             {
-                // Acceder directamente a las celdas de GridView para obtener los valores
-                decimal precioCompra = Convert.ToDecimal(row.Cells[2].Text); // Cambia el índice según la posición de la columna PrecioCompra en tu GridView
+                decimal precioCompra = Convert.ToDecimal(row.Cells[2].Text);
+                decimal porcentajeVenta = Convert.ToDecimal(row.Cells[3].Text);
                 int cantidad = Convert.ToInt32(txtCantidad.Text);
-                decimal subtotal = precioCompra * cantidad;
+                decimal subtotal = (precioCompra + (precioCompra * porcentajeVenta / 100)) * cantidad;
 
                 lblSubtotal.Text = subtotal.ToString();
+
+                // Actualizar el total de la compra después de calcular los subtotales
+                CalcularTotalCompra();
             }
         }
+
+
         private void CalcularTotalCompra()
         {
             decimal totalCompra = 0;

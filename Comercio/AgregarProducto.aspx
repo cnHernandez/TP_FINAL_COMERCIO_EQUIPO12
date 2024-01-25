@@ -43,6 +43,7 @@
                 <label for="ddlTipo" class="form-label">Tipo</label>
                 <asp:DropDownList runat="server" ID="ddlTipo" CssClass="form-control" DataTextField="Tipo" DataValueField="IdCategoria" />
                 <div id="TipoHelp" class="form-text">Seleccione el tipo de producto</div>
+               
             </div>
 
             <div class="mb-3">
