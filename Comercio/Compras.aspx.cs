@@ -9,27 +9,10 @@ namespace Comercio
 {
     public partial class Compras : System.Web.UI.Page
     {
-        private List<Productos> productosSeleccionados
-        {
-            get
-            {
-                if (ViewState["productosSeleccionados"] == null)
-                    ViewState["productosSeleccionados"] = new List<Productos>();
-                return (List<Productos>)ViewState["productosSeleccionados"];
-            }
-            set { ViewState["productosSeleccionados"] = value; }
-        }
+        private List<Productos> productosSeleccionados=new List<Productos>();
 
-        private List<DetalleCompra> detallesCompra
-        {
-            get
-            {
-                if (ViewState["detallesCompra"] == null)
-                    ViewState["detallesCompra"] = new List<DetalleCompra>();
-                return (List<DetalleCompra>)ViewState["detallesCompra"];
-            }
-            set { ViewState["detallesCompra"] = value; }
-        }
+        private List<DetalleCompra> detallesCompra=new List<DetalleCompra>(); 
+       
         protected void Page_Load(object sender, EventArgs e)
         {
             // Verificar si el usuario es un administrador
@@ -45,7 +28,7 @@ namespace Comercio
                 // Cargar proveedores solo en la carga inicial
                 CargarProveedor();
             }
-            CalcularTotalCompra(); 
+            
         }
 
         private void CargarProveedor()
@@ -140,12 +123,17 @@ namespace Comercio
 
         protected void btnFinalizarCompra_Click(object sender, EventArgs e)
         {
+            List<Productos> productosSeleccionadosSession = Session["productosSeleccionados"] as List<Productos>;
+            List<DetalleCompra> detalleComprasSession = Session["detallesCompra"] as List<DetalleCompra>;
             // CalcularTotalCompra(); // Esto no es necesario ya que se vuelve a calcular en el Page_Load
             ComprasNegocio compra = new ComprasNegocio();
+            ProductosNegocio productos = new ProductosNegocio();
             long idCompra;
-
             // agrego a la tabla compra 
-            if (productosSeleccionados.Count > 0)
+
+
+
+            if (productosSeleccionadosSession.Count > 0)
             {
                 Dominio.Compras nuevaCompra = new Dominio.Compras();
                 nuevaCompra.IdProveedor = ProveedorSeleccionado();
@@ -156,7 +144,12 @@ namespace Comercio
                 idCompra = compra.AgregarCompra(nuevaCompra);
 
                 // Insertar en la tabla DetalleCompra
-                InsertarDetalleCompra((int)idCompra, detallesCompra);
+                InsertarDetalleCompra((int)idCompra, detalleComprasSession);
+                foreach (DetalleCompra  detalle in detalleComprasSession)
+                {
+                    productos.ModificarStock(detalle.IdProducto, detalle.Cantidad);
+                }
+
 
                 // Limpiar las listas en ViewState después de la inserción
                 productosSeleccionados.Clear();
@@ -214,6 +207,7 @@ namespace Comercio
 
                 ActualizarProductosSeleccionados(row);
                 lblMensajeError.Text = "";
+                int cant = productosSeleccionados.Count;
             }
             else
             {
@@ -226,24 +220,30 @@ namespace Comercio
         private void ActualizarProductosSeleccionados(GridViewRow row)
         {
             TextBox txtCantidad = (TextBox)row.FindControl("txtCantidad");
-            int cantidad = Convert.ToInt32(txtCantidad.Text);
+            int cantidad1 = Convert.ToInt32(txtCantidad.Text);
 
             Productos producto = ObtenerProductoDesdeGridViewRow(row);
             DetalleCompra detalle = ObtenerDetalleCompraDesdeGridViewRow(row);
+            
 
-            if (cantidad > 0)
+            if (cantidad1 > 0)
             {
-                if (!productosSeleccionados.Contains(producto))
-                {
+               
                     productosSeleccionados.Add(producto);
                     detallesCompra.Add(detalle);
-                }
+                Session["productosSeleccionados"] = productosSeleccionados;
+                Session["detallesCompra"] = detallesCompra;
+                
             }
             else
             {
                 productosSeleccionados.Remove(producto);
                 detallesCompra.Remove(detalle);
+                Session["productosSeleccionados"] = productosSeleccionados;
+                Session["detallesCompra"] = detallesCompra;
             }
+
+            int cant = productosSeleccionados.Count;
         }
 
 
@@ -317,6 +317,7 @@ namespace Comercio
                 decimal subtotal = precioCompra * cantidad;
 
                 lblSubtotal.Text = subtotal.ToString();
+                CalcularTotalCompra();
             }
         }
         private void CalcularTotalCompra()
@@ -343,6 +344,7 @@ namespace Comercio
             }
 
             lblTotalCompra.Text = totalCompra.ToString();
+            UpdatePanel1.Update();
         }
 
     }

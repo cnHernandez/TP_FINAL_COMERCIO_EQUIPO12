@@ -165,6 +165,24 @@ namespace Negocio
             }
         }
 
+        public void ModificarStock(int id, int cantidad)
+        {
+            try
+            {
+                AccesoDatos datos = new AccesoDatos();
+                datos.SetearQuery("update Productos set StockActual += @cantidad where ProductoID = @id");
+                datos.setearParametros("@id", id);
+                datos.setearParametros("@cantidad", cantidad);
+                datos.ejecutarAccion();
+            }
+            catch (Exception Ex)
+            {
+                throw Ex;
+            }
+        }
+
+
+
         public void EliminarProducto(int IdProducto)
         {
             AccesoDatos datos = new AccesoDatos();

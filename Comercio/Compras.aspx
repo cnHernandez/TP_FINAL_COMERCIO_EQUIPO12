@@ -1,12 +1,14 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Web.Master" AutoEventWireup="true" CodeBehind="Compras.aspx.cs" Inherits="Comercio.Compras" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
     <h1 class="Profesionales">Compras.</h1>
     <asp:ScriptManager ID="ScriptManager1" runat="server" />
-    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+    <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+    
         <ContentTemplate>
 
             <div class="mb-3" style="max-width: 300px; margin-left: 190px;">
@@ -44,14 +46,17 @@
             <asp:Label ID="lblMensajeError" runat="server" Text="" ForeColor="Red"></asp:Label>
 
             <div style="margin-top: 20px;">
-                <asp:Button ID="btnFinalizarCompra" runat="server" Text="Finalizar Compra" OnClick="btnFinalizarCompra_Click" CssClass="btn btn-primary" />
+                <asp:Button ID="btnFinalizarCompra" runat="server" Text="Finalizar Compra" OnClick="btnFinalizarCompra_Click" CssClass="btn btn-primary" AutoPostBack="false" />
             </div>
-            <div style="margin-top: 10px;">
+            <div>
                 <label>Total de la Compra: </label>
                 <asp:Label ID="lblTotalCompra" runat="server" CssClass="font-weight-bold"></asp:Label>
             </div>
 
         </ContentTemplate>
-    </asp:UpdatePanel>
+            <Triggers>
+        <asp:PostBackTrigger ControlID="btnFinalizarCompra" />
+    </Triggers>
+</asp:UpdatePanel>
 
 </asp:Content>
