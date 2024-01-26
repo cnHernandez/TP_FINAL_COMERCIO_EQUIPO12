@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using Dominio;
-//jovenes promesas
+//jovenes promesasas
 
 namespace Comercio
 {
