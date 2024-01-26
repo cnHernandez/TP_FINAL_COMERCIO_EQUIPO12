@@ -4,7 +4,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
      <div class="login-container">
-     <a href="AgregarCategoria.aspx" class="btn btn-primary">Agregar Categoria</a>
+      <a href="AgregarCategoria.aspx" class="btn btn-primary">Agregar Categoria</a>
  </div>
 
  <div class="container" style="margin-top: 30px">
