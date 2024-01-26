@@ -147,17 +147,21 @@ namespace Comercio
                 InsertarDetalleCompra((int)idCompra, detalleComprasSession);
                 foreach (DetalleCompra  detalle in detalleComprasSession)
                 {
+                    
                     productos.ModificarStock(detalle.IdProducto, detalle.Cantidad);
                 }
 
 
-                // Limpiar las listas en ViewState después de la inserción
-                productosSeleccionados.Clear();
-                detallesCompra.Clear();
+               
 
                 // Actualizar las etiquetas de subtotal y total de compra después de la inserción
                 CalcularTotalCompra();
 
+                // Limpiar la lista de productos seleccionados en la sesión
+                Session["productosSeleccionados"] = null;
+
+                // Limpiar la lista de detalles de compra en la sesión
+                Session["detallesCompra"] = null;
                 // Recargar la página después de la inserción
                 Response.Redirect(Request.RawUrl);
             }
@@ -220,31 +224,42 @@ namespace Comercio
         private void ActualizarProductosSeleccionados(GridViewRow row)
         {
             TextBox txtCantidad = (TextBox)row.FindControl("txtCantidad");
-            int cantidad1 = Convert.ToInt32(txtCantidad.Text);
+            int cantidad = Convert.ToInt32(txtCantidad.Text);
 
             Productos producto = ObtenerProductoDesdeGridViewRow(row);
             DetalleCompra detalle = ObtenerDetalleCompraDesdeGridViewRow(row);
-            
 
-            if (cantidad1 > 0)
+            // Obtener las listas desde la sesión o inicializarlas si aún no existen
+            List<Productos> productosSeleccionadosSession = Session["productosSeleccionados"] as List<Productos>;
+            List<DetalleCompra> detalleComprasSession = Session["detallesCompra"] as List<DetalleCompra>;
+
+            if (productosSeleccionadosSession == null)
             {
-               
-                    productosSeleccionados.Add(producto);
-                    detallesCompra.Add(detalle);
-                Session["productosSeleccionados"] = productosSeleccionados;
-                Session["detallesCompra"] = detallesCompra;
-                
+                productosSeleccionadosSession = new List<Productos>();
+            }
+
+            if (detalleComprasSession == null)
+            {
+                detalleComprasSession = new List<DetalleCompra>();
+            }
+
+            // Actualizar las listas en la sesión
+            if (cantidad > 0)
+            {
+                productosSeleccionadosSession.Add(producto);
+                detalleComprasSession.Add(detalle);
             }
             else
             {
-                productosSeleccionados.Remove(producto);
-                detallesCompra.Remove(detalle);
-                Session["productosSeleccionados"] = productosSeleccionados;
-                Session["detallesCompra"] = detallesCompra;
+                productosSeleccionadosSession.Remove(producto);
+                detalleComprasSession.Remove(detalle);
             }
 
-            int cant = productosSeleccionados.Count;
+            // Guardar las listas actualizadas en la sesión
+            Session["productosSeleccionados"] = productosSeleccionadosSession;
+            Session["detallesCompra"] = detalleComprasSession;
         }
+
 
 
         ///Este es para crear en objetos (producto) de  la lista que tenemos en el gridview
