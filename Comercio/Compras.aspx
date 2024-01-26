@@ -1,24 +1,25 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Web.Master" AutoEventWireup="true" CodeBehind="Compras.aspx.cs" Inherits="Comercio.Compras" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
     <h1 class="Profesionales">Compras.</h1>
     <asp:ScriptManager ID="ScriptManager1" runat="server" />
     <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
-    
+
         <ContentTemplate>
 
             <div class="mb-3" style="max-width: 300px; margin-left: 190px;">
                 <label for="ddlProveedor" class="form-label">Proveedor</label>
-                <asp:DropDownList runat="server" ID="ddlProveedor" CssClass="form-control" DataTextField="Proveedor" DataValueField="IdProveedor" OnSelectedIndexChanged="ddlProveedor_SelectedIndexChanged" AutoPostBack="True"/>
+                <asp:DropDownList runat="server" ID="ddlProveedor" CssClass="form-control" DataTextField="Proveedor" DataValueField="IdProveedor" OnSelectedIndexChanged="ddlProveedor_SelectedIndexChanged" AutoPostBack="True" />
                 <div id="ProveedorHelp" class="form-text">Seleccione el proveedor del producto</div>
             </div>
 
             <asp:GridView ID="dataGridViewProductos" runat="server" AutoGenerateColumns="False" CssClass="gridview-style" DataKeyNames="IdProductos"
                 AllowPaging="true" PageSize="10" OnPageIndexChanging="dataGridViewProductos_PageIndexChanging" OnRowDeleting="dataGridViewProductos_RowDeleting">
+                <RowStyle CssClass="gridview-row" />
+                <HeaderStyle CssClass="gridview-header" />
                 <Columns>
                     <asp:BoundField DataField="IdProductos" HeaderText="ID Producto" />
                     <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
@@ -45,18 +46,19 @@
             </asp:GridView>
             <asp:Label ID="lblMensajeError" runat="server" Text="" ForeColor="Red"></asp:Label>
 
-            <div style="margin-top: 20px;">
+            <div class="login-container">
                 <asp:Button ID="btnFinalizarCompra" runat="server" Text="Finalizar Compra" OnClick="btnFinalizarCompra_Click" CssClass="btn btn-primary" AutoPostBack="false" />
             </div>
-            <div>
-                <label>Total de la Compra: </label>
-                <asp:Label ID="lblTotalCompra" runat="server" CssClass="font-weight-bold"></asp:Label>
+            <div class="purchase-info-container">
+                <label class="total-label">Total de la Compra:</label>
+                <asp:Label ID="lblTotalCompra" runat="server" CssClass="font-weight-bold total-value"></asp:Label>
             </div>
 
+
         </ContentTemplate>
-            <Triggers>
-        <asp:PostBackTrigger ControlID="btnFinalizarCompra" />
-    </Triggers>
-</asp:UpdatePanel>
+        <Triggers>
+            <asp:PostBackTrigger ControlID="btnFinalizarCompra" />
+        </Triggers>
+    </asp:UpdatePanel>
 
 </asp:Content>

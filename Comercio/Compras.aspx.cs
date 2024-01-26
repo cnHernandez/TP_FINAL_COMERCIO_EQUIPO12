@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using Dominio;
+using System.Linq;
 //jovenes promesasas
 
 namespace Comercio
@@ -243,22 +244,28 @@ namespace Comercio
                 detalleComprasSession = new List<DetalleCompra>();
             }
 
-            // Actualizar las listas en la sesión
-            if (cantidad > 0)
+            // Verificar si el producto ya está en la lista
+            int index = productosSeleccionadosSession.FindIndex(p => p.IdProductos == producto.IdProductos);
+
+            if (index != -1)
             {
-                productosSeleccionadosSession.Add(producto);
-                detalleComprasSession.Add(detalle);
+                // Si el producto ya existe, actualizar la cantidad
+                detalleComprasSession[index] = detalle;
+                productosSeleccionadosSession[index] = producto;
             }
             else
             {
-                productosSeleccionadosSession.Remove(producto);
-                detalleComprasSession.Remove(detalle);
+                // Si el producto no existe, agregarlo a la lista
+                productosSeleccionadosSession.Add(producto);
+                detalleComprasSession.Add(detalle);
             }
 
             // Guardar las listas actualizadas en la sesión
             Session["productosSeleccionados"] = productosSeleccionadosSession;
             Session["detallesCompra"] = detalleComprasSession;
         }
+
+
 
 
 

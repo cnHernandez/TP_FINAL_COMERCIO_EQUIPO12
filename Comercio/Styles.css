@@ -492,25 +492,56 @@
     text-align: center;
     z-index: 0; /* Asegura que el footer esté detrás de las cards */
 }
-<style >
-.gridview-table {
-    width: 100%;
-    border-collapse: collapse;
+.button-container {
+    display: flex;
+    flex-direction: column;
+}
+
+    .button-container a,
+    .button-container button {
+        margin-bottom: 10px;
+    }
+
+.purchase-info-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin-top: 20px;
 }
 
-.gridview-table th, .gridview-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
+.total-label {
+    font-size: 20px;
+    margin-left: 880px;
+    color: #28a745;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.gridview-table th {
-    background-color: #f2f2f2;
+.total-value {
+    font-size: 20px;
+    color: firebrick;
+    margin-left: auto; /* Alinea el total-value a la derecha */
+    opacity: 0; /* Inicialmente oculta el total-value */
+    animation: fadeIn 0.5s ease-in-out forwards; /* Agrega una animación de entrada */
+    flex-grow: 1; /* Permite que el total-value se expanda y se pegue a la derecha */
 }
 
-.gridview-table tr:hover {
-    background-color: #f5f5f5;
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px); /* Desplaza hacia arriba durante la entrada */
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-</style >
+.purchase-info-container:hover .total-value {
+    color: #6c757d; /* Cambia el color al pasar el ratón */
+    cursor: pointer; /* Cambia el cursor al pasar el ratón */
+}
+
+
