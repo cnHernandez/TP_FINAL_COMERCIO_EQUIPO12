@@ -98,6 +98,7 @@ namespace Comercio
             }
         }
 
+
         private int ProveedorSeleccionado()
         {
             int idProveedor = 0;
@@ -106,6 +107,16 @@ namespace Comercio
                 idProveedor = Convert.ToInt32(ddlProveedor.SelectedValue);
             }
             return idProveedor;
+        }
+
+        private string NombreProveedorSeleccionado()
+        {
+            string nombreProveedor = "";
+            if (!string.IsNullOrEmpty(ddlProveedor.SelectedValue))
+            {
+                nombreProveedor = ddlProveedor.SelectedItem.Text;
+            }
+            return nombreProveedor;
         }
 
 
@@ -137,7 +148,7 @@ namespace Comercio
             if (productosSeleccionadosSession.Count > 0)
             {
                 Dominio.Compras nuevaCompra = new Dominio.Compras();
-                nuevaCompra.IdProveedor = ProveedorSeleccionado();
+                nuevaCompra.IdProveedor = ProveedorSeleccionado();               
                 nuevaCompra.FechaCompra = DateTime.Now;
                 nuevaCompra.Estado = true;
                 nuevaCompra.TotalCompra = TotalDeCompra();
@@ -158,18 +169,28 @@ namespace Comercio
                 // Actualizar las etiquetas de subtotal y total de compra después de la inserción
                 CalcularTotalCompra();
 
+
+                // Recargar la página después de la inserción
+                //Response.Redirect(Request.RawUrl);
+                Response.Redirect("ResumenCompra.aspx");
+            }
                 // Limpiar la lista de productos seleccionados en la sesión
                 Session["productosSeleccionados"] = null;
-
                 // Limpiar la lista de detalles de compra en la sesión
                 Session["detallesCompra"] = null;
-                // Recargar la página después de la inserción
-                Response.Redirect(Request.RawUrl);
-            }
             // No es necesario repetir Response.Redirect aquí
         }
 
+        private Productos ObtenerProductoPorId(int idProducto)
+        {
+            // Supongamos que tienes una lista de productos llamada 'listaProductos'
+            // y que Producto tiene propiedades IdProducto y NombreProducto
+            List<Productos> productosSeleccionados = Session["productosSeleccionados"] as List<Productos>;
+            // Asegúrate de tener la lógica adecuada para obtener el producto desde tu fuente de datos
+            Productos productoEncontrado = productosSeleccionados.FirstOrDefault(p => p.IdProductos == idProducto);
 
+            return productoEncontrado ?? new Productos(); // Manejo de caso cuando el producto no se encuentra
+        }
 
 
 
@@ -178,8 +199,12 @@ namespace Comercio
             DetalleCompraNegocio negocio = new DetalleCompraNegocio();
             foreach (DetalleCompra detalles in detallesCompra)
             {
+            Productos producto = ObtenerProductoPorId(detalles.IdProducto);
                 
                 detalles.IdCompra = idCompra;
+                detalles.NombreProveedor = NombreProveedorSeleccionado();
+                detalles.NombreProducto = producto.Nombre;
+               
                
 
                 negocio.InsertarDetalleCompra(detalles);
