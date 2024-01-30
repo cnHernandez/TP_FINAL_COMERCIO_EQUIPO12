@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Dominio
 {
     public class Usuarios
@@ -25,5 +26,8 @@ namespace Dominio
 
             TipoUsuario = esAdmin ? TipoUsuarios.administrador : TipoUsuarios.vendedor;
         }
+
+        
+        }
     }
-}
+

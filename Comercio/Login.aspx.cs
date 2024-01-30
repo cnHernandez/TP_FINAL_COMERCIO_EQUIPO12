@@ -35,7 +35,7 @@ namespace Comercio
                     }
                     else if (EsVendedor())
                     {
-                        Response.Redirect("", false);
+                        Response.Redirect("DefaultVendedor.aspx", false);
                     }
                    
                 }
