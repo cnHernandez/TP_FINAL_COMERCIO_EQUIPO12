@@ -288,6 +288,7 @@ namespace Comercio
             // Guardar las listas actualizadas en la sesión
             Session["productosSeleccionados"] = productosSeleccionadosSession;
             Session["detallesCompra"] = detalleComprasSession;
+
         }
 
 

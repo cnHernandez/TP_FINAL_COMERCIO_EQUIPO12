@@ -545,3 +545,47 @@
 }
 
 
+/* Estilos generales */
+.body-custom {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container-custom {
+    max-width: 800px;
+    margin: 150px auto; /* Alinea el contenedor al centro vertical y horizontal */
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Alinea el contenido al centro */
+    position: relative;
+    overflow: hidden;
+    background-size: cover; /* Ajusta el tamaño de la imagen */
+    border-radius: 15px; /* Bordes más redondeados */
+}
+
+.custom-heading {
+    color: #333;
+}
+
+/* Estilos para la tabla GridView */
+.table-custom {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+    .table-custom th,
+    .table-custom td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .table-custom th {
+        background-color: #f2f2f2;
+    }
+
+
