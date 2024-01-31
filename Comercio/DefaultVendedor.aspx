@@ -2,4 +2,24 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+
+<div class="cards-container">
+
+        <!-- Card 5 -->
+        <a href="Ventas.aspx" class="custom-card">
+            <i class="fas fa-shopping-cart fa-3x"></i>
+            <h2>Ventas</h2>
+        </a>
+
+        <!-- Card 1 -->
+        <a href="BuscarProductos.aspx" class="custom-card">
+            <i class="fas fa-list-ul fa-3x"></i>
+            <h2>Buscar Producto</h2>
+        </a>
+
+        
+    </div>
+
+
 </asp:Content>

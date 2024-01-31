@@ -153,6 +153,7 @@
     <Content Include="AgregarProducto.aspx" />
     <Content Include="AgregarProveedor.aspx" />
     <Content Include="AgregarUsuario.aspx" />
+    <Content Include="BuscarProductos.aspx" />
     <Content Include="Clientes.aspx" />
     <Content Include="Compras.aspx" />
     <Content Include="default.aspx" />
@@ -167,6 +168,7 @@
     <Content Include="ResumenCompra.aspx" />
     <Content Include="Styles.css" />
     <Content Include="Web.config" />
+    <Content Include="Ventas.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AgregarCategoria.aspx.cs">
@@ -210,6 +212,13 @@
     </Compile>
     <Compile Include="AgregarUsuario.aspx.designer.cs">
       <DependentUpon>AgregarUsuario.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BuscarProductos.aspx.cs">
+      <DependentUpon>BuscarProductos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BuscarProductos.aspx.designer.cs">
+      <DependentUpon>BuscarProductos.aspx</DependentUpon>
     </Compile>
     <Compile Include="Clientes.aspx.cs">
       <DependentUpon>Clientes.aspx</DependentUpon>
@@ -303,6 +312,13 @@
     </Compile>
     <Compile Include="Web.Master.designer.cs">
       <DependentUpon>Web.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Ventas.aspx.cs">
+      <DependentUpon>Ventas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Ventas.aspx.designer.cs">
+      <DependentUpon>Ventas.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

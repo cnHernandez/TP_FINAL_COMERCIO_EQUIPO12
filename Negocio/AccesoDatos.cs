@@ -24,8 +24,8 @@ namespace Negocio
 
         public AccesoDatos()
         {
-
-            Conexion = new SqlConnection("server=DESKTOP-PNIP72A\\SQLEXPRESS; database=Base_Comercio_2024; integrated security=true;");
+            //LAPTOP-OTJVIM30
+            Conexion = new SqlConnection("server=LAPTOP-OTJVIM30\\SQLEXPRESS; database=Base_Comercio_2024; integrated security=true;");
             Comando = new SqlCommand();
         }
 

@@ -55,6 +55,46 @@ namespace Negocio
             }
         }
 
+        public Productos ObtenerProductoPorId(int idProducto)
+        {
+            Productos aux = new Productos();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                string query = "select ProductoID,Nombre,PrecioCompra,PorcentajeGanancia,StockActual,StockMinimo,MarcaID,TipoID,ProveedorID,UrlImagen,Estado from Productos where ProductoID = @idProducto";
+                datos.SetearQuery(query);
+                datos.setearParametros("@idProducto", idProducto);
+                datos.EjecutarLectura();
+               if(datos.lector.Read())
+                {
+                    aux.IdProductos = (int)datos.lector["ProductoID"];
+                    aux.Nombre = (string)datos.lector["Nombre"];
+                    aux.PrecioCompra = (decimal)datos.lector["PrecioCompra"];
+                    aux.PorcentajeGanancia = (decimal)datos.lector["PorcentajeGanancia"];
+                    aux.StockActual = (int)datos.lector["StockActual"];
+                    aux.StockMinimo = (int)datos.lector["StockMinimo"];
+                    aux.UrlImagen = (string)datos.lector["UrlImagen"];
+                    aux.IdCategoria = (int)datos.lector["TipoID"];
+                    aux.IdMarca = (int)datos.lector["MarcaID"];
+                    aux.IdProveedor = (int)datos.lector["ProveedorID"];
+                    aux.Estado = (bool)datos.lector["Estado"];
+                }
+                    return aux;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+          
+        }
+
+
         public List<Productos> ListarProductosPorProveedor(int Id)
         {
             List<Productos> Lista = new List<Productos>();
