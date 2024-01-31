@@ -24,6 +24,28 @@ namespace Comercio
             }
         }
 
+        protected void btnBuscarCliente_Click(object sender, EventArgs e)
+        {
+            // Obtener el nombre del producto ingresado por el usuario
+            string nombreCliente = txtNombre.Text.Trim();
+
+            // Verificar si se proporcionó un nombre de producto
+            if (!string.IsNullOrEmpty(nombreCliente))
+            {
+                // Llamar al método ObtenerProductosPorNombre para obtener la lista filtrada
+                ClientesNegocio negocio = new ClientesNegocio();
+                List<Dominio.Clientes> listaClientes = negocio.ObtenerClientesPorNombreApellido(nombreCliente);
+
+                // Actualizar el origen de datos del GridView
+                dataGridViewClientes.DataSource = listaClientes;
+                dataGridViewClientes.DataBind();
+            }
+            else
+            {
+                // Si no se proporcionó un nombre de producto, mostrar todos los productos
+                BindGridViewData();
+            }
+        }
         private void BindGridViewData()
         {
             ClientesNegocio negocio = new ClientesNegocio();

@@ -8,6 +8,12 @@
             <a href="AgregarCategoria.aspx" class="btn btn-primary">Agregar Categoria</a>
         </div>
 
+        <div class="login-container" style="display: flex; align-items: center; max-width: 600px; margin-left: 320px; margin-top: 10px;">
+            <label for="txtNombre" style="margin-right: 10px; margin-bottom: 0;">Ingrese el Nombre de la categoria: </label>
+            <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control" Style="margin-right: 10px; margin-bottom: 0;"></asp:TextBox>
+            <asp:Button runat="server" ID="btnBuscarCat" Text="Buscar Categoria" CssClass="btn btn-primary" Style="margin-top: 10px;" OnClick="btnBuscarCat_Click" />
+        </div>
+
         <div class="container" style="margin-top: 30px">
             <div class="row">
                 <asp:Repeater ID="repRepeater" runat="server">

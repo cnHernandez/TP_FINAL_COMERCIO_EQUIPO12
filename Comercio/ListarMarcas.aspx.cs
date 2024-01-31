@@ -48,6 +48,19 @@ namespace Comercio
             Response.Redirect("ListarMarcas.aspx", false);
         }
 
+        protected void btnBuscarMarca_Click(object sender, EventArgs e)
+        {
+            string nombreMarca = txtNombre.Text.Trim();
 
+            if (!string.IsNullOrEmpty(nombreMarca))
+            {
+                // Utilizar la misma lista de productos para agregar resultados de búsqueda
+                MarcasNegocio negocio = new MarcasNegocio();
+                listaMarcas = negocio.ObtenerMarcasPorNombre(nombreMarca);
+
+                repRepeater.DataSource = listaMarcas;
+                repRepeater.DataBind();
+            }
+        }
     }
 }

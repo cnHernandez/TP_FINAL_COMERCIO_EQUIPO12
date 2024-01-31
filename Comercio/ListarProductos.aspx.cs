@@ -33,6 +33,29 @@ namespace Comercio
             }
         }
 
+        protected void btnBuscarProducto_Click(object sender, EventArgs e)
+        {
+            // Obtener el nombre del producto ingresado por el usuario
+            string nombreProducto = txtNombre.Text.Trim();
+
+            // Verificar si se proporcionó un nombre de producto
+            if (!string.IsNullOrEmpty(nombreProducto))
+            {
+                // Llamar al método ObtenerProductosPorNombre para obtener la lista filtrada
+                ProductosNegocio negocio = new ProductosNegocio();
+                List<Dominio.Productos> listaProductos = negocio.ObtenerProductosPorNombre(nombreProducto);
+
+                // Actualizar el origen de datos del GridView
+                dataGridViewProductos.DataSource = listaProductos;
+                dataGridViewProductos.DataBind();
+            }
+            else
+            {
+                // Si no se proporcionó un nombre de producto, mostrar todos los productos
+                BindGridViewData();
+            }
+        }
+
         private void BindGridViewDataProveedor()
         {
             ProductosNegocio negocio = new ProductosNegocio();

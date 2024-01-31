@@ -35,6 +35,20 @@ namespace Comercio
             }
         }
 
+        protected void btnBuscarProveedor_Click(object sender, EventArgs e)
+        {
+            string nombreProveedor = txtNombre.Text.Trim();
+
+            if (!string.IsNullOrEmpty(nombreProveedor))
+            {
+                // Utilizar la misma lista de productos para agregar resultados de búsqueda
+                ProveedoresNegocio negocio = new ProveedoresNegocio();
+                listaProveedores = negocio.ObtenerProveedoresPorNombre(nombreProveedor);
+
+                repRepeater.DataSource = listaProveedores;
+                repRepeater.DataBind();
+            }
+        }
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
             // Obtener el IdMarcas del control CommandArgument del botón

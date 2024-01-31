@@ -5,6 +5,12 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
     <h1 class="Profesionales">Nuestros Productos</h1>
+
+    <div class="login-container" style="display: flex; align-items: center; max-width: 600px; margin-left: 700px; margin-top: 10px;">
+        <label for="txtNombre" style="margin-right: 10px; margin-bottom: 0;">Ingrese el Nombre del Producto: </label>
+        <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control" Style="margin-right: 10px; margin-bottom: 0;"></asp:TextBox>
+        <asp:Button runat="server" ID="btnBuscarProducto" Text="Buscar Producto" CssClass="btn btn-primary" Style="margin-top: 10px;" OnClick="btnBuscarProducto_Click" />
+    </div>
     <asp:ScriptManager ID="ScriptManager1" runat="server" />
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>

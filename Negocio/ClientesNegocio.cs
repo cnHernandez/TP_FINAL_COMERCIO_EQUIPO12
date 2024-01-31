@@ -52,6 +52,44 @@ namespace Negocio
             }
         }
 
+        public List<Clientes> ObtenerClientesPorNombreApellido(string filtro)
+        {
+            List<Clientes> listaClientes = new List<Clientes>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                string query = "SELECT ClienteID, Nombre, Apellido, Mail, Dni, Telefono, Estado FROM Clientes WHERE Nombre LIKE @filtro OR Apellido LIKE @filtro";
+                datos.SetearQuery(query);
+                datos.setearParametros("@filtro", "%" + filtro + "%");
+                datos.EjecutarLectura();
+
+                while (datos.lector.Read())
+                {
+                    Clientes aux = new Clientes();
+                    aux.IdCliente = (int)datos.lector["ClienteID"];
+                    aux.Nombre = (string)datos.lector["Nombre"];
+                    aux.Apellido = (string)datos.lector["Apellido"];
+                    aux.Mail = (string)datos.lector["Mail"];
+                    aux.Dni = (long)datos.lector["Dni"];
+                    aux.Telefono = (long)datos.lector["Telefono"];
+                    aux.Estado = (bool)datos.lector["Estado"];
+
+                    listaClientes.Add(aux);
+                }
+
+                return listaClientes;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
         public long AgregarClientes(Clientes nuevo)
         {
             try

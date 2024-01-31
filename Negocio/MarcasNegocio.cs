@@ -59,6 +59,40 @@ namespace Negocio
                 datos.CerrarConexion();
             }
         }
+        public List<Marcas> ObtenerMarcasPorNombre(string nombreMarca)
+        {
+            List<Marcas> listaMarcas = new List<Marcas>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                string query = "SELECT MarcaID, Nombre, UrlImagen, Estado FROM Marcas WHERE Nombre LIKE @nombreMarca";
+                datos.SetearQuery(query);
+                datos.setearParametros("@nombreMarca", "%" + nombreMarca + "%");
+                datos.EjecutarLectura();
+
+                while (datos.lector.Read())
+                {
+                    Marcas aux = new Marcas();
+                    aux.IdMarcas = (int)datos.lector["MarcaID"];
+                    aux.Nombre = (string)datos.lector["Nombre"];
+                    aux.UrlImagen = (string)datos.lector["UrlImagen"];
+                    aux.Estado = (bool)datos.lector["Estado"];
+
+                    listaMarcas.Add(aux);
+                }
+
+                return listaMarcas;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
 
         public void AgregarMarca(Marcas nuevo)
         {

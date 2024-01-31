@@ -50,6 +50,42 @@ namespace Negocio
             }
         }
 
+        public List<Proveedores> ObtenerProveedoresPorNombre(string nombreProveedor)
+        {
+            List<Proveedores> listaProveedores = new List<Proveedores>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                string query = "SELECT ProveedorID, Nombre, Rubro, Estado, UrlImagen FROM Proveedores WHERE Nombre LIKE @nombreProveedor";
+                datos.SetearQuery(query);
+                datos.setearParametros("@nombreProveedor", "%" + nombreProveedor + "%");
+                datos.EjecutarLectura();
+
+                while (datos.lector.Read())
+                {
+                    Proveedores aux = new Proveedores();
+                    aux.IdProveedor = (int)datos.lector["ProveedorID"];
+                    aux.Nombre = (string)datos.lector["Nombre"];
+                    aux.Categoria = (string)datos.lector["Rubro"];
+                    aux.Estado = (bool)datos.lector["Estado"];
+                    aux.UrlImagen = (string)datos.lector["UrlImagen"];
+
+                    listaProveedores.Add(aux);
+                }
+
+                return listaProveedores;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
         public long AgregarProveedor(Proveedores nuevo)
         {
             try

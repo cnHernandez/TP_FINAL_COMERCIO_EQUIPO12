@@ -50,6 +50,40 @@ namespace Negocio
             }
         }
 
+        public List<Categorias> ObtenerCategoriasPorNombre(string nombreCategoria)
+        {
+            List<Categorias> listaCategorias = new List<Categorias>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                string query = "SELECT TipoID, Nombre, UrlImagen, Estado FROM Tipos WHERE Nombre LIKE @nombreCategoria";
+                datos.SetearQuery(query);
+                datos.setearParametros("@nombreCategoria", "%" + nombreCategoria + "%");
+                datos.EjecutarLectura();
+
+                while (datos.lector.Read())
+                {
+                    Categorias aux = new Categorias();
+                    aux.IdCategoria = (int)datos.lector["TipoID"];
+                    aux.Nombre = (string)datos.lector["Nombre"];
+                    aux.UrlImagen = (string)datos.lector["UrlImagen"];
+                    aux.Estado = (bool)datos.lector["Estado"];
+
+                    listaCategorias.Add(aux);
+                }
+
+                return listaCategorias;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
 
 
         public void AgregarCategoria(Categorias nuevo)

@@ -36,6 +36,20 @@ namespace Comercio
             }
         }
 
+        protected void btnBuscarCat_Click(object sender, EventArgs e)
+        {
+            string nombreCat = txtNombre.Text.Trim();
+
+            if (!string.IsNullOrEmpty(nombreCat))
+            {
+                // Utilizar la misma lista de productos para agregar resultados de búsqueda
+                CategoriasNegocio negocio = new CategoriasNegocio();
+                listaCategorias = negocio.ObtenerCategoriasPorNombre(nombreCat);
+
+                repRepeater.DataSource = listaCategorias;
+                repRepeater.DataBind();
+            }
+        }
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
             // Obtener el IdCategoria del control CommandArgument del botón
