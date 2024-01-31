@@ -116,7 +116,7 @@ CREATE TABLE Usuarios (
 );
 GO
 
-select * from Proveedores
+select * from Productos
 select * from Tipos
 select * from Clientes
 select * from Usuarios
@@ -125,11 +125,33 @@ select * from Marcas
 INSERT INTO Tipos(Nombre)VALUES('Gaseosas')
 INSERT INTO Tipos(Nombre)VALUES('Snacks')
 insert into Usuarios(NombreUsuario, Contraseña, TipoUsuario) VALUES('Nico', 'Hernandez', 1)
+insert into Usuarios(NombreUsuario, Contraseña, TipoUsuario) VALUES('Luca', 'diba', 2)
 insert into Marcas(Nombre, UrlImagen, Estado) VALUES('Arcor', 'https://upload.wikimedia.org/wikipedia/commons/9/9d/Arcor_textlogo.png', 0)
 insert into Marcas(Nombre, UrlImagen, Estado) VALUES('Ferrero', 'https://sgfm.elcorteingles.es/SGFM/dctm/MEDIA03/202211/18/00120602500447____6__600x600.jpg', 0)
 insert into Productos(Nombre, PrecioCompra, PorcentajeGanancia, StockActual, StockMinimo, MarcaID, TipoID, UrlImagen, Estado)VALUES('Bombon ferrero', 100, 50.50, 1000, 500, 1, 2, 'https://http2.mlstatic.com/D_NQ_NP_744945-MLU70065031137_062023-O.webp', 0)
 insert into Productos(Nombre, PrecioCompra, PorcentajeGanancia, StockActual, StockMinimo, MarcaID, TipoID, UrlImagen, Estado)VALUES('Huevo Kinder', 100, 50.50, 1000, 500, 1, 2, 'https://camoga.ar/media/catalog/product/cache/17183a23c5d57b885c9e1f3d66234d68/5/0/50081000_huevo_kinder_con_leche_sorpresa_x20_gramos.jpg', 0)
+-- Insertar productos de ejemplo con ProveedorID = 1 y Estado = 0
+INSERT INTO Productos (Nombre, PrecioCompra, PorcentajeGanancia, StockActual, StockMinimo, MarcaID, TipoID, ProveedorID, UrlImagen, Estado)
+VALUES ('Pizza Margarita', 9.99, 30.0, 50, 5, 2, 2, 1, 'pizza_margarita.jpg', 0);
 
+INSERT INTO Productos (Nombre, PrecioCompra, PorcentajeGanancia, StockActual, StockMinimo, MarcaID, TipoID, ProveedorID, UrlImagen, Estado)
+VALUES ('Hamburguesa Clásica', 5.99, 25.0, 80, 10, 2, 2, 1, 'hamburguesa_clasica.jpg', 0);
+
+INSERT INTO Productos (Nombre, PrecioCompra, PorcentajeGanancia, StockActual, StockMinimo, MarcaID, TipoID, ProveedorID, UrlImagen, Estado)
+VALUES ('Ensalada César', 7.99, 20.0, 30, 5,2, 2, 1, 'ensalada_cesar.jpg', 0);
+
+INSERT INTO Productos (Nombre, PrecioCompra, PorcentajeGanancia, StockActual, StockMinimo, MarcaID, TipoID, ProveedorID, UrlImagen, Estado)
+VALUES ('Ensalada rusa', 7.99, 20.0, 30, 5,2, 2, 1, 'ensalada_cesar.jpg', 0);
+
+INSERT INTO Productos (Nombre, PrecioCompra, PorcentajeGanancia, StockActual, StockMinimo, MarcaID, TipoID, ProveedorID, UrlImagen, Estado)
+VALUES ('Milanesa con pure', 10.99, 20.0, 30, 5,2, 2, 1, 'ensalada_cesar.jpg', 0);
+
+INSERT INTO Productos (Nombre, PrecioCompra, PorcentajeGanancia, StockActual, StockMinimo, MarcaID, TipoID, ProveedorID, UrlImagen, Estado)
+VALUES ('Milanesa napolitana', 10.99, 20.0, 30, 5,2, 2, 1, 'ensalada_cesar.jpg', 0);
+
+INSERT INTO Productos (Nombre, PrecioCompra, PorcentajeGanancia, StockActual, StockMinimo, MarcaID, TipoID, ProveedorID, UrlImagen, Estado)
+VALUES ('Milanesa a caballo', 10.99, 20.0, 30, 5,2, 2, 1, 'ensalada_cesar.jpg', 0);
+-- Agrega más productos según sea necesario
 
 /*
   public int IdProductos {  get; set; }
