@@ -13,7 +13,7 @@
 
     <div class="container" style="margin-top: 30px; margin-bottom: 100px;">
         <div class="row">
-            <asp:Repeater ID="repRepeater" runat="server">
+            <asp:Repeater ID="reRepeater" runat="server">
                 <ItemTemplate>
                     <div class="col-md-4">
                         <div class="card mb-3">

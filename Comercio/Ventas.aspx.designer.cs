@@ -11,43 +11,34 @@ namespace Comercio
 {
 
 
-    public partial class WebForm1
+    public partial class Venta
     {
 
         /// <summary>
-        /// dataGridViewProductos control.
+        /// txtNombre control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView dataGridViewProductos;
+        protected global::System.Web.UI.WebControls.TextBox txtNombre;
 
         /// <summary>
-        /// dataGridViewProductosSeleccionados control.
+        /// btnBuscarProducto control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView dataGridViewProductosSeleccionados;
+        protected global::System.Web.UI.WebControls.Button btnBuscarProducto;
 
         /// <summary>
-        /// lblTotalVenta control.
+        /// dgvProductos control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTotalVenta;
-
-        /// <summary>
-        /// btnFinalizarVenta control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnFinalizarVenta;
+        protected global::System.Web.UI.WebControls.GridView dgvProductos;
     }
 }

@@ -37,8 +37,8 @@ namespace Comercio
                 ProductosNegocio negocio = new ProductosNegocio();
                 listaProductos = negocio.ObtenerProductosPorNombre(nombreProducto);
 
-                repRepeater.DataSource = listaProductos;
-                repRepeater.DataBind();
+                reRepeater.DataSource = listaProductos;
+                reRepeater.DataBind();
             }
         }
 
@@ -46,8 +46,8 @@ namespace Comercio
         {
             ProductosNegocio negocio = new ProductosNegocio();
             listaProductos = negocio.ListarProductos();
-            repRepeater.DataSource = listaProductos;
-            repRepeater.DataBind();
+            reRepeater.DataSource = listaProductos;
+            reRepeater.DataBind();
         }
     }
 }

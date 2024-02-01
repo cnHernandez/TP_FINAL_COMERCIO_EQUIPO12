@@ -1,42 +1,25 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Web.Master" AutoEventWireup="true" CodeBehind="Ventas.aspx.cs" Inherits="Comercio.WebForm1" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Web.Master" AutoEventWireup="true" CodeBehind="Venta.aspx.cs" Inherits="Comercio.Venta" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <div class="login-container" style="display: flex; align-items: center; max-width: 600px; margin-left: 320px; margin-top:10px;" >
+        <label for="txtNombre" style="margin-right: 10px; margin-bottom: 0;">Nombre del Producto: </label>
+        <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control" style="margin-right: 10px; margin-bottom: 0;"></asp:TextBox>
+        <asp:Button runat="server" ID="btnBuscarProducto" Text="Buscar Producto" CssClass="btn btn-primary" style="margin-top:10px;" OnClick="btnBuscarProducto_Click" />
+    </div>
 
-<asp:GridView ID="dataGridViewProductos" runat="server" AutoGenerateColumns="False" CssClass="gridview-style"
-    DataKeyNames="IdProductos" AllowPaging="true" PageSize="10" OnPageIndexChanging="dataGridViewProductos_PageIndexChanging"
-    OnRowDeleting="dataGridViewProductos_RowDeleting" OnRowCommand="dataGridViewProductos_RowCommand">
-    <Columns>
-        <asp:BoundField DataField="IdProductos" HeaderText="ID Producto" />
-                    <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
-                    <asp:BoundField DataField="PrecioCompra" HeaderText="Precio Compra" />
-                    <asp:BoundField DataField="PorcentajeGanancia" HeaderText="Porcentaje Ganancia" />
-                    <asp:BoundField DataField="StockActual" HeaderText="Stock Actual" />
-                    <asp:BoundField DataField="StockMinimo" HeaderText="Stock Mínimo" />
-                    <asp:BoundField DataField="IdMarca" HeaderText="ID Marca" />
-                    <asp:BoundField DataField="IdCategoria" HeaderText="ID Categoria" />
-                    <asp:BoundField DataField="IdProveedor" HeaderText="ID Proveedor" />
-
-        <asp:TemplateField HeaderText="Acciones">
-            <ItemTemplate>
-                <asp:Button runat="server" CommandName="Agregar" CommandArgument='<%# Eval("IdProductos") %>'
-                    Text="Agregar" CssClass="btn btn-success" />
-            </ItemTemplate>
-        </asp:TemplateField>
-    </Columns>
-</asp:GridView>
-
-
-<!-- Área de búsqueda -->
-<!-- ... -->
-
-<!-- Área para mostrar productos seleccionados -->
-<asp:GridView ID="dataGridViewProductosSeleccionados" runat="server" AutoGenerateColumns="False" CssClass="gridview-style" DataKeyNames="IdProductos">
-    <!-- Definir las columnas aquí -->
-</asp:GridView>
-
-<!-- Área para mostrar el total de la venta -->
-<asp:Label ID="lblTotalVenta" runat="server" CssClass="font-weight-bold"></asp:Label>
-
-<!-- Botón para finalizar la venta -->
-<asp:Button ID="btnFinalizarVenta" runat="server" Text="Finalizar Venta" OnClick="btnFinalizarVenta_Click" CssClass="btn btn-primary" />
-
+    <div class="container" style="margin-top: 30px; margin-bottom: 100px;">
+        <asp:GridView ID="dgvProductos" runat="server" AutoGenerateColumns="False" CssClass="table table-bordered">
+            <Columns>
+                <asp:BoundField DataField="IdProductos" HeaderText="ID" SortExpression="IdProductos" />
+                <asp:BoundField DataField="Nombre" HeaderText="Nombre" SortExpression="Nombre" />
+                <asp:BoundField DataField="PrecioCompra" HeaderText="Precio Compra" SortExpression="PrecioCompra" />
+                <asp:BoundField DataField="PorcentajeGanancia" HeaderText="Porcentaje Ganancia" SortExpression="PorcentajeGanancia" />
+                <asp:BoundField DataField="StockActual" HeaderText="Stock Actual" SortExpression="StockActual" />
+                <asp:BoundField DataField="StockMinimo" HeaderText="Stock Mínimo" SortExpression="StockMinimo" />
+                 <asp:ButtonField ButtonType="Button" CommandName="Agregar a la compra" Text="Agregar" HeaderText="Agregar" />
+            </Columns>
+        </asp:GridView>
+    </div>
+</asp:Content>
