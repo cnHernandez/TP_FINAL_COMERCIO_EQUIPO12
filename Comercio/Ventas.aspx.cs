@@ -2,13 +2,17 @@
 using Negocio;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace Comercio
 {
     public partial class Venta : System.Web.UI.Page
     {
+        // Propiedades públicas para las listas de productos
         public List<Productos> listaProductos { get; set; }
+        public List<Productos> listaProductosSeleccionados { get; set; }
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -18,13 +22,30 @@ namespace Comercio
                 Response.Redirect("Login.aspx", false);
             }
 
-            if (!IsPostBack)
+            // Inicializar la lista de productos (agrega esta línea)
+            listaProductos = new List<Productos>();
+
+            // Si la lista de productos seleccionados no está inicializada, inicialízala.
+            if (Session["ListaProductosSeleccionados"] == null)
             {
-                // Inicializar el dgvProductos vacío
-                dgvProductos.DataSource = new List<Productos>();
-                dgvProductos.DataBind();
+                listaProductosSeleccionados = new List<Productos>();
+                Session["ListaProductosSeleccionados"] = listaProductosSeleccionados;
             }
+            else
+            {
+                // Si ya existe, obtén la lista de la sesión
+                listaProductosSeleccionados = (List<Productos>)Session["ListaProductosSeleccionados"];
+            }
+
+            // Inicializar el dgvProductos vacío
+            dgvProductos.DataSource = listaProductos;
+            dgvProductos.DataBind();
+
+            dgvProductosSeleccionados.DataSource = listaProductosSeleccionados;
+            dgvProductosSeleccionados.DataBind();
         }
+
+
 
         private void CargarProductos()
         {
@@ -49,5 +70,65 @@ namespace Comercio
             }
         }
 
+        protected void btnAgregarSeleccionados_Click(object sender, EventArgs e)
+        {
+            List<Productos> productosSeleccionados = new List<Productos>();
+
+            foreach (GridViewRow row in dgvProductos.Rows)
+            {
+                CheckBox chkSeleccionar = (CheckBox)row.FindControl("chkSeleccionar");
+
+                if (chkSeleccionar != null && chkSeleccionar.Checked)
+                {
+                    // Agregar el producto seleccionado a la lista
+                    int idProducto = Convert.ToInt32(DataBinder.Eval(row.DataItem, "IdProductos"));
+                    // Ajusta el índice según la posición de la columna IdProductos en tu GridView
+                    Productos producto = ObtenerProductoPorId(idProducto);
+                    productosSeleccionados.Add(producto);
+                }
+            }
+
+            // Agregar los productos seleccionados a la lista general
+            listaProductosSeleccionados.AddRange(productosSeleccionados);
+
+            // Actualizar la sesión con la nueva lista de productos seleccionados
+            Session["ListaProductosSeleccionados"] = listaProductosSeleccionados;
+
+            // Volver a cargar el dgvProductosSeleccionados con la nueva lista
+            dgvProductosSeleccionados.DataSource = listaProductosSeleccionados;
+            dgvProductosSeleccionados.DataBind();
+        }
+
+        private Productos ObtenerProductoPorId(int idProducto)
+        {
+            if (listaProductos == null)
+            {
+                // Si la lista de productos no está inicializada, intenta cargarla.
+                CargarProductos();
+            }
+
+            if (listaProductos != null)
+            {
+                // Si la carga de productos fue exitosa, busca el producto por su ID.
+                return listaProductos.FirstOrDefault(p => p.IdProductos == idProducto);
+            }
+            else
+            {
+                // Si la carga de productos falla, retorna null o toma alguna otra acción.
+                return null;
+            }
+        }
+
+
+        protected void dgvProductos_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                // Añadir un atributo de cliente para el ID del producto a cada CheckBox
+                CheckBox chkSeleccionar = (CheckBox)e.Row.FindControl("chkSeleccionar");
+                int idProducto = Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "IdProductos"));
+                chkSeleccionar.Attributes.Add("data-idproducto", idProducto.ToString());
+            }
+        }
     }
 }
