@@ -24,7 +24,7 @@ namespace Comercio
                     Response.Redirect("Login.aspx", false);
                 }
 
-                // Inicializar la lista de productos (agrega esta línea)
+                // Inicializar la lista de productos 
                 listaProductos = new List<Productos>();
 
                 // Si la lista de productos seleccionados no está inicializada, inicialízala.
@@ -40,13 +40,44 @@ namespace Comercio
                 }
 
                 // Inicializar el dgvProductos solo si la página no está en un postback
-                CargarProductos();
+                //CargarProductos();
 
-                dgvProductos.DataSource = listaProductos;
-                dgvProductos.DataBind();
+               dgvProductos.DataSource = listaProductos;
+               dgvProductos.DataBind();
 
                 dgvProductosSeleccionados.DataSource = listaProductosSeleccionados;
                 dgvProductosSeleccionados.DataBind();
+            }
+        }
+
+        private Productos ObtenerProductoPorId(int idProducto)
+        {
+            if (listaProductos == null)
+            {
+                // Si la lista de productos no está inicializada, intenta cargarla.
+                CargarProductos();
+            }
+
+            if (listaProductos != null)
+            {
+                // Si la carga de productos fue exitosa, busca el producto por su ID.
+                return listaProductos.FirstOrDefault(p => p.IdProductos == idProducto);
+            }
+            else
+            {
+                // Si la carga de productos falla, retorna null o toma alguna otra acción.
+                return null;
+            }
+        }
+
+        protected void dgvProductos_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                // Añadir un atributo de cliente para el ID del producto a cada CheckBox
+                CheckBox chkSeleccionar = (CheckBox)e.Row.FindControl("chkSeleccionar");
+                int idProducto = Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "IdProductos"));
+                chkSeleccionar.Attributes.Add("data-idproducto", idProducto.ToString());
             }
         }
 
@@ -125,40 +156,76 @@ namespace Comercio
             // Volver a cargar el dgvProductosSeleccionados con la nueva lista
             dgvProductosSeleccionados.DataSource = listaProductosSeleccionados;
             dgvProductosSeleccionados.DataBind();
+
         }
 
-
-
-        private Productos ObtenerProductoPorId(int idProducto)
+        protected void txtCantidad_TextChanged(object sender, EventArgs e)
         {
-            if (listaProductos == null)
-            {
-                // Si la lista de productos no está inicializada, intenta cargarla.
-                CargarProductos();
-            }
+            TextBox txtCantidad = (TextBox)sender;
+            GridViewRow row = (GridViewRow)txtCantidad.NamingContainer;
 
-            if (listaProductos != null)
+            if (int.TryParse(txtCantidad.Text, out int cantidad) && cantidad >= 0)
             {
-                // Si la carga de productos fue exitosa, busca el producto por su ID.
-                return listaProductos.FirstOrDefault(p => p.IdProductos == idProducto);
+                CalcularSubtotales(row);
+                CalcularTotalCompra();
+
+              
             }
             else
             {
-                // Si la carga de productos falla, retorna null o toma alguna otra acción.
-                return null;
+                /* // Manejar el caso en que la entrada no sea válida, por ejemplo, mostrar un mensaje de error.
+                 lblMensajeError.Text = "La cantidad ingresada no es válida. Por favor, ingrese un número entero no negativo.";*/
             }
         }
 
-
-        protected void dgvProductos_RowDataBound(object sender, GridViewRowEventArgs e)
+        private void CalcularSubtotales(GridViewRow row)
         {
-            if (e.Row.RowType == DataControlRowType.DataRow)
+            TextBox txtCantidad = (TextBox)row.FindControl("txtCantidad");
+            Label lblSubtotal = (Label)row.FindControl("lblSubtotal");
+
+            if (txtCantidad != null && lblSubtotal != null)
             {
-                // Añadir un atributo de cliente para el ID del producto a cada CheckBox
-                CheckBox chkSeleccionar = (CheckBox)e.Row.FindControl("chkSeleccionar");
-                int idProducto = Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "IdProductos"));
-                chkSeleccionar.Attributes.Add("data-idproducto", idProducto.ToString());
+                // Acceder directamente a las celdas de GridView para obtener los valores
+                decimal precioCompra = Convert.ToDecimal(row.Cells[2].Text); // Cambia el índice según la posición de la columna PrecioCompra en tu GridView
+                int cantidad = Convert.ToInt32(txtCantidad.Text);
+                decimal ganancia = Convert.ToDecimal(row.Cells[3].Text);
+                ganancia = (ganancia / 100) + 1;
+                decimal subtotal = (precioCompra*ganancia) * cantidad;
+
+                lblSubtotal.Text = subtotal.ToString();
+                CalcularTotalCompra();
             }
+        }
+
+        private void CalcularTotalCompra()
+        {
+            decimal totalVenta = 0;
+
+            foreach (GridViewRow row in dgvProductosSeleccionados.Rows)
+            {
+                Label lblSubtotal = (Label)row.FindControl("lblSubtotal");
+
+                if (lblSubtotal != null)
+                {
+                    decimal subtotal;
+
+                    if (decimal.TryParse(lblSubtotal.Text, out subtotal))
+                    {
+                        totalVenta += subtotal;
+                    }
+                    else
+                    {
+                        // Manejo de error: Puedes mostrar un mensaje o tomar otra acción en caso de que haya un problema con el formato.
+                    }
+                }
+            }
+
+            lblTotalVenta.Text = totalVenta.ToString();
+
+
+
+
+
         }
     }
 }

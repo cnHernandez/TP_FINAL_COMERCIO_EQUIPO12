@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Web.Master" AutoEventWireup="true" CodeBehind="Venta.aspx.cs" Inherits="Comercio.Venta" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Web.Master" AutoEventWireup="true" CodeBehind="Ventas.aspx.cs" Inherits="Comercio.Venta" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -26,21 +26,43 @@
             </ItemTemplate>
         </asp:TemplateField>
     </Columns>
+
+
 </asp:GridView>
         <asp:Button runat="server" ID="btnAgregarSeleccionados" Text="Agregar Seleccionados" CssClass="btn btn-primary" OnClick="btnAgregarSeleccionados_Click" />
 
-        <asp:GridView ID="dgvProductosSeleccionados" runat="server" AutoGenerateColumns="False" CssClass="table table-bordered">
-   
-             <Columns>
-                <asp:BoundField DataField="IdProductos" HeaderText="ID" SortExpression="IdProductos" />
-                <asp:BoundField DataField="Nombre" HeaderText="Nombre" SortExpression="Nombre" />
-                <asp:BoundField DataField="PrecioCompra" HeaderText="Precio Compra" SortExpression="PrecioCompra" />
-                <asp:BoundField DataField="PorcentajeGanancia" HeaderText="Porcentaje Ganancia" SortExpression="PorcentajeGanancia" />
-                <asp:BoundField DataField="StockActual" HeaderText="Stock Actual" SortExpression="StockActual" />
-                <asp:BoundField DataField="StockMinimo" HeaderText="Stock Mínimo" SortExpression="StockMinimo" />
+<asp:GridView ID="dgvProductosSeleccionados" runat="server" AutoGenerateColumns="False" CssClass="table table-bordered">
+    <Columns>
+        <asp:BoundField DataField="IdProductos" HeaderText="ID" SortExpression="IdProductos" />
+        <asp:BoundField DataField="Nombre" HeaderText="Nombre" SortExpression="Nombre" />
+        <asp:BoundField DataField="PrecioCompra" HeaderText="Precio Compra" SortExpression="PrecioCompra" />
+        <asp:BoundField DataField="PorcentajeGanancia" HeaderText="Porcentaje Ganancia" SortExpression="PorcentajeGanancia" />
+        <asp:BoundField DataField="StockActual" HeaderText="Stock Actual" SortExpression="StockActual" />
+        <asp:BoundField DataField="StockMinimo" HeaderText="Stock Mínimo" SortExpression="StockMinimo" />
+
+        
+        <asp:TemplateField HeaderText="Cantidad">
+            <ItemTemplate>
                 
-            </Columns>
+                <asp:TextBox ID="txtCantidad" runat="server" CssClass="form-control" Text="0" AutoPostBack="true" OnTextChanged="txtCantidad_TextChanged" Enabled="true" />
+            </ItemTemplate>
+        </asp:TemplateField>
+
+        
+        <asp:TemplateField HeaderText="Subtotal">
+            <ItemTemplate>
+                <asp:Label ID="lblSubtotal" runat="server"></asp:Label>
+            </ItemTemplate>
+        </asp:TemplateField>
+
+    </Columns>
 </asp:GridView>
 
+
+
     </div>
+     <div class="purchase-info-container" style="margin-bottom: 150px;">
+                <label class="total-label">Total de la Venta:</label>
+                <asp:Label ID="lblTotalVenta" runat="server" CssClass="font-weight-bold total-value"></asp:Label>
+            </div>
 </asp:Content>
