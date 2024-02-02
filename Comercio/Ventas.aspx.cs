@@ -18,6 +18,7 @@ namespace Comercio
         {
             if (!IsPostBack)
             {
+               
                 if (!(Session["Usuario"] is Dominio.Usuarios usuario && usuario.TipoUsuario == Dominio.Usuarios.TipoUsuarios.vendedor))
                 {
                     Session.Add("Error", "No eres Vendedor");
@@ -40,10 +41,16 @@ namespace Comercio
                 }
 
                 // Inicializar el dgvProductos solo si la página no está en un postback
-                //CargarProductos();
+                ProductosNegocio negocio = new ProductosNegocio();
+                string nombreProducto = txtNombre.Text.Trim();
 
-               dgvProductos.DataSource = listaProductos;
-               dgvProductos.DataBind();
+                if (string.IsNullOrEmpty(nombreProducto))
+                {
+                    // Si el nombre del producto está vacío, cargar todos los productos.
+                    listaProductos = negocio.ListarProductos();
+                    dgvProductos.DataSource = listaProductos;
+                    dgvProductos.DataBind();
+                }
 
                 dgvProductosSeleccionados.DataSource = listaProductosSeleccionados;
                 dgvProductosSeleccionados.DataBind();
@@ -82,14 +89,11 @@ namespace Comercio
         }
 
 
-
-
         private void CargarProductos()
         {
             ProductosNegocio negocio = new ProductosNegocio();
             listaProductos = negocio.ListarProductos();
-            dgvProductos.DataSource = listaProductos;
-            dgvProductos.DataBind();
+        
         }
 
         protected void btnBuscarProducto_Click(object sender, EventArgs e)
@@ -107,8 +111,15 @@ namespace Comercio
             }
         }
 
+        private bool ProductoYaSeleccionado(int idProducto)
+        {
+            return listaProductosSeleccionados.Any(p => p.IdProductos == idProducto);
+        }
+
+
         protected void btnAgregarSeleccionados_Click(object sender, EventArgs e)
         {
+           
             // Asegúrate de que la lista de productos seleccionados esté inicializada
             if (Session["ListaProductosSeleccionados"] == null)
             {
@@ -136,8 +147,19 @@ namespace Comercio
 
                     // Agregar el producto seleccionado a la lista
                     int idProducto = Convert.ToInt32(row.Cells[0].Text); // Ajusta según tu estructura
-                    Productos producto = ObtenerProductoPorId(idProducto);
-                    productosSeleccionados.Add(producto);
+                    if (!ProductoYaSeleccionado(idProducto))
+                    {
+                        // Agrega el producto solo si no está seleccionado previamente
+                        Productos producto = ObtenerProductoPorId(idProducto);
+                        listaProductosSeleccionados.Add(producto);
+                        // Limpiar el mensaje de error
+                        lblMensajeError.Text = string.Empty;
+
+                    }
+                    else
+                    {
+                        lblMensajeError.Text = "El producto ya está seleccionado.";
+                    }
                 }
             }
 
