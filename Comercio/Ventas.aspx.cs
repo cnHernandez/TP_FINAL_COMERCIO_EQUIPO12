@@ -16,34 +16,40 @@ namespace Comercio
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!(Session["Usuario"] is Dominio.Usuarios usuario && usuario.TipoUsuario == Dominio.Usuarios.TipoUsuarios.vendedor))
+            if (!IsPostBack)
             {
-                Session.Add("Error", "No eres Vendedor");
-                Response.Redirect("Login.aspx", false);
+                if (!(Session["Usuario"] is Dominio.Usuarios usuario && usuario.TipoUsuario == Dominio.Usuarios.TipoUsuarios.vendedor))
+                {
+                    Session.Add("Error", "No eres Vendedor");
+                    Response.Redirect("Login.aspx", false);
+                }
+
+                // Inicializar la lista de productos (agrega esta línea)
+                listaProductos = new List<Productos>();
+
+                // Si la lista de productos seleccionados no está inicializada, inicialízala.
+                if (Session["ListaProductosSeleccionados"] == null)
+                {
+                    listaProductosSeleccionados = new List<Productos>();
+                    Session["ListaProductosSeleccionados"] = listaProductosSeleccionados;
+                }
+                else
+                {
+                    // Si ya existe, obtén la lista de la sesión
+                    listaProductosSeleccionados = (List<Productos>)Session["ListaProductosSeleccionados"];
+                }
+
+                // Inicializar el dgvProductos solo si la página no está en un postback
+                CargarProductos();
+
+                dgvProductos.DataSource = listaProductos;
+                dgvProductos.DataBind();
+
+                dgvProductosSeleccionados.DataSource = listaProductosSeleccionados;
+                dgvProductosSeleccionados.DataBind();
             }
-
-            // Inicializar la lista de productos (agrega esta línea)
-            listaProductos = new List<Productos>();
-
-            // Si la lista de productos seleccionados no está inicializada, inicialízala.
-            if (Session["ListaProductosSeleccionados"] == null)
-            {
-                listaProductosSeleccionados = new List<Productos>();
-                Session["ListaProductosSeleccionados"] = listaProductosSeleccionados;
-            }
-            else
-            {
-                // Si ya existe, obtén la lista de la sesión
-                listaProductosSeleccionados = (List<Productos>)Session["ListaProductosSeleccionados"];
-            }
-
-            // Inicializar el dgvProductos vacío
-            dgvProductos.DataSource = listaProductos;
-            dgvProductos.DataBind();
-
-            dgvProductosSeleccionados.DataSource = listaProductosSeleccionados;
-            dgvProductosSeleccionados.DataBind();
         }
+
 
 
 
@@ -72,6 +78,17 @@ namespace Comercio
 
         protected void btnAgregarSeleccionados_Click(object sender, EventArgs e)
         {
+            // Asegúrate de que la lista de productos seleccionados esté inicializada
+            if (Session["ListaProductosSeleccionados"] == null)
+            {
+                listaProductosSeleccionados = new List<Productos>();
+                Session["ListaProductosSeleccionados"] = listaProductosSeleccionados;
+            }
+            else
+            {
+                listaProductosSeleccionados = (List<Productos>)Session["ListaProductosSeleccionados"];
+            }
+
             List<Productos> productosSeleccionados = new List<Productos>();
 
             foreach (GridViewRow row in dgvProductos.Rows)
@@ -80,12 +97,23 @@ namespace Comercio
 
                 if (chkSeleccionar != null && chkSeleccionar.Checked)
                 {
+                    // Asegúrate de que la lista de productos también esté inicializada
+                    if (listaProductosSeleccionados == null)
+                    {
+                        listaProductosSeleccionados = new List<Productos>();
+                    }
+
                     // Agregar el producto seleccionado a la lista
-                    int idProducto = Convert.ToInt32(DataBinder.Eval(row.DataItem, "IdProductos"));
-                    // Ajusta el índice según la posición de la columna IdProductos en tu GridView
+                    int idProducto = Convert.ToInt32(row.Cells[0].Text); // Ajusta según tu estructura
                     Productos producto = ObtenerProductoPorId(idProducto);
                     productosSeleccionados.Add(producto);
                 }
+            }
+
+            // Asegúrate nuevamente de que la lista de productos seleccionados esté inicializada
+            if (listaProductosSeleccionados == null)
+            {
+                listaProductosSeleccionados = new List<Productos>();
             }
 
             // Agregar los productos seleccionados a la lista general
@@ -98,6 +126,8 @@ namespace Comercio
             dgvProductosSeleccionados.DataSource = listaProductosSeleccionados;
             dgvProductosSeleccionados.DataBind();
         }
+
+
 
         private Productos ObtenerProductoPorId(int idProducto)
         {
