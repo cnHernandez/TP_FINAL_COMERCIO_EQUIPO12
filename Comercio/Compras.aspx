@@ -17,7 +17,7 @@
             </div>
 
             <asp:GridView ID="dataGridViewProductos" runat="server" AutoGenerateColumns="False" CssClass="gridview-style" DataKeyNames="IdProductos"
-                AllowPaging="true" PageSize="10" OnPageIndexChanging="dataGridViewProductos_PageIndexChanging" OnRowDeleting="dataGridViewProductos_RowDeleting">
+                AllowPaging="true" PageSize="5" OnPageIndexChanging="dataGridViewProductos_PageIndexChanging" OnRowDeleting="dataGridViewProductos_RowDeleting" OnRowDataBound="dataGridViewProductos_RowDataBound">
                 <RowStyle CssClass="gridview-row" />
                 <HeaderStyle CssClass="gridview-header" />
                 <Columns>

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using Dominio;
 using System.Linq;
+using System.Web.UI;
 //jovenes promesasas
 
 namespace Comercio
@@ -12,8 +13,8 @@ namespace Comercio
     {
         private List<Productos> productosSeleccionados=new List<Productos>();
 
-        private List<DetalleCompra> detallesCompra=new List<DetalleCompra>(); 
-       
+        private List<DetalleCompra> detallesCompra=new List<DetalleCompra>();
+
         protected void Page_Load(object sender, EventArgs e)
         {
             // Verificar si el usuario es un administrador
@@ -29,7 +30,6 @@ namespace Comercio
                 // Cargar proveedores solo en la carga inicial
                 CargarProveedor();
             }
-            
         }
 
         private void CargarProveedor()
@@ -59,22 +59,45 @@ namespace Comercio
                 dataGridViewProductos.DataBind();
             }
         }
+        private int ObtenerCantidadDesdeSesion(GridViewRow row)
+        {
+            // Obtener el Id del producto desde la GridViewRow
+            int idProducto = Convert.ToInt32(row.Cells[0].Text);
+
+            // Obtener la lista de detalles de compra desde la sesión o devolver 0 si no está presente
+            List<DetalleCompra> detallesCompraEnSesion = Session["detallesCompra"] as List<DetalleCompra>;
+
+            if (detallesCompraEnSesion != null)
+            {
+                // Buscar el detalle correspondiente al producto actual
+                DetalleCompra detalleProducto = detallesCompraEnSesion.FirstOrDefault(detalle => detalle.IdProducto == idProducto);
+
+                if (detalleProducto != null)
+                {
+                    // Devolver la cantidad del detalle encontrado
+                    return detalleProducto.Cantidad;
+                }
+            }
+
+            return 0;
+        }
 
 
         private void BindGridViewData()
         {
             ProductosNegocio negocio = new ProductosNegocio();
             List<Dominio.Productos> listaProductos = negocio.ListarProductos();
-
             dataGridViewProductos.DataSource = listaProductos;
             dataGridViewProductos.DataBind();
         }
+
 
         protected void dataGridViewProductos_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             dataGridViewProductos.PageIndex = e.NewPageIndex;
             BindGridViewData();
         }
+
 
         protected void dataGridViewProductos_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
@@ -212,17 +235,21 @@ namespace Comercio
               
             }
 
-        }
-
-      
+        }    
 
         protected void dataGridViewProductos_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 TextBox txtCantidad = (TextBox)e.Row.FindControl("txtCantidad");
-                txtCantidad.TextChanged += new EventHandler(txtCantidad_TextChanged);
+
+                // Obtener la cantidad desde la sesión o establecerla en 0 si no está presente
+                int cantidadDesdeSesion = ObtenerCantidadDesdeSesion(e.Row);
+
+                // Establecer el valor del TextBox con la cantidad obtenida
+                txtCantidad.Text = cantidadDesdeSesion.ToString();
             }
+
         }
 
         protected void txtCantidad_TextChanged(object sender, EventArgs e)
@@ -233,9 +260,9 @@ namespace Comercio
             if (int.TryParse(txtCantidad.Text, out int cantidad) && cantidad >= 0)
             {
                 CalcularSubtotales(row);
-                CalcularTotalCompra();
-
                 ActualizarProductosSeleccionados(row);
+                CalcularTotalCompra();  // Mover la llamada aquí
+
                 lblMensajeError.Text = "";
                 int cant = productosSeleccionados.Count;
             }
@@ -245,6 +272,7 @@ namespace Comercio
                 lblMensajeError.Text = "La cantidad ingresada no es válida. Por favor, ingrese un número entero no negativo.";
             }
         }
+
 
 
         private void ActualizarProductosSeleccionados(GridViewRow row)
@@ -290,8 +318,6 @@ namespace Comercio
             Session["detallesCompra"] = detalleComprasSession;
 
         }
-
-
 
 
 
@@ -365,30 +391,23 @@ namespace Comercio
                 decimal subtotal = precioCompra * cantidad;
 
                 lblSubtotal.Text = subtotal.ToString();
-                CalcularTotalCompra();
             }
         }
+
+
+
+
         private void CalcularTotalCompra()
         {
             decimal totalCompra = 0;
 
-            foreach (GridViewRow row in dataGridViewProductos.Rows)
+            // Obtener la lista de detalles de compra desde la sesión
+            List<DetalleCompra> detallesCompraSession = Session["detallesCompra"] as List<DetalleCompra>;
+
+            if (detallesCompraSession != null)
             {
-                Label lblSubtotal = (Label)row.FindControl("lblSubtotal");
-
-                if (lblSubtotal != null)
-                {
-                    decimal subtotal;
-
-                    if (decimal.TryParse(lblSubtotal.Text, out subtotal))
-                    {
-                        totalCompra += subtotal;
-                    }
-                    else
-                    {
-                        // Manejo de error: Puedes mostrar un mensaje o tomar otra acción en caso de que haya un problema con el formato.
-                    }
-                }
+                // Calcular el total de compra sumando los subtotales de la lista en sesión
+                totalCompra = detallesCompraSession.Sum(detalle => detalle.Subtotal);
             }
 
             lblTotalCompra.Text = totalCompra.ToString();
