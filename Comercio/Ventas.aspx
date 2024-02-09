@@ -37,12 +37,9 @@
 
         <asp:GridView ID="dgvProductosSeleccionados" runat="server" AutoGenerateColumns="False" CssClass="table table-bordered">
             <Columns>
-                <asp:BoundField DataField="IdProductos" HeaderText="ID" SortExpression="IdProductos" />
-                <asp:BoundField DataField="Nombre" HeaderText="Nombre" SortExpression="Nombre" />
-                <asp:BoundField DataField="PrecioCompra" HeaderText="Precio Compra" SortExpression="PrecioCompra" />
-                <asp:BoundField DataField="PorcentajeGanancia" HeaderText="Porcentaje Ganancia" SortExpression="PorcentajeGanancia" />
-                <asp:BoundField DataField="StockActual" HeaderText="Stock Actual" SortExpression="StockActual" />
-                <asp:BoundField DataField="StockMinimo" HeaderText="Stock Mínimo" SortExpression="StockMinimo" />
+              <asp:BoundField DataField="IdProducto" HeaderText="ID" SortExpression="IdProducto" />
+        
+        <asp:BoundField DataField="PrecioVenta" HeaderText="Precio Venta" SortExpression="PrecioVenta" />
 
 
                 <asp:TemplateField HeaderText="Cantidad">

@@ -12,7 +12,8 @@ namespace Comercio
     {
         // Propiedades públicas para las listas de productos
         public List<Productos> listaProductos { get; set; }
-        public List<Productos> listaProductosSeleccionados { get; set; }
+       
+        public List <DetalleVenta> listaProductosSeleccionados { get; set; }
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -27,30 +28,34 @@ namespace Comercio
 
                 // Inicializar la lista de productos 
                 listaProductos = new List<Productos>();
+                //ListaProductos
+                if (Session["ListaProductos"] == null)
+                {
+                    listaProductos = new List<Productos>();
+                    Session["ListaProductos"] = listaProductos;
+                }
+                else
+                {
+                    // Si ya existe, obtén la lista de la sesión
+                    listaProductos = (List<Productos>)Session["ListaProductos"];
+                }
 
-                // Si la lista de productos seleccionados no está inicializada, inicialízala.
                 if (Session["ListaProductosSeleccionados"] == null)
                 {
-                    listaProductosSeleccionados = new List<Productos>();
+                    listaProductosSeleccionados = new List<DetalleVenta>();
                     Session["ListaProductosSeleccionados"] = listaProductosSeleccionados;
                 }
                 else
                 {
                     // Si ya existe, obtén la lista de la sesión
-                    listaProductosSeleccionados = (List<Productos>)Session["ListaProductosSeleccionados"];
+                    listaProductosSeleccionados = (List<DetalleVenta>)Session["ListaProductosSeleccionados"];
                 }
+
+              
 
                 // Inicializar el dgvProductos solo si la página no está en un postback
                 ProductosNegocio negocio = new ProductosNegocio();
                 string nombreProducto = txtNombre.Text.Trim();
-
-                if (string.IsNullOrEmpty(nombreProducto))
-                {
-                    // Si el nombre del producto está vacío, cargar todos los productos.
-                    listaProductos = negocio.ListarProductos();
-                    dgvProductos.DataSource = listaProductos;
-                    dgvProductos.DataBind();
-                }
 
                 dgvProductosSeleccionados.DataSource = listaProductosSeleccionados;
                 dgvProductosSeleccionados.DataBind();
@@ -113,25 +118,24 @@ namespace Comercio
 
         private bool ProductoYaSeleccionado(int idProducto)
         {
-            return listaProductosSeleccionados.Any(p => p.IdProductos == idProducto);
+            if (listaProductosSeleccionados == null)
+            {
+                listaProductosSeleccionados = new List<DetalleVenta>();
+            }
+
+            return listaProductosSeleccionados.Any(p => p.IdProducto == idProducto);
         }
+
 
 
         protected void btnAgregarSeleccionados_Click(object sender, EventArgs e)
         {
-           
-            // Asegúrate de que la lista de productos seleccionados esté inicializada
-            if (Session["ListaProductosSeleccionados"] == null)
-            {
-                listaProductosSeleccionados = new List<Productos>();
-                Session["ListaProductosSeleccionados"] = listaProductosSeleccionados;
-            }
-            else
-            {
-                listaProductosSeleccionados = (List<Productos>)Session["ListaProductosSeleccionados"];
-            }
+     
 
-            List<Productos> productosSeleccionados = new List<Productos>();
+
+
+            List<DetalleVenta> detallesVentaSession = Session["ListaProductosSeleccionados"] as List<DetalleVenta> ?? new List<DetalleVenta>();
+            List<Productos> productosSeleccionadosSession = Session["ListaProductos"] as List<Productos> ?? new List<Productos>();
 
             foreach (GridViewRow row in dgvProductos.Rows)
             {
@@ -139,22 +143,23 @@ namespace Comercio
 
                 if (chkSeleccionar != null && chkSeleccionar.Checked)
                 {
-                    // Asegúrate de que la lista de productos también esté inicializada
-                    if (listaProductosSeleccionados == null)
-                    {
-                        listaProductosSeleccionados = new List<Productos>();
-                    }
+                    int idProducto = Convert.ToInt32(row.Cells[0].Text);
 
-                    // Agregar el producto seleccionado a la lista
-                    int idProducto = Convert.ToInt32(row.Cells[0].Text); // Ajusta según tu estructura
                     if (!ProductoYaSeleccionado(idProducto))
                     {
-                        // Agrega el producto solo si no está seleccionado previamente
+                        DetalleVenta aux = new DetalleVenta();
                         Productos producto = ObtenerProductoPorId(idProducto);
-                        listaProductosSeleccionados.Add(producto);
+
+                        productosSeleccionadosSession.Add(producto);
+                        aux.IdProducto = idProducto;
+                        aux.PrecioVenta = ((producto.PorcentajeGanancia / 100) + 1) * producto.PrecioCompra;
+                        
+                        aux.Subtotal = 0;
+                        aux.IdVenta = 0;
+                        detallesVentaSession.Add(aux);
+
                         // Limpiar el mensaje de error
                         lblMensajeError.Text = string.Empty;
-
                     }
                     else
                     {
@@ -163,23 +168,19 @@ namespace Comercio
                 }
             }
 
-            // Asegúrate nuevamente de que la lista de productos seleccionados esté inicializada
-            if (listaProductosSeleccionados == null)
-            {
-                listaProductosSeleccionados = new List<Productos>();
-            }
-
-            // Agregar los productos seleccionados a la lista general
-            listaProductosSeleccionados.AddRange(productosSeleccionados);
-
             // Actualizar la sesión con la nueva lista de productos seleccionados
-            Session["ListaProductosSeleccionados"] = listaProductosSeleccionados;
+            Session["ListaProductosSeleccionados"] = detallesVentaSession;
+            Session["ListaProductos"] = productosSeleccionadosSession;
+
+            // Recargar las listas locales
+            listaProductos = productosSeleccionadosSession;
+            listaProductosSeleccionados = detallesVentaSession;//falta actualizar la cantidad en la session . 
 
             // Volver a cargar el dgvProductosSeleccionados con la nueva lista
             dgvProductosSeleccionados.DataSource = listaProductosSeleccionados;
             dgvProductosSeleccionados.DataBind();
-
         }
+
 
         protected void txtCantidad_TextChanged(object sender, EventArgs e)
         {
@@ -191,12 +192,41 @@ namespace Comercio
                 CalcularSubtotales(row);
                 CalcularTotalCompra();
 
-              
+                // Actualizar la lista de detalles de venta con la nueva cantidad
+                int idProducto = Convert.ToInt32(row.Cells[0].Text);
+                ActualizarDetallesVenta(idProducto, cantidad);
             }
             else
             {
-                /* // Manejar el caso en que la entrada no sea válida, por ejemplo, mostrar un mensaje de error.
-                 lblMensajeError.Text = "La cantidad ingresada no es válida. Por favor, ingrese un número entero no negativo.";*/
+                // Manejar el caso en que la entrada no sea válida, por ejemplo, mostrar un mensaje de error.
+                 lblMensajeError.Text = "La cantidad ingresada no es válida. Por favor, ingrese un número entero no negativo.";
+            }
+        }
+        private void ActualizarDetallesVenta(int idProducto, int nuevaCantidad)
+        {
+            if (listaProductosSeleccionados == null)
+            {
+                listaProductosSeleccionados = new List<DetalleVenta>();
+                // También podrías actualizar la sesión si es necesario
+                Session["ListaDetalleVenta"] = listaProductosSeleccionados;
+            }
+            // Verificar si el producto ya está en la lista de detalles
+            var detalleExistente = listaProductosSeleccionados.FirstOrDefault(d => d.IdProducto == idProducto);
+
+            if (detalleExistente != null)
+            {
+                // Actualizar la cantidad si el producto ya está en la lista
+                detalleExistente.Cantidad = nuevaCantidad;
+            }
+            else
+            {
+                // Agregar un nuevo detalle si el producto no está en la lista
+                listaProductosSeleccionados.Add(new DetalleVenta
+                {
+                    IdProducto = idProducto,
+                    Cantidad = nuevaCantidad,
+                    // Otros campos del detalle que necesites inicializar
+                });
             }
         }
 
@@ -208,11 +238,9 @@ namespace Comercio
             if (txtCantidad != null && lblSubtotal != null)
             {
                 // Acceder directamente a las celdas de GridView para obtener los valores
-                decimal precioCompra = Convert.ToDecimal(row.Cells[2].Text); // Cambia el índice según la posición de la columna PrecioCompra en tu GridView
+                decimal PrecioVenta = Convert.ToDecimal(row.Cells[1].Text); // Cambia el índice según la posición de la columna PrecioCompra en tu GridView
                 int cantidad = Convert.ToInt32(txtCantidad.Text);
-                decimal ganancia = Convert.ToDecimal(row.Cells[3].Text);
-                ganancia = (ganancia / 100) + 1;
-                decimal subtotal = (precioCompra*ganancia) * cantidad;
+                decimal subtotal = PrecioVenta * cantidad;
 
                 lblSubtotal.Text = subtotal.ToString();
                 CalcularTotalCompra();
