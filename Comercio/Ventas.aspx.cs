@@ -126,14 +126,30 @@ namespace Comercio
             return listaProductosSeleccionados.Any(p => p.IdProducto == idProducto);
         }
 
+        protected void dgvProductosSeleccionados_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                // Obtén el objeto DetalleVenta asociado a la fila actual
+                DetalleVenta detalle = (DetalleVenta)e.Row.DataItem;
+                // Encuentra el TextBox de cantidad en la fila actual
+                TextBox txtCantidad = (TextBox)e.Row.FindControl("txtCantidad");
+                Label lblSubtotal = (Label)e.Row.FindControl("lblSubtotal");
+
+                // Asigna la cantidad al TextBox
+                if (txtCantidad != null && lblSubtotal != null)
+                {
+                    txtCantidad.Text = detalle.Cantidad.ToString();
+                    lblSubtotal.Text = detalle.Subtotal.ToString();
+                }
+            }
+        }
+
+
 
 
         protected void btnAgregarSeleccionados_Click(object sender, EventArgs e)
         {
-     
-
-
-
             List<DetalleVenta> detallesVentaSession = Session["ListaProductosSeleccionados"] as List<DetalleVenta> ?? new List<DetalleVenta>();
             List<Productos> productosSeleccionadosSession = Session["ListaProductos"] as List<Productos> ?? new List<Productos>();
 
@@ -214,7 +230,19 @@ namespace Comercio
             {
                 // Actualizar la cantidad si el producto ya está en la lista
                 detalleExistente.Cantidad = nuevaCantidad;
+                // Obtener el subtotal actualizado de la etiqueta
+                Label lblSubtotal = (Label)row.FindControl("lblSubtotal");
+                // Obtener el subtotal actualizado de la etiqueta
+                if (lblSubtotal != null)
+                {
+                    detalleExistente.Subtotal = Convert.ToDecimal(lblSubtotal.Text);
+                }
+                else
+                {
+                    
+                }
             }
+            
             else
             {
                 // Agregar un nuevo detalle si el producto no está en la lista
@@ -222,13 +250,15 @@ namespace Comercio
                 {
                     IdProducto = idProducto,
                     Cantidad = nuevaCantidad,
-                   
+                    // Obtener el subtotal de la etiqueta
+                    Subtotal = Convert.ToDecimal(((Label)row.Cells[2].FindControl("lblSubtotal")).Text)
                 });
             }
 
             // Actualizar la sesión con la nueva lista de productos seleccionados
             Session["ListaProductosSeleccionados"] = listaProductosSeleccionados;
         }
+
 
         private void CalcularSubtotales(GridViewRow row)
         {

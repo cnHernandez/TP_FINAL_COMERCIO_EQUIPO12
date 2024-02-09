@@ -35,7 +35,7 @@
         <asp:Label ID="lblMensajeError" runat="server" ForeColor="Red" Text=""></asp:Label>
 
 
-        <asp:GridView ID="dgvProductosSeleccionados" runat="server" AutoGenerateColumns="False" CssClass="table table-bordered">
+        <asp:GridView ID="dgvProductosSeleccionados" runat="server" AutoGenerateColumns="False" CssClass="table table-bordered" OnRowDataBound="dgvProductosSeleccionados_RowDataBound">
             <Columns>
               <asp:BoundField DataField="IdProducto" HeaderText="ID" SortExpression="IdProducto" />
         
