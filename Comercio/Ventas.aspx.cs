@@ -19,7 +19,7 @@ namespace Comercio
         {
             if (!IsPostBack)
             {
-               
+
                 if (!(Session["Usuario"] is Dominio.Usuarios usuario && usuario.TipoUsuario == Dominio.Usuarios.TipoUsuarios.vendedor))
                 {
                     Session.Add("Error", "No eres Vendedor");
@@ -51,7 +51,7 @@ namespace Comercio
                     listaProductosSeleccionados = (List<DetalleVenta>)Session["ListaProductosSeleccionados"];
                 }
 
-              
+
 
                 // Inicializar el dgvProductos solo si la página no está en un postback
                 ProductosNegocio negocio = new ProductosNegocio();
@@ -59,6 +59,12 @@ namespace Comercio
 
                 dgvProductosSeleccionados.DataSource = listaProductosSeleccionados;
                 dgvProductosSeleccionados.DataBind();
+
+                foreach (GridViewRow row in dgvProductosSeleccionados.Rows)
+                {
+                    CalcularYActualizarSubtotal(row);
+                }
+                CalcularTotalVenta();
             }
         }
 
@@ -118,10 +124,7 @@ namespace Comercio
 
         private bool ProductoYaSeleccionado(int idProducto)
         {
-            if (listaProductosSeleccionados == null)
-            {
-                listaProductosSeleccionados = new List<DetalleVenta>();
-            }
+            listaProductosSeleccionados = Session["ListaProductosSeleccionados"] as List<DetalleVenta> ?? new List<DetalleVenta>();
 
             return listaProductosSeleccionados.Any(p => p.IdProducto == idProducto);
         }
@@ -145,7 +148,11 @@ namespace Comercio
             }
         }
 
+       protected void btnFinalizarCompra_Click(object sender, EventArgs e)
+        {
 
+
+        }
 
 
         protected void btnAgregarSeleccionados_Click(object sender, EventArgs e)
@@ -166,13 +173,13 @@ namespace Comercio
                         DetalleVenta aux = new DetalleVenta();
                         Productos producto = ObtenerProductoPorId(idProducto);
 
-                        productosSeleccionadosSession.Add(producto);
                         aux.IdProducto = idProducto;
                         aux.PrecioVenta = ((producto.PorcentajeGanancia / 100) + 1) * producto.PrecioCompra;
                         
                         aux.Subtotal = 0;
                         aux.IdVenta = 0;
                         detallesVentaSession.Add(aux);
+                        productosSeleccionadosSession.Add(producto);
 
                         // Limpiar el mensaje de error
                         lblMensajeError.Text = string.Empty;
@@ -195,7 +202,15 @@ namespace Comercio
             // Volver a cargar el dgvProductosSeleccionados con la nueva lista
             dgvProductosSeleccionados.DataSource = listaProductosSeleccionados;
             dgvProductosSeleccionados.DataBind();
+
+            // Calcular los subtotales después de agregar productos
+            foreach (GridViewRow row in dgvProductosSeleccionados.Rows)
+            {
+                CalcularYActualizarSubtotal(row);
+            }
+            CalcularTotalVenta();
         }
+    
 
 
         protected void txtCantidad_TextChanged(object sender, EventArgs e)
@@ -205,8 +220,8 @@ namespace Comercio
 
             if (int.TryParse(txtCantidad.Text, out int cantidad) && cantidad >= 0)
             {
-                CalcularSubtotales(row);
-                CalcularTotalCompra();
+                CalcularYActualizarSubtotal(row);
+                CalcularTotalVenta();
 
                 // Actualizar la lista de detalles de venta con la nueva cantidad
                 int idProducto = Convert.ToInt32(row.Cells[0].Text);
@@ -216,6 +231,17 @@ namespace Comercio
             {
                 // Manejar el caso en que la entrada no sea válida, por ejemplo, mostrar un mensaje de error.
                  lblMensajeError.Text = "La cantidad ingresada no es válida. Por favor, ingrese un número entero no negativo.";
+            }
+        }
+
+        private void CalcularYActualizarSubtotal(GridViewRow row)
+        {
+            decimal subtotal = CalcularSubtotal(row);
+            Label lblSubtotal = (Label)row.FindControl("lblSubtotal");
+
+            if (lblSubtotal != null)
+            {
+                lblSubtotal.Text = subtotal.ToString();
             }
         }
         private void ActualizarDetallesVenta(int idProducto, int nuevaCantidad)
@@ -231,16 +257,7 @@ namespace Comercio
                 // Actualizar la cantidad si el producto ya está en la lista
                 detalleExistente.Cantidad = nuevaCantidad;
                 // Obtener el subtotal actualizado de la etiqueta
-                Label lblSubtotal = (Label)row.FindControl("lblSubtotal");
-                // Obtener el subtotal actualizado de la etiqueta
-                if (lblSubtotal != null)
-                {
-                    detalleExistente.Subtotal = Convert.ToDecimal(lblSubtotal.Text);
-                }
-                else
-                {
-                    
-                }
+               
             }
             
             else
@@ -250,15 +267,24 @@ namespace Comercio
                 {
                     IdProducto = idProducto,
                     Cantidad = nuevaCantidad,
-                    // Obtener el subtotal de la etiqueta
-                    Subtotal = Convert.ToDecimal(((Label)row.Cells[2].FindControl("lblSubtotal")).Text)
+                   
                 });
             }
 
             // Actualizar la sesión con la nueva lista de productos seleccionados
             Session["ListaProductosSeleccionados"] = listaProductosSeleccionados;
         }
-
+        private decimal CalcularSubtotal(GridViewRow row)
+        {
+            TextBox txtCantidad = (TextBox)row.FindControl("txtCantidad");
+            if (txtCantidad != null)
+            {
+                decimal PrecioVenta = Convert.ToDecimal(row.Cells[1].Text);
+                int cantidad = Convert.ToInt32(txtCantidad.Text);
+                return PrecioVenta * cantidad;
+            }
+            return 0;
+        }
 
         private void CalcularSubtotales(GridViewRow row)
         {
@@ -273,11 +299,11 @@ namespace Comercio
                 decimal subtotal = PrecioVenta * cantidad;
 
                 lblSubtotal.Text = subtotal.ToString();
-                CalcularTotalCompra();
+                CalcularTotalVenta();
             }
         }
 
-        private void CalcularTotalCompra()
+        private void CalcularTotalVenta()
         {
             decimal totalVenta = 0;
 
@@ -307,5 +333,10 @@ namespace Comercio
 
 
         }
+
+
+
+
+
     }
 }
