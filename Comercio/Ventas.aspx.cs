@@ -204,12 +204,9 @@ namespace Comercio
         }
         private void ActualizarDetallesVenta(int idProducto, int nuevaCantidad)
         {
-            if (listaProductosSeleccionados == null)
-            {
-                listaProductosSeleccionados = new List<DetalleVenta>();
-                // También podrías actualizar la sesión si es necesario
-                Session["ListaDetalleVenta"] = listaProductosSeleccionados;
-            }
+            // Obtener la lista desde la sesión o inicializarla si aún no existe
+            listaProductosSeleccionados = Session["ListaProductosSeleccionados"] as List<DetalleVenta> ?? new List<DetalleVenta>();
+
             // Verificar si el producto ya está en la lista de detalles
             var detalleExistente = listaProductosSeleccionados.FirstOrDefault(d => d.IdProducto == idProducto);
 
@@ -225,9 +222,12 @@ namespace Comercio
                 {
                     IdProducto = idProducto,
                     Cantidad = nuevaCantidad,
-                    // Otros campos del detalle que necesites inicializar
+                   
                 });
             }
+
+            // Actualizar la sesión con la nueva lista de productos seleccionados
+            Session["ListaProductosSeleccionados"] = listaProductosSeleccionados;
         }
 
         private void CalcularSubtotales(GridViewRow row)
