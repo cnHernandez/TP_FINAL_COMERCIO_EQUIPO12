@@ -164,7 +164,7 @@ namespace Comercio
             ComprasNegocio compra = new ComprasNegocio();
             ProductosNegocio productos = new ProductosNegocio();
             long idCompra;
-            // agrego a la tabla compra 
+            // agrego a la tabla compra  
 
 
 
@@ -180,6 +180,7 @@ namespace Comercio
 
                 // Insertar en la tabla DetalleCompra
                 InsertarDetalleCompra((int)idCompra, detalleComprasSession);
+
                 foreach (DetalleCompra  detalle in detalleComprasSession)
                 {
                     

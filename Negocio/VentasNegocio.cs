@@ -7,7 +7,7 @@ using Dominio;
 
 namespace Negocio
 {
-    class VentasNegocio
+     public class VentasNegocio
     {
         public List<Ventas> ListarVentas(string id = "")
         {
@@ -58,7 +58,7 @@ namespace Negocio
 
                     Datos.setearParametros("@ClienteID", nuevo.IdCliente);
                     Datos.setearParametros("@FechaVenta", nuevo.FechaVenta);
-                    Datos.setearParametros("@TotalVendido", nuevo.TotalVenta);
+                    Datos.setearParametros("@TotalVenta", nuevo.TotalVenta);
                     Datos.setearParametros("@Estado", 0);
 
                     long idVenta = Convert.ToInt64(Datos.ejecutarScalar());
@@ -125,7 +125,32 @@ namespace Negocio
             }
         }
 
+        public long AgregarVentas(Ventas nuevo)
+        {
+            try
+            {
+                using (AccesoDatos Datos = new AccesoDatos())
+                {
+                    Datos.SetearQuery("insert into Ventas (ClienteID,FechaVenta,TotalVenta,Estado) values (@clienteID,@fechaVenta,@totalVenta,@estado); SELECT SCOPE_IDENTITY();");
 
+                    Datos.setearParametros("@clienteId", nuevo.IdCliente);
+                    Datos.setearParametros("@fechaCompra", nuevo.FechaVenta);
+                    Datos.setearParametros("@totalCompra", nuevo.TotalVenta);
+                    Datos.setearParametros("@estado", 0);
+
+                    long idCompra = Convert.ToInt64(Datos.ejecutarScalar());
+
+
+                    nuevo.IdVenta = (int)idCompra;
+
+                    return idCompra;
+                }
+            }
+            catch (Exception Ex)
+            {
+                throw Ex;
+            }
+        }
 
 
 

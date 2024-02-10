@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
+
 namespace Comercio
 {
     public partial class Venta : System.Web.UI.Page
@@ -150,8 +151,75 @@ namespace Comercio
 
        protected void btnFinalizarCompra_Click(object sender, EventArgs e)
         {
+            List<Productos> productosEnSession = Session["ListaProductos"] as List<Productos>;
+            List<DetalleVenta> detalleVentaEnSession = Session["ListaProductosSeleccionados"] as List<DetalleVenta>;
+
+            VentasNegocio negocio = new VentasNegocio();
+            DetalleVentaNegocio ventaNegocio = new DetalleVentaNegocio();
+            ProductosNegocio productosNegocio = new ProductosNegocio();
+            long idVenta;
+            try
+            {
+                if (productosEnSession.Count > 0)
+                {
+                    //insertar venta
+                    Dominio.Ventas nuevaVenta = new Ventas();
+                    //hacer lo que escribi de el cliente
+                    nuevaVenta.IdCliente = 1;
+                    nuevaVenta.FechaVenta = DateTime.Now;
+                    nuevaVenta.Estado = true;
+                    nuevaVenta.TotalVenta = getTotalVenta();
+                    idVenta = negocio.AgregarVenta(nuevaVenta);
+                    //insertar detalle
+                    insertarDetalleVenta((int)idVenta, detalleVentaEnSession);
+
+                    //modifico stock
+
+                    foreach(DetalleVenta detalle in detalleVentaEnSession)
+                    {
+                        productosNegocio.ModificarStockVenta(detalle.IdProducto, detalle.Cantidad);
+                    }
+
+                    CalcularTotalVenta();
+                    //lo dejo para cuando hagamos el resumen
+                    //Response.Redirect("ResumenVenta.aspx");
 
 
+                }
+
+                //limpiamos las listas 
+                Session["ListaProductos"] = null;
+                Session["ListaProductosSeleccionados"] = null;
+
+             
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+                
+
+        }
+
+        public decimal getTotalVenta()
+        {
+            decimal totalVenta;
+            totalVenta = Convert.ToDecimal(lblTotalVenta.Text);
+            return totalVenta; 
+        }
+
+        private void insertarDetalleVenta(int idVenta , List<DetalleVenta> detalleVentas)
+        {
+            DetalleVentaNegocio negocio = new DetalleVentaNegocio();
+            foreach (DetalleVenta detalles in detalleVentas)
+            {
+                Productos nuevo = ObtenerProductoPorId(detalles.IdProducto);
+                detalles.IdVenta = idVenta;
+
+                negocio.insertarDetalleVenta(detalles);
+            }
         }
 
 
@@ -334,8 +402,7 @@ namespace Comercio
 
         }
 
-
-
+     
 
 
     }
