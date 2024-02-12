@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace Comercio
 {
+
     public partial class Cliente : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
@@ -24,6 +25,7 @@ namespace Comercio
 
         protected void btnBuscarCliente_Click(object sender, EventArgs e)
         {
+           
             string dniCliente = txtDniCliente.Text.Trim();
 
             if (!string.IsNullOrEmpty(dniCliente))
@@ -34,7 +36,7 @@ namespace Comercio
 
                 if (negocioClientes.buscarCliente(dniCliente))
                 {
-                    
+                    Session["DniCliente"] = dniCliente;
                     Response.Redirect("Ventas.aspx");
                 }
                 else

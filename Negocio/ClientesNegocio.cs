@@ -56,7 +56,7 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                string query = "SELECT Estado FROM Clientes WHERE ClienteID LIKE @filtro OR Dni LIKE @filtro";
+                string query = "SELECT Estado FROM Clientes WHERE  Dni LIKE @filtro";
                 datos.SetearQuery(query);
                 datos.setearParametros("@filtro", filtro);
                 datos.EjecutarLectura();

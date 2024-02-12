@@ -18,6 +18,11 @@
             <h2>Buscar Producto</h2>
         </a>
 
+        <a href="AgregarClientes.aspx" class="custom-card">
+            <i class="fas fa-list-ul fa-3x"></i>
+            <h2>Registrar Cliente</h2>
+        </a>
+
         
     </div>
 

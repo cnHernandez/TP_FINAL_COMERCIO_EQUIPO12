@@ -20,6 +20,11 @@ namespace Comercio
         {
             if (!IsPostBack)
             {
+                if (Session["NumeroCliente"] != null)
+                {
+                    string DniCliente = Session["DniCliente"].ToString();
+                   
+                }
 
                 if (!(Session["Usuario"] is Dominio.Usuarios usuario && usuario.TipoUsuario == Dominio.Usuarios.TipoUsuarios.vendedor))
                 {
