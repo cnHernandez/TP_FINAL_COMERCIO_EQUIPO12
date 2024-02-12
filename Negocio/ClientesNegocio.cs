@@ -51,7 +51,40 @@ namespace Negocio
                 datos.CerrarConexion();
             }
         }
-            public bool buscarCliente (string filtro)
+        public int? buscarNroCliente(string dni)
+        {
+            int nroCliente;
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                string query = "SELECT ClienteID FROM Clientes WHERE  Dni LIKE @dni";
+                datos.SetearQuery(query);
+                datos.setearParametros("@dni", dni);
+                datos.EjecutarLectura();
+
+                if (datos.lector.Read())
+                {
+                    nroCliente = (int)datos.lector["ClienteID"];
+                    return nroCliente;
+                }
+                else
+                {
+                    
+                    return null;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+        public bool buscarCliente (string filtro)
             {
             AccesoDatos datos = new AccesoDatos();
             try

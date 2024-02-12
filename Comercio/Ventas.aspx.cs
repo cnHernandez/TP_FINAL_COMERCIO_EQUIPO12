@@ -162,15 +162,17 @@ namespace Comercio
             VentasNegocio negocio = new VentasNegocio();
             DetalleVentaNegocio ventaNegocio = new DetalleVentaNegocio();
             ProductosNegocio productosNegocio = new ProductosNegocio();
+            ClientesNegocio clientesNegocio = new ClientesNegocio();
             long idVenta;
             try
             {
                 if (productosEnSession.Count > 0)
                 {
+                    string dnicliente = Session["DniCliente"].ToString();
                     //insertar venta
-                    Dominio.Ventas nuevaVenta = new Ventas();
-                    //hacer lo que escribi de el cliente
-                    nuevaVenta.IdCliente = 1;
+                    Ventas nuevaVenta = new Ventas();
+                   
+                    nuevaVenta.IdCliente = (int)clientesNegocio.buscarNroCliente(dnicliente);
                     nuevaVenta.FechaVenta = DateTime.Now;
                     nuevaVenta.Estado = true;
                     nuevaVenta.TotalVenta = getTotalVenta();
@@ -208,7 +210,22 @@ namespace Comercio
                 
 
         }
+      /*  public int? buscarIdCliente( string dni)
+        {
+            ClientesNegocio negocio = new ClientesNegocio();
+           
+            try
+            {
+                return negocio.buscarNroCliente(dni);
+               
 
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }*/
         public decimal getTotalVenta()
         {
             decimal totalVenta;
