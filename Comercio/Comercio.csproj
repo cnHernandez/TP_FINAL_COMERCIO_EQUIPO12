@@ -154,6 +154,7 @@
     <Content Include="AgregarProveedor.aspx" />
     <Content Include="AgregarUsuario.aspx" />
     <Content Include="BuscarProductos.aspx" />
+    <Content Include="Cliente.aspx" />
     <Content Include="Clientes.aspx" />
     <Content Include="Compras.aspx" />
     <Content Include="default.aspx" />
@@ -219,6 +220,13 @@
     </Compile>
     <Compile Include="BuscarProductos.aspx.designer.cs">
       <DependentUpon>BuscarProductos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Cliente.aspx.cs">
+      <DependentUpon>Cliente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Cliente.aspx.designer.cs">
+      <DependentUpon>Cliente.aspx</DependentUpon>
     </Compile>
     <Compile Include="Clientes.aspx.cs">
       <DependentUpon>Clientes.aspx</DependentUpon>

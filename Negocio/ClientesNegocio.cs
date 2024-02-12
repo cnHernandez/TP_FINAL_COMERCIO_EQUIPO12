@@ -51,7 +51,36 @@ namespace Negocio
                 datos.CerrarConexion();
             }
         }
+            public bool buscarCliente (string filtro)
+            {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                string query = "SELECT Estado FROM Clientes WHERE ClienteID LIKE @filtro OR Dni LIKE @filtro";
+                datos.SetearQuery(query);
+                datos.setearParametros("@filtro", filtro);
+                datos.EjecutarLectura();
 
+                if (datos.lector.Read() == true)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false; 
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex ;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
         public List<Clientes> ObtenerClientesPorNombreApellido(string filtro)
         {
             List<Clientes> listaClientes = new List<Clientes>();

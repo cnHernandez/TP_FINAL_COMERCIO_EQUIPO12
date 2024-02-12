@@ -181,15 +181,16 @@ namespace Comercio
                     }
 
                     CalcularTotalVenta();
-                    //lo dejo para cuando hagamos el resumen
-                    //Response.Redirect("ResumenVenta.aspx");
+                    //Hacer el resumen de la venta . 
+                    //limpiamos las listas 
+                    Session["ListaProductos"] = null;
+                    Session["ListaProductosSeleccionados"] = null;
+                    Response.Redirect("DefaultVendedor.aspx");
 
 
                 }
 
-                //limpiamos las listas 
-                Session["ListaProductos"] = null;
-                Session["ListaProductosSeleccionados"] = null;
+                
 
              
 
@@ -217,6 +218,7 @@ namespace Comercio
             {
                 Productos nuevo = ObtenerProductoPorId(detalles.IdProducto);
                 detalles.IdVenta = idVenta;
+                
 
                 negocio.insertarDetalleVenta(detalles);
             }
@@ -285,6 +287,7 @@ namespace Comercio
         {
             TextBox txtCantidad = (TextBox)sender;
             GridViewRow row = (GridViewRow)txtCantidad.NamingContainer;
+            Label lblSubtotal = (Label)row.FindControl("lblSubtotal");
 
             if (int.TryParse(txtCantidad.Text, out int cantidad) && cantidad >= 0)
             {
@@ -293,7 +296,8 @@ namespace Comercio
 
                 // Actualizar la lista de detalles de venta con la nueva cantidad
                 int idProducto = Convert.ToInt32(row.Cells[0].Text);
-                ActualizarDetallesVenta(idProducto, cantidad);
+                decimal subtotal = decimal.TryParse(lblSubtotal.Text, out decimal result) ? result : 0;
+                ActualizarDetallesVenta(idProducto, cantidad, subtotal);
             }
             else
             {
@@ -312,7 +316,7 @@ namespace Comercio
                 lblSubtotal.Text = subtotal.ToString();
             }
         }
-        private void ActualizarDetallesVenta(int idProducto, int nuevaCantidad)
+        private void ActualizarDetallesVenta(int idProducto, int nuevaCantidad, decimal subtotal)
         {
             // Obtener la lista desde la sesión o inicializarla si aún no existe
             listaProductosSeleccionados = Session["ListaProductosSeleccionados"] as List<DetalleVenta> ?? new List<DetalleVenta>();
@@ -325,6 +329,8 @@ namespace Comercio
                 // Actualizar la cantidad si el producto ya está en la lista
                 detalleExistente.Cantidad = nuevaCantidad;
                 // Obtener el subtotal actualizado de la etiqueta
+                detalleExistente.Subtotal = subtotal;
+
                
             }
             
@@ -335,8 +341,9 @@ namespace Comercio
                 {
                     IdProducto = idProducto,
                     Cantidad = nuevaCantidad,
-                   
-                });
+                    Subtotal = subtotal
+
+                }); ;
             }
 
             // Actualizar la sesión con la nueva lista de productos seleccionados
