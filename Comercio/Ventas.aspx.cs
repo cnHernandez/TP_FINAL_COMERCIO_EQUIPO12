@@ -154,7 +154,7 @@ namespace Comercio
             }
         }
 
-       protected void btnFinalizarCompra_Click(object sender, EventArgs e)
+        protected void btnFinalizarCompra_Click(object sender, EventArgs e)
         {
             List<Productos> productosEnSession = Session["ListaProductos"] as List<Productos>;
             List<DetalleVenta> detalleVentaEnSession = Session["ListaProductosSeleccionados"] as List<DetalleVenta>;
@@ -171,7 +171,6 @@ namespace Comercio
                     string dnicliente = Session["DniCliente"].ToString();
                     //insertar venta
                     Ventas nuevaVenta = new Ventas();
-                   
                     nuevaVenta.IdCliente = (int)clientesNegocio.buscarNroCliente(dnicliente);
                     nuevaVenta.FechaVenta = DateTime.Now;
                     nuevaVenta.Estado = true;
@@ -182,7 +181,7 @@ namespace Comercio
 
                     //modifico stock
 
-                    foreach(DetalleVenta detalle in detalleVentaEnSession)
+                    foreach (DetalleVenta detalle in detalleVentaEnSession)
                     {
                         productosNegocio.ModificarStockVenta(detalle.IdProducto, detalle.Cantidad);
                     }
@@ -190,42 +189,33 @@ namespace Comercio
                     CalcularTotalVenta();
                     //Hacer el resumen de la venta . 
                     //limpiamos las listas 
+                    Response.Redirect("ResumenVenta.aspx"); // Redirección sin abortar el subproceso
                     Session["ListaProductos"] = null;
                     Session["ListaProductosSeleccionados"] = null;
-                    Response.Redirect("DefaultVendedor.aspx");
-
-
                 }
-
-                
-
-             
 
             }
             catch (Exception ex)
             {
-
-                throw ex;
             }
-                
-
         }
-      /*  public int? buscarIdCliente( string dni)
-        {
-            ClientesNegocio negocio = new ClientesNegocio();
-           
-            try
-            {
-                return negocio.buscarNroCliente(dni);
-               
 
-            }
-            catch (Exception)
-            {
+        /*  public int? buscarIdCliente( string dni)
+          {
+              ClientesNegocio negocio = new ClientesNegocio();
 
-                throw;
-            }
-        }*/
+              try
+              {
+                  return negocio.buscarNroCliente(dni);
+
+
+              }
+              catch (Exception)
+              {
+
+                  throw;
+              }
+          }*/
         public decimal getTotalVenta()
         {
             decimal totalVenta;
@@ -424,10 +414,6 @@ namespace Comercio
             }
 
             lblTotalVenta.Text = totalVenta.ToString();
-
-
-
-
 
         }
 

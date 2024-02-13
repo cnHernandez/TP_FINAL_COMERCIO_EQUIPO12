@@ -233,8 +233,35 @@ namespace Negocio
             }
         }
 
+            public string ObtenerNombreClientePorId(int idCliente)
+            {
+                AccesoDatos datos = new AccesoDatos();
 
+                try
+                {
+                    datos.SetearQuery("SELECT Nombre FROM Clientes WHERE ClienteID = @IdCliente AND Estado = 0");
+                    datos.setearParametros("@IdCliente", idCliente);
+                    datos.EjecutarLectura();
 
+                    if (datos.lector.Read())
+                    {
+                        return datos.lector["Nombre"].ToString();
+                    }
+                    else
+                    {
+                        // Si el cliente no se encuentra o está marcado como inactivo, retornar un valor por defecto o lanzar una excepción según el caso.
+                        return "Cliente Desconocido";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    datos.CerrarConexion();
+                }
+            }
 
     }
 }

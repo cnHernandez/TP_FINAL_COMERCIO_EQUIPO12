@@ -120,7 +120,10 @@ select * from Productos
 select * from Tipos
 select * from Clientes
 select * from Usuarios
-select * from Marcas
+select * from Ventas
+select * from DetalleVenta
+
+
 
 INSERT INTO Tipos(Nombre)VALUES('Gaseosas')
 INSERT INTO Tipos(Nombre)VALUES('Snacks')

@@ -167,6 +167,7 @@
     <Content Include="Login.aspx" />
     <Content Include="ListarMarcas.aspx" />
     <Content Include="ResumenCompra.aspx" />
+    <Content Include="ResumenVenta.aspx" />
     <Content Include="Styles.css" />
     <Content Include="Web.config" />
     <Content Include="Ventas.aspx" />
@@ -313,6 +314,13 @@
     </Compile>
     <Compile Include="ResumenCompra.aspx.designer.cs">
       <DependentUpon>ResumenCompra.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ResumenVenta.aspx.cs">
+      <DependentUpon>ResumenVenta.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ResumenVenta.aspx.designer.cs">
+      <DependentUpon>ResumenVenta.aspx</DependentUpon>
     </Compile>
     <Compile Include="Web.Master.cs">
       <DependentUpon>Web.Master</DependentUpon>

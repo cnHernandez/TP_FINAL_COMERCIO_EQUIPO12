@@ -11,43 +11,43 @@ namespace Comercio
 {
 
 
-    public partial class Cliente
+    public partial class ResumenVenta
     {
 
         /// <summary>
-        /// Control txtDniCliente.
+        /// Control lblNombreCliente.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDniCliente;
+        protected global::System.Web.UI.WebControls.Label lblNombreCliente;
 
         /// <summary>
-        /// Control btnBuscarCliente.
+        /// Control gvDetallesVenta.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnBuscarCliente;
+        protected global::System.Web.UI.WebControls.GridView gvDetallesVenta;
 
         /// <summary>
-        /// Control lblMensajeClienteNoEncontrado.
+        /// Control btnDescargarFactura.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMensajeClienteNoEncontrado;
+        protected global::System.Web.UI.WebControls.Button btnDescargarFactura;
 
         /// <summary>
-        /// Control btnVolverAVenta.
+        /// Control btnIrAPaginaPrincipal.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnVolverAVenta;
+        protected global::System.Web.UI.WebControls.Button btnIrAPaginaPrincipal;
     }
 }

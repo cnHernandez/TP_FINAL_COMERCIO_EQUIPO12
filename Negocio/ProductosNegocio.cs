@@ -136,6 +136,36 @@ namespace Negocio
             }
         }
 
+        public string ObtenerNombreProductoPorId(int idProducto)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                string query = "SELECT Nombre FROM Productos WHERE ProductoID = @idProducto";
+                datos.SetearQuery(query);
+                datos.setearParametros("@idProducto", idProducto);
+                datos.EjecutarLectura();
+
+                if (datos.lector.Read())
+                {
+                    return (string)datos.lector["Nombre"];
+                }
+                else
+                {
+                    // Manejo del caso en que no se encuentra el producto
+                    return string.Empty;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
 
 
         public List<Productos> ListarProductosPorProveedor(int Id)

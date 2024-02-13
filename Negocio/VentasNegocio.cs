@@ -48,6 +48,36 @@ namespace Negocio
             }
         }
 
+        public string ObtenerNombreClientePorIdVenta(int idVenta)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                string query = "SELECT c.Nombre FROM Clientes c INNER JOIN Ventas v ON c.ClienteID = v.ClienteID WHERE v.VentaID = @idVenta";
+                datos.SetearQuery(query);
+                datos.setearParametros("@idVenta", idVenta);
+                datos.EjecutarLectura();
+
+                if (datos.lector.Read())
+                {
+                    return datos.lector["Nombre"].ToString();
+                }
+                else
+                {
+                    return "Nombre no encontrado";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
         public long AgregarVenta(Ventas nuevo)
         {
             try
