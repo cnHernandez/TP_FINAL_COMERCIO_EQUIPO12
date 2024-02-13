@@ -125,6 +125,10 @@ namespace Comercio
 
                 dgvProductos.DataSource = listaProductos;
                 dgvProductos.DataBind();
+                btnAgregarSeleccionados.Visible=true;
+                btnFinalizarCompra.Visible=true;
+                lblTotalVenta.Visible=true;
+                lblTotal.Visible=true;
             }
         }
 

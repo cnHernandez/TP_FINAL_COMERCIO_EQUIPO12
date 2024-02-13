@@ -17,6 +17,8 @@ namespace Comercio
             if (!IsPostBack)
             {
                 MostrarDetallesVenta();
+                Session["ListaProductos"] = null;
+                Session["ListaProductosSeleccionados"] = null;
             }
         }
 

@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="login-container" style="display: flex; align-items: center; max-width: 600px; margin-left: 320px; margin-top: 10px;">
+    <div class="login-container" style="display: flex; align-items: center; max-width: 600px; margin-left: 750px; margin-top: 10px;">
         <label for="txtNombre" style="margin-right: 10px; margin-bottom: 0;">Nombre del Producto: </label>
         <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control" Style="margin-right: 10px; margin-bottom: 0;"></asp:TextBox>
         <asp:Button runat="server" ID="btnBuscarProducto" Text="Buscar Producto" CssClass="btn btn-primary" Style="margin-top: 10px;" OnClick="btnBuscarProducto_Click" />
@@ -26,26 +26,20 @@
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>
-
-
         </asp:GridView>
+
+
         <div class="login-container">
-            <asp:Button runat="server" ID="btnAgregarSeleccionados" Text="Agregar Seleccionados" CssClass="btn btn-primary" OnClick="btnAgregarSeleccionados_Click" />
+            <asp:Button runat="server" ID="btnAgregarSeleccionados" Text="Agregar Seleccionados" CssClass="btn btn-primary" OnClick="btnAgregarSeleccionados_Click" Visible="false"/>
         </div>
-
         <asp:Label ID="lblMensajeError" runat="server" ForeColor="Red" Text=""></asp:Label>
-
 
         <asp:GridView ID="dgvProductosSeleccionados" runat="server" AutoGenerateColumns="False" CssClass="table table-bordered" OnRowDataBound="dgvProductosSeleccionados_RowDataBound">
             <Columns>
                 <asp:BoundField DataField="IdProducto" HeaderText="ID" SortExpression="IdProducto" />
-
                 <asp:BoundField DataField="PrecioVenta" HeaderText="Precio Venta" SortExpression="PrecioVenta" />
-
-
                 <asp:TemplateField HeaderText="Cantidad">
                     <ItemTemplate>
-
                         <asp:TextBox ID="txtCantidad" runat="server" CssClass="form-control" Text="0" AutoPostBack="true" OnTextChanged="txtCantidad_TextChanged" Enabled="true" />
                     </ItemTemplate>
                 </asp:TemplateField>
@@ -56,21 +50,16 @@
                         <asp:Label ID="lblSubtotal" runat="server"></asp:Label>
                     </ItemTemplate>
                 </asp:TemplateField>
-
-
-
             </Columns>
         </asp:GridView>
-
-
-
     </div>
+
     <div class="login-container">
-        <asp:Button ID="btnFinalizarCompra" runat="server" Text="Finalizar Compra" OnClick="btnFinalizarCompra_Click" CssClass="btn btn-primary" />
+        <asp:Button ID="btnFinalizarCompra" runat="server" Text="Finalizar Compra" OnClick="btnFinalizarCompra_Click" CssClass="btn btn-primary" Visible="false" />
     </div>
-    <div class="purchase-info-container" style="margin-bottom: 150px;">
-        <label class="total-label">Total de la Venta:</label>
-        <asp:Label ID="lblTotalVenta" runat="server" CssClass="font-weight-bold total-value"></asp:Label>
+    <div class="purchase-info-container" style="margin-bottom: 150px; margin-left:100px">
+        <asp:label class="total-label" runat="server" visible="false" id="lblTotal">Total de la Venta:</asp:label>
+        <asp:Label ID="lblTotalVenta" visible="false" runat="server" CssClass="font-weight-bold total-value"></asp:Label>
     </div>
 
 </asp:Content>
