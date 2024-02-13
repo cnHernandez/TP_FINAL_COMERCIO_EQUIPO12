@@ -74,6 +74,37 @@ namespace Comercio
             }
         }
 
+        protected void dgvProductosSeleccionados_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "Eliminar")
+            {
+                int index = Convert.ToInt32(e.CommandArgument); // Obtener el índice de la fila
+                List<DetalleVenta> listaDetallesVenta = (List<DetalleVenta>)Session["listaProductosSeleccionados"];
+
+                if (listaDetallesVenta != null && index >= 0 && index < listaDetallesVenta.Count)
+                {
+                    listaDetallesVenta.RemoveAt(index); // Eliminar el detalle de venta de la lista en sesión
+                    Session["listaProductosSeleccionados"] = listaDetallesVenta; // Actualizar la lista en sesión
+                    ActualizarGridView(); // Método para actualizar el GridView
+                }
+            }
+        }
+
+        private void ActualizarGridView()
+        {
+            List<DetalleVenta> listaDetallesVenta = (List<DetalleVenta>)Session["listaProductosSeleccionados"];
+
+            // Verifica si hay detalles de venta disponibles
+            if (listaDetallesVenta != null)
+            {
+                dgvProductosSeleccionados.DataSource = listaDetallesVenta; // Enlaza los detalles de venta al GridView
+                dgvProductosSeleccionados.DataBind(); // Actualiza visualmente el GridView
+                CalcularTotalVenta();
+            }
+        }
+
+
+
         private Productos ObtenerProductoPorId(int idProducto)
         {
             if (listaProductos == null)
