@@ -71,7 +71,7 @@ namespace Comercio
                     CalcularYActualizarSubtotal(row);
                 }
                 CalcularTotalVenta();
-            }
+            }          
         }
 
         protected void dgvProductosSeleccionados_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -237,6 +237,15 @@ namespace Comercio
                     CalcularTotalVenta();
                     //Hacer el resumen de la venta . 
                     //limpiamos las listas 
+                    for (int i = detalleVentaEnSession.Count - 1; i >= 0; i--)
+                    {
+                        if (detalleVentaEnSession[i].Cantidad == 0)
+                        {
+                            detalleVentaEnSession.RemoveAt(i);
+                        }
+                    }
+
+                    Session["ListaProductosSeleccionados"] = detalleVentaEnSession;
                     Response.Redirect("ResumenVenta.aspx"); // Redirección sin abortar el subproceso
                     Session["ListaProductos"] = null;
                     Session["ListaProductosSeleccionados"] = null;
@@ -358,6 +367,7 @@ namespace Comercio
                 int idProducto = Convert.ToInt32(row.Cells[0].Text);
                 decimal subtotal = decimal.TryParse(lblSubtotal.Text, out decimal result) ? result : 0;
                 ActualizarDetallesVenta(idProducto, cantidad, subtotal);
+
             }
             else
             {
@@ -383,15 +393,14 @@ namespace Comercio
 
             // Verificar si el producto ya está en la lista de detalles
             var detalleExistente = listaProductosSeleccionados.FirstOrDefault(d => d.IdProducto == idProducto);
-
+           
             if (detalleExistente != null)
             {
                 // Actualizar la cantidad si el producto ya está en la lista
                 detalleExistente.Cantidad = nuevaCantidad;
                 // Obtener el subtotal actualizado de la etiqueta
                 detalleExistente.Subtotal = subtotal;
-
-               
+            
             }
             
             else
@@ -462,11 +471,7 @@ namespace Comercio
             }
 
             lblTotalVenta.Text = totalVenta.ToString();
-
         }
-
-     
-
-
+  
     }
 }

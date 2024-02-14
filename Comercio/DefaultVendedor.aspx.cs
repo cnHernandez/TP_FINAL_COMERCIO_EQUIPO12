@@ -11,6 +11,8 @@ namespace Comercio
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            Session["ListaProductos"] = null;
+            Session["ListaProductosSeleccionados"] = null;
             if (!(Session["Usuario"] is Dominio.Usuarios usuario && usuario.TipoUsuario == Dominio.Usuarios.TipoUsuarios.vendedor))
             {
                 Session.Add("Error", "No eres Vendedor");

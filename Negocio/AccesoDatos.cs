@@ -24,8 +24,11 @@ namespace Negocio
 
         public AccesoDatos()
         {
-            //LAPTOP-OTJVIM30\\SQLEXPRESS
-            Conexion = new SqlConnection("server=LAPTOP-OTJVIM30\\SQLEXPRESS; database=Base_Comercio_2024; integrated security=true;");
+            //PAQUETE DE NUGET: update-package microsoft.codedom.providers.dotnetcompilerplatform -r
+            //GERA ACCESO
+            //Conexion = new SqlConnection("server=LAPTOP-OTJVIM30\\SQLEXPRESS; database=Base_Comercio_2024; integrated security=true;");
+            //LUCA ACCESO
+            Conexion = new SqlConnection("server=DESKTOP-LRPR1H0; database=Base_Comercio_2024; integrated security=true;");
             Comando = new SqlCommand();
         }
 

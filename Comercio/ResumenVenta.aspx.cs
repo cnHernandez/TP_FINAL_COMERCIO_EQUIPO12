@@ -16,9 +16,7 @@ namespace Comercio
         {
             if (!IsPostBack)
             {
-                MostrarDetallesVenta();
-                Session["ListaProductos"] = null;
-                Session["ListaProductosSeleccionados"] = null;
+                MostrarDetallesVenta();               
             }
         }
 
@@ -53,6 +51,7 @@ namespace Comercio
                 // Enlaza los detalles de venta al GridView
                 gvDetallesVenta.DataSource = detallesVenta;
                 gvDetallesVenta.DataBind();
+
             }
         }
 
@@ -60,6 +59,8 @@ namespace Comercio
         protected void btnIrAPaginaPrincipal_Click(object sender, EventArgs e)
         {
             // Redirigir a la página principal (cambia la URL según tu estructura de proyecto)
+            Session["ListaProductos"] = null;
+            Session["ListaProductosSeleccionados"] = null;
             Response.Redirect("~/DefaultVendedor.aspx");
         }
 
@@ -103,13 +104,14 @@ namespace Comercio
                 decimal total = detallesVenta.Sum(detalle => detalle.Subtotal);
 
                 string contenidoHTML = GenerarContenidoFactura(detallesVenta, total);
-
+                Session["ListaProductos"] = null;
+                Session["ListaProductosSeleccionados"] = null;
                 // Configuración de la respuesta HTTP para descargar el archivo
                 Response.Clear();
                 Response.ContentType = "application/force-download";
                 Response.AddHeader("content-disposition", "attachment; filename=Factura.html");
                 Response.Write(contenidoHTML);
-                Response.End();
+                Response.End();              
             }
         }
 
