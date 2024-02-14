@@ -11,7 +11,7 @@ namespace Comercio
 {
     public partial class Venta : System.Web.UI.Page
     {
-        // Propiedades públicas para las listas de productos
+        
         public List<Productos> listaProductos { get; set; }
        
         public List <DetalleVenta> listaProductosSeleccionados { get; set; }
@@ -201,6 +201,19 @@ namespace Comercio
             long idVenta;
             try
             {
+
+                foreach (DetalleVenta detalle in detalleVentaEnSession)
+                {
+                    Productos producto = ObtenerProductoPorId(detalle.IdProducto);
+
+                    if (producto.StockActual < detalle.Cantidad)
+                    {
+                        lblMensajeError.Text = "La cantidad seleccionada en uno o más productos excede el stock disponible.";
+                        return; // Detener el proceso si hay un problema
+                    }
+                }
+
+
                 if (productosEnSession.Count > 0)
                 {
                     string dnicliente = Session["DniCliente"].ToString();

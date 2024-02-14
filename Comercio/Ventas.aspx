@@ -4,12 +4,12 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <div class="login-container" style="display: flex; align-items: center; max-width: 600px; margin-left: 750px; margin-top: 10px;">
-        <label for="txtNombre" style="margin-right: 10px; margin-bottom: 0;">Nombre del Producto: </label>
-        <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control" Style="margin-right: 10px; margin-bottom: 0;"></asp:TextBox>
-        <asp:Button runat="server" ID="btnBuscarProducto" Text="Buscar Producto" CssClass="btn btn-primary" Style="margin-top: 10px;" OnClick="btnBuscarProducto_Click" />
+    <div class="login-container" style="display: flex; flex-direction: column; align-items: center; max-width: 600px; margin: 0 auto; margin-top: 10px;">
+    <label for="txtNombre" style="margin-bottom: 10px;">Nombre del Producto: </label>
+    <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control" Style="margin-bottom: 10px;"></asp:TextBox>
+    <asp:Button runat="server" ID="btnBuscarProducto" Text="Buscar Producto" CssClass="btn btn-primary" OnClick="btnBuscarProducto_Click" />
+</div>
 
-    </div>
 
     <div class="container" style="margin-top: 30px; margin-bottom: 100px;">
         <asp:GridView ID="dgvProductos" runat="server" AutoGenerateColumns="False" CssClass="table table-bordered"
