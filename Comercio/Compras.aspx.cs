@@ -1,19 +1,18 @@
-﻿using Negocio;
+﻿using Dominio;
+using Negocio;
 using System;
 using System.Collections.Generic;
-using System.Web.UI.WebControls;
-using Dominio;
 using System.Linq;
-using System.Web.UI;
+using System.Web.UI.WebControls;
 //jovenes promesasas
 
 namespace Comercio
 {
     public partial class Compras : System.Web.UI.Page
     {
-        private List<Productos> productosSeleccionados=new List<Productos>();
+        private List<Productos> productosSeleccionados = new List<Productos>();
 
-        private List<DetalleCompra> detallesCompra=new List<DetalleCompra>();
+        private List<DetalleCompra> detallesCompra = new List<DetalleCompra>();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -29,6 +28,7 @@ namespace Comercio
             {
                 // Cargar proveedores solo en la carga inicial
                 CargarProveedor();
+                CargarCategorias();
             }
         }
 
@@ -43,12 +43,24 @@ namespace Comercio
             ddlProveedor.Items.Insert(0, new ListItem("-- Seleccione un proveedor --", ""));
         }
 
-        private void BindGridViewDataProveedor(int idProveedor)
+        private void CargarCategorias()
+        {
+            CategoriasNegocio categorias = new CategoriasNegocio();
+            ddlCat.DataSource = categorias.ListarCategorias();
+            ddlCat.DataTextField = "Nombre";
+            ddlCat.DataValueField = "IdCategoria";
+            ddlCat.DataBind();
+
+            ddlCat.Items.Insert(0, new ListItem("-- Seleccione una categoria --", ""));
+            ddlCat.Items.Insert(1, new ListItem("-- Todos --", "0"));
+        }
+
+        private void BindGridViewDataProveedor(int idProveedor, int idCat)
         {
             if (idProveedor > 0)
             {
                 ProductosNegocio negocio = new ProductosNegocio();
-                List<Dominio.Productos> listaProductos = negocio.ListarProductosPorProveedor(idProveedor);
+                List<Dominio.Productos> listaProductos = negocio.ListarProductosPorProveedor(idProveedor, idCat);
 
                 dataGridViewProductos.DataSource = listaProductos;
                 dataGridViewProductos.DataBind();
@@ -113,13 +125,24 @@ namespace Comercio
             {
                 int idProveedor = Convert.ToInt32(ddlProveedor.SelectedValue);
 
-                // Llama al método para cargar los productos asociados al proveedor
-                BindGridViewDataProveedor(idProveedor);
+                // Verifica si se ha seleccionado una categoría antes de obtener su valor
+                if (!string.IsNullOrEmpty(ddlCat.SelectedValue))
+                {
+                    int idCat = Convert.ToInt32(ddlCat.SelectedValue);
+
+                    // Llama al método para cargar los productos asociados al proveedor y la categoría seleccionados
+                    BindGridViewDataProveedor(idProveedor, idCat);
+                }
+                else
+                {
+
+                }
 
                 // Deshabilita el DropDownList después de seleccionar un proveedor
                 ddlProveedor.Enabled = false;
             }
         }
+
 
 
         private int ProveedorSeleccionado()
@@ -148,7 +171,7 @@ namespace Comercio
             decimal totalCompra = 0;
 
             totalCompra = Convert.ToDecimal(lblTotalCompra.Text);
-                
+
 
             return totalCompra;
         }
@@ -171,7 +194,7 @@ namespace Comercio
             if (productosSeleccionadosSession.Count > 0)
             {
                 Dominio.Compras nuevaCompra = new Dominio.Compras();
-                nuevaCompra.IdProveedor = ProveedorSeleccionado();               
+                nuevaCompra.IdProveedor = ProveedorSeleccionado();
                 nuevaCompra.FechaCompra = DateTime.Now;
                 nuevaCompra.Estado = true;
                 nuevaCompra.TotalCompra = TotalDeCompra();
@@ -181,14 +204,13 @@ namespace Comercio
                 // Insertar en la tabla DetalleCompra
                 InsertarDetalleCompra((int)idCompra, detalleComprasSession);
 
-                foreach (DetalleCompra  detalle in detalleComprasSession)
+                foreach (DetalleCompra detalle in detalleComprasSession)
                 {
-                    
+
                     productos.ModificarStock(detalle.IdProducto, detalle.Cantidad);
                 }
 
 
-               
 
                 // Actualizar las etiquetas de subtotal y total de compra después de la inserción
                 CalcularTotalCompra();
@@ -198,10 +220,10 @@ namespace Comercio
                 //Response.Redirect(Request.RawUrl);
                 Response.Redirect("ResumenCompra.aspx");
             }
-                // Limpiar la lista de productos seleccionados en la sesión
-                Session["productosSeleccionados"] = null;
-                // Limpiar la lista de detalles de compra en la sesión
-                Session["detallesCompra"] = null;
+            // Limpiar la lista de productos seleccionados en la sesión
+            Session["productosSeleccionados"] = null;
+            // Limpiar la lista de detalles de compra en la sesión
+            Session["detallesCompra"] = null;
             // No es necesario repetir Response.Redirect aquí
         }
 
@@ -223,20 +245,20 @@ namespace Comercio
             DetalleCompraNegocio negocio = new DetalleCompraNegocio();
             foreach (DetalleCompra detalles in detallesCompra)
             {
-            Productos producto = ObtenerProductoPorId(detalles.IdProducto);
-                
+                Productos producto = ObtenerProductoPorId(detalles.IdProducto);
+
                 detalles.IdCompra = idCompra;
                 detalles.NombreProveedor = NombreProveedorSeleccionado();
                 detalles.NombreProducto = producto.Nombre;
-               
-               
+
+
 
                 negocio.InsertarDetalleCompra(detalles);
 
-              
+
             }
 
-        }    
+        }
 
         protected void dataGridViewProductos_RowDataBound(object sender, GridViewRowEventArgs e)
         {
@@ -331,7 +353,7 @@ namespace Comercio
             // a partir de los valores en la GridViewRow.
             // Puedes acceder a los valores mediante los índices de las celdas.
             int idProducto = Convert.ToInt32(row.Cells[0].Text);  // Ajusta el índice según la posición de la columna IdProducto en tu GridView
-                                                                  
+
             string nombre = row.Cells[1].Text;
             decimal precioCompra = Convert.ToDecimal(row.Cells[2].Text);
             decimal porcentaje = Convert.ToDecimal(row.Cells[3].Text);
@@ -340,7 +362,7 @@ namespace Comercio
             int idMarca = Convert.ToInt32(row.Cells[6].Text);
             int idCategoria = Convert.ToInt32(row.Cells[7].Text);
             int IdProveedor = Convert.ToInt32(row.Cells[8].Text);
-          
+
 
 
             // Crea el objeto Productos y devuelve
@@ -369,7 +391,7 @@ namespace Comercio
             decimal precioCompra = Convert.ToDecimal(row.Cells[2].Text);
             decimal subtotal = Convert.ToDecimal(((Label)row.FindControl("lblSubtotal")).Text);
 
-            
+
             detalleCompra.IdProducto = idProducto;
             detalleCompra.Cantidad = cantidad;
             detalleCompra.PrecioCompra = precioCompra;
@@ -395,9 +417,6 @@ namespace Comercio
             }
         }
 
-
-
-
         private void CalcularTotalCompra()
         {
             decimal totalCompra = 0;
@@ -413,6 +432,22 @@ namespace Comercio
 
             lblTotalCompra.Text = totalCompra.ToString();
             UpdatePanel1.Update();
+        }
+        protected void ddlCat_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlCat.SelectedValue == "0") // "0" es el valor asignado a la opción "Todos"
+            {
+                // Lógica para cargar todos los productos
+                BindGridViewData();
+            }
+            else if (!string.IsNullOrEmpty(ddlProveedor.SelectedValue) && !string.IsNullOrEmpty(ddlCat.SelectedValue))
+            {
+                int idProveedor = Convert.ToInt32(ddlProveedor.SelectedValue);
+                int idCat = Convert.ToInt32(ddlCat.SelectedValue);
+
+                // Llama al método para cargar los productos asociados al proveedor y la categoría seleccionados
+                BindGridViewDataProveedor(idProveedor, idCat);
+            }
         }
 
     }

@@ -168,19 +168,32 @@ namespace Negocio
         }
 
 
-        public List<Productos> ListarProductosPorProveedor(int Id)
+        public List<Productos> ListarProductosPorProveedor(int IdProveedor, int? IdCategoria = null)
         {
             List<Productos> Lista = new List<Productos>();
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                // Usar un marcador de posición para el parámetro
-                string query = "select p.ProductoID, p.Nombre, p.PrecioCompra, p.PorcentajeGanancia, p.StockActual, p.StockMinimo, p.UrlImagen, p.TipoID, p.MarcaID, p.ProveedorID, p.Estado from Productos p where Estado = 0 and p.ProveedorID = @Id";
+                // Construir la consulta base
+                string query = "SELECT p.ProductoID, p.Nombre, p.PrecioCompra, p.PorcentajeGanancia, p.StockActual, p.StockMinimo, p.UrlImagen, p.TipoID, p.MarcaID, p.ProveedorID, p.Estado " +
+                               "FROM Productos p " +
+                               "WHERE p.Estado = 0 AND p.ProveedorID = @IdProveedor";
+
+                // Si se proporciona una categoría, agregarla a la consulta
+                if (IdCategoria.HasValue)
+                {
+                    query += " AND p.TipoID = @IdCategoria";
+                }
+
                 datos.SetearQuery(query);
 
-                // Establecer el valor del parámetro
-                datos.setearParametros("@Id", Id);
+                // Establecer los valores de los parámetros
+                datos.setearParametros("@IdProveedor", IdProveedor);
+                if (IdCategoria.HasValue)
+                {
+                    datos.setearParametros("@IdCategoria", IdCategoria.Value);
+                }
 
                 datos.EjecutarLectura();
 

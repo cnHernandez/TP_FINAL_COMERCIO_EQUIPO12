@@ -64,7 +64,8 @@ CREATE TABLE Productos (
 	Estado BIT NOT NULL
 );
 GO
-
+ALTER TABLE Productos
+ALTER COLUMN UrlImagen NVARCHAR(MAX);
 -- Crear tabla de Compras
 CREATE TABLE Compras (
     CompraID INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
@@ -116,7 +117,7 @@ CREATE TABLE Usuarios (
 );
 GO
 
-select * from Productos
+delete from Tipos
 select * from Tipos
 select * from Clientes
 select * from Usuarios
@@ -124,6 +125,8 @@ select * from Ventas
 select * from DetalleVenta
 
 
+
+SELECT p.ProductoID, p.Nombre, p.PrecioCompra, p.PorcentajeGanancia, p.StockActual, p.StockMinimo, p.UrlImagen, p.TipoID, p.MarcaID, p.ProveedorID, p.Estado FROM Productos p WHERE p.Estado = 0 AND p.ProveedorID = 1 AND p.TipoID = 2
 
 INSERT INTO Tipos(Nombre)VALUES('Gaseosas')
 INSERT INTO Tipos(Nombre)VALUES('Snacks')

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Web.Master" AutoEventWireup="true" CodeBehind="Compras.aspx.cs" Inherits="Comercio.Compras"  %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Web.Master" AutoEventWireup="true" CodeBehind="Compras.aspx.cs" Inherits="Comercio.Compras" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -16,6 +16,12 @@
                 <div id="ProveedorHelp" class="form-text">Seleccione el proveedor del producto</div>
             </div>
 
+            <div class="mb-3" style="max-width: 300px; margin-left: 190px;">
+                <label for="ddlCat" class="form-label">Categorias</label>
+                <asp:DropDownList runat="server" ID="ddlCat" CssClass="form-control" DataTextField="Categorias" DataValueField="IdCategoria" OnSelectedIndexChanged="ddlCat_SelectedIndexChanged" AutoPostBack="True" />
+                <div id="CatHelp" class="form-text">Seleccione la categoria del producto</div>
+            </div>
+
             <asp:GridView ID="dataGridViewProductos" runat="server" AutoGenerateColumns="False" CssClass="gridview-style" DataKeyNames="IdProductos"
                 AllowPaging="true" PageSize="5" OnPageIndexChanging="dataGridViewProductos_PageIndexChanging" OnRowDeleting="dataGridViewProductos_RowDeleting" OnRowDataBound="dataGridViewProductos_RowDataBound">
                 <RowStyle CssClass="gridview-row" />
@@ -30,16 +36,21 @@
                     <asp:BoundField DataField="IdMarca" HeaderText="ID Marca" />
                     <asp:BoundField DataField="IdCategoria" HeaderText="ID Categoria" />
                     <asp:BoundField DataField="IdProveedor" HeaderText="ID Proveedor" />
-
+                    <asp:TemplateField HeaderText="Imagen">
+                        <ItemTemplate>
+                            <asp:Image ID="Image" runat="server" ImageUrl='<%# Eval("UrlImagen") %>' Height="50" Width="50" />
+                        </ItemTemplate>
+                    </asp:TemplateField>
                     <asp:TemplateField HeaderText="Cantidad a Comprar">
                         <ItemTemplate>
-                            <asp:TextBox ID="txtCantidad" runat="server" CssClass="form-control" Text="0" AutoPostBack="true" OnTextChanged="txtCantidad_TextChanged" />
+                            <asp:TextBox ID="txtCantidad" runat="server" CssClass="form-control" Text="0" AutoPostBack="true" OnTextChanged="txtCantidad_TextChanged" Width="200px" Height="40px" />
                         </ItemTemplate>
                     </asp:TemplateField>
 
-                    <asp:TemplateField HeaderText="Subtotal">
+
+                    <asp:TemplateField HeaderText="Subtotal" Visible="false">
                         <ItemTemplate>
-                            <asp:Label ID="lblSubtotal" runat="server"></asp:Label>
+                            <asp:Label ID="lblSubtotal" runat="server" Visible="false"></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>
@@ -48,8 +59,8 @@
 
             <div class="login-container">
                 <asp:Button ID="btnFinalizarCompra" runat="server" Text="Finalizar Compra" OnClick="btnFinalizarCompra_Click" CssClass="btn btn-primary" AutoPostBack="false" />
-            </div> 
-            <div class="purchase-info-container" style="margin-bottom: 150px;">
+            </div>
+            <div class="purchase-info-container" style="margin-bottom: 150px; margin-left: 0px">
                 <label class="total-label">Total de la Compra:</label>
                 <asp:Label ID="lblTotalCompra" runat="server" CssClass="font-weight-bold total-value"></asp:Label>
             </div>
