@@ -227,6 +227,52 @@ namespace Negocio
             }
         }
 
+        public List<Productos> TodoslosProductosPorProveedor(int Id)
+        {
+            List<Productos> Lista = new List<Productos>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                // Usar un marcador de posición para el parámetro
+                string query = "select p.ProductoID, p.Nombre, p.PrecioCompra, p.PorcentajeGanancia, p.StockActual, p.StockMinimo, p.UrlImagen, p.TipoID, p.MarcaID, p.ProveedorID, p.Estado from Productos p where Estado = 0 and p.ProveedorID = @Id";
+                datos.SetearQuery(query);
+
+                // Establecer el valor del parámetro
+                datos.setearParametros("@Id", Id);
+
+                datos.EjecutarLectura();
+
+                while (datos.lector.Read())
+                {
+                    Productos aux = new Productos();
+
+                    aux.IdProductos = (int)datos.lector["ProductoID"];
+                    aux.Nombre = (string)datos.lector["Nombre"];
+                    aux.PrecioCompra = (decimal)datos.lector["PrecioCompra"];
+                    aux.PorcentajeGanancia = (decimal)datos.lector["PorcentajeGanancia"];
+                    aux.StockActual = (int)datos.lector["StockActual"];
+                    aux.StockMinimo = (int)datos.lector["StockMinimo"];
+                    aux.UrlImagen = (string)datos.lector["UrlImagen"];
+                    aux.IdCategoria = (int)datos.lector["TipoID"];
+                    aux.IdMarca = (int)datos.lector["MarcaID"];
+                    aux.IdProveedor = (int)datos.lector["ProveedorID"];
+                    aux.Estado = (bool)datos.lector["Estado"];
+                    Lista.Add(aux);
+                }
+
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
         public long AgregarProducto(Productos nuevo)
         {
             try

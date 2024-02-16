@@ -5,10 +5,10 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
     <div class="login-container" style="display: flex; flex-direction: column; align-items: center; max-width: 600px; margin: 0 auto; margin-top: 10px;">
-    <label for="txtNombre" style="margin-bottom: 10px;">Nombre del Producto: </label>
-    <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control" Style="margin-bottom: 10px;"></asp:TextBox>
-    <asp:Button runat="server" ID="btnBuscarProducto" Text="Buscar Producto" CssClass="btn btn-primary" OnClick="btnBuscarProducto_Click" />
-</div>
+        <label for="txtNombre" style="margin-bottom: 10px;">Nombre del Producto: </label>
+        <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control" Style="margin-bottom: 10px;"></asp:TextBox>
+        <asp:Button runat="server" ID="btnBuscarProducto" Text="Buscar Producto" CssClass="btn btn-primary" OnClick="btnBuscarProducto_Click" />
+    </div>
 
 
     <div class="container" style="margin-top: 30px; margin-bottom: 100px;">
@@ -61,10 +61,10 @@
 
     <div class="login-container">
         <asp:Button ID="btnFinalizarCompra" runat="server" Text="Finalizar Compra" OnClick="btnFinalizarCompra_Click" CssClass="btn btn-primary" Visible="false" />
-    </div>
-    <div class="purchase-info-container" style="margin-bottom: 150px; margin-left: 100px">
-        <asp:Label class="total-label" runat="server" Visible="false" ID="lblTotal">Total de la Venta:</asp:Label>
-        <asp:Label ID="lblTotalVenta" Visible="false" runat="server" CssClass="font-weight-bold total-value"></asp:Label>
+        <div class="total-container">
+            <asp:Label class="total-label" runat="server" Visible="false" ID="lblTotal">Total de la Venta:</asp:Label>
+            <asp:Label ID="lblTotalVenta" Visible="false" runat="server" CssClass="font-weight-bold total-value"></asp:Label>
+        </div>
     </div>
 
 </asp:Content>

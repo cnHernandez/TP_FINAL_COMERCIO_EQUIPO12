@@ -502,35 +502,36 @@
         margin-bottom: 10px;
     }
 
-.purchase-info-container {
+.total-container {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin-top: 20px;
+    justify-content: center;
+    margin-top: 0px;
+    width: 100%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom:150px;
 }
 
 .total-label {
     font-size: 20px;
-    margin-left: 880px;
     color: #28a745;
     font-weight: bold;
-    text-align: center;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .total-value {
     font-size: 20px;
     color: firebrick;
-    margin-left: auto; /* Alinea el total-value a la derecha */
-    opacity: 0; /* Inicialmente oculta el total-value */
-    animation: fadeIn 0.5s ease-in-out forwards; /* Agrega una animación de entrada */
-    flex-grow: 1; /* Permite que el total-value se expanda y se pegue a la derecha */
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out forwards;
 }
 
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(-10px); /* Desplaza hacia arriba durante la entrada */
+        transform: translateY(-10px);
     }
 
     to {
@@ -539,11 +540,10 @@
     }
 }
 
-.purchase-info-container:hover .total-value {
-    color: #6c757d; /* Cambia el color al pasar el ratón */
-    cursor: pointer; /* Cambia el cursor al pasar el ratón */
+.total-container:hover .total-value {
+    color: #6c757d;
+    cursor: pointer;
 }
-
 
 /* Estilos generales */
 .body-custom {

@@ -59,11 +59,20 @@ namespace Comercio
         {
             if (idProveedor > 0)
             {
-                ProductosNegocio negocio = new ProductosNegocio();
-                List<Dominio.Productos> listaProductos = negocio.ListarProductosPorProveedor(idProveedor, idCat);
+                if (ddlCat.SelectedValue == "0") // "0" es el valor asignado a la opción "Todos"
+                {
+                    // Lógica para cargar todos los productos
+                    BindGridViewData();
+                }
+                else
+                {
+                    // Llama al método para cargar los productos asociados al proveedor y la categoría seleccionados
+                    ProductosNegocio negocio = new ProductosNegocio();
+                    List<Dominio.Productos> listaProductos = negocio.ListarProductosPorProveedor(idProveedor, idCat);
 
-                dataGridViewProductos.DataSource = listaProductos;
-                dataGridViewProductos.DataBind();
+                    dataGridViewProductos.DataSource = listaProductos;
+                    dataGridViewProductos.DataBind();
+                }
             }
             else
             {
@@ -71,6 +80,7 @@ namespace Comercio
                 dataGridViewProductos.DataBind();
             }
         }
+
         private int ObtenerCantidadDesdeSesion(GridViewRow row)
         {
             // Obtener el Id del producto desde la GridViewRow
@@ -98,7 +108,8 @@ namespace Comercio
         private void BindGridViewData()
         {
             ProductosNegocio negocio = new ProductosNegocio();
-            List<Dominio.Productos> listaProductos = negocio.ListarProductos();
+            int idProveedor = Convert.ToInt32(ddlProveedor.SelectedValue);
+            List<Dominio.Productos> listaProductos = negocio.TodoslosProductosPorProveedor(idProveedor);
             dataGridViewProductos.DataSource = listaProductos;
             dataGridViewProductos.DataBind();
         }
@@ -435,12 +446,8 @@ namespace Comercio
         }
         protected void ddlCat_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (ddlCat.SelectedValue == "0") // "0" es el valor asignado a la opción "Todos"
-            {
-                // Lógica para cargar todos los productos
-                BindGridViewData();
-            }
-            else if (!string.IsNullOrEmpty(ddlProveedor.SelectedValue) && !string.IsNullOrEmpty(ddlCat.SelectedValue))
+            
+            if (!string.IsNullOrEmpty(ddlProveedor.SelectedValue) && !string.IsNullOrEmpty(ddlCat.SelectedValue))
             {
                 int idProveedor = Convert.ToInt32(ddlProveedor.SelectedValue);
                 int idCat = Convert.ToInt32(ddlCat.SelectedValue);

@@ -21,7 +21,6 @@
                 <asp:DropDownList runat="server" ID="ddlCat" CssClass="form-control" DataTextField="Categorias" DataValueField="IdCategoria" OnSelectedIndexChanged="ddlCat_SelectedIndexChanged" AutoPostBack="True" />
                 <div id="CatHelp" class="form-text">Seleccione la categoria del producto</div>
             </div>
-
             <asp:GridView ID="dataGridViewProductos" runat="server" AutoGenerateColumns="False" CssClass="gridview-style" DataKeyNames="IdProductos"
                 AllowPaging="true" PageSize="5" OnPageIndexChanging="dataGridViewProductos_PageIndexChanging" OnRowDeleting="dataGridViewProductos_RowDeleting" OnRowDataBound="dataGridViewProductos_RowDataBound">
                 <RowStyle CssClass="gridview-row" />
@@ -57,13 +56,15 @@
             </asp:GridView>
             <asp:Label ID="lblMensajeError" runat="server" Text="" ForeColor="Red"></asp:Label>
 
-            <div class="login-container">
+            <div class="login-container" style="margin-bottom: 150px">
                 <asp:Button ID="btnFinalizarCompra" runat="server" Text="Finalizar Compra" OnClick="btnFinalizarCompra_Click" CssClass="btn btn-primary" AutoPostBack="false" />
+                <div class="total-container">
+                    <label class="total-label">Total de la Compra:</label>
+                    <asp:Label ID="lblTotalCompra" runat="server" CssClass="font-weight-bold total-value"></asp:Label>
+                </div>
             </div>
-            <div class="purchase-info-container" style="margin-bottom: 150px; margin-left: 0px">
-                <label class="total-label">Total de la Compra:</label>
-                <asp:Label ID="lblTotalCompra" runat="server" CssClass="font-weight-bold total-value"></asp:Label>
-            </div>
+
+
 
 
         </ContentTemplate>
