@@ -16,7 +16,7 @@ namespace Negocio
 
             try
             {
-                datos.SetearQuery("select p.ProductoID, p.Nombre, p.PrecioCompra, p.PorcentajeGanancia, p.StockActual, p.StockMinimo, p.UrlImagen, p.TipoID, p.MarcaID, p.ProveedorID, p.Estado from Productos p where Estado = 0");
+                datos.SetearQuery("SELECT  p.ProductoID, p.Nombre, p.PrecioCompra, p.PorcentajeGanancia,p.StockActual, p.StockMinimo, p.UrlImagen, p.TipoID, p.MarcaID, pxp.ProveedorID, p.EstadoFROM Productos p INNER JOINProducto_x_Proveedor pxp ON p.ProductoID = pxp.ProductoID WHERE p.Estado = 0");
                 if (!string.IsNullOrEmpty(id))
                 {
                     datos.Comando.CommandText += " and ProductoID = @Id";
@@ -38,7 +38,7 @@ namespace Negocio
                     aux.UrlImagen = (string)datos.lector["UrlImagen"];
                     aux.IdCategoria = (int)datos.lector["TipoID"];
                     aux.IdMarca = (int)datos.lector["MarcaID"];
-                    aux.IdProveedor = (int)datos.lector["ProveedorID"];
+                    aux.ListaIdProveedores = new List<int> { (int)datos.lector["ProveedorID"] }; 
                     aux.Estado = (bool)datos.lector["Estado"];
                     Lista.Add(aux);
                 }
@@ -77,7 +77,7 @@ namespace Negocio
                     aux.UrlImagen = (string)datos.lector["UrlImagen"];
                     aux.IdCategoria = (int)datos.lector["TipoID"];
                     aux.IdMarca = (int)datos.lector["MarcaID"];
-                    aux.IdProveedor = (int)datos.lector["ProveedorID"];
+                   // aux.IdProveedor = (int)datos.lector["ProveedorID"];
                     aux.Estado = (bool)datos.lector["Estado"];
                 }
                     return aux;
@@ -118,7 +118,7 @@ namespace Negocio
                     aux.UrlImagen = (string)datos.lector["UrlImagen"];
                     aux.IdCategoria = (int)datos.lector["TipoID"];
                     aux.IdMarca = (int)datos.lector["MarcaID"];
-                    aux.IdProveedor = (int)datos.lector["ProveedorID"];
+                    //aux.IdProveedor = (int)datos.lector["ProveedorID"];
                     aux.Estado = (bool)datos.lector["Estado"];
 
                     listaProductos.Add(aux);
@@ -210,7 +210,7 @@ namespace Negocio
                     aux.UrlImagen = (string)datos.lector["UrlImagen"];
                     aux.IdCategoria = (int)datos.lector["TipoID"];
                     aux.IdMarca = (int)datos.lector["MarcaID"];
-                    aux.IdProveedor = (int)datos.lector["ProveedorID"];
+                    //aux.IdProveedor = (int)datos.lector["ProveedorID"];
                     aux.Estado = (bool)datos.lector["Estado"];
                     Lista.Add(aux);
                 }
@@ -256,7 +256,7 @@ namespace Negocio
                     aux.UrlImagen = (string)datos.lector["UrlImagen"];
                     aux.IdCategoria = (int)datos.lector["TipoID"];
                     aux.IdMarca = (int)datos.lector["MarcaID"];
-                    aux.IdProveedor = (int)datos.lector["ProveedorID"];
+                    //aux.IdProveedor = (int)datos.lector["ProveedorID"];
                     aux.Estado = (bool)datos.lector["Estado"];
                     Lista.Add(aux);
                 }

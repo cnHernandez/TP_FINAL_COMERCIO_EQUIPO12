@@ -6,7 +6,7 @@ CREATE DATABASE Base_Comercio_2024;
 GO
 
 -- Usar la base de datos
-USE Base_Comercio_2024;
+USE Base_Comercio_2024v_1_1;
 GO
 
 -- Crear tabla de Clientes
@@ -25,9 +25,9 @@ GO
 CREATE TABLE Proveedores (
     ProveedorID INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
     Nombre NVARCHAR(100) NOT NULL,
-    Rubro NVARCHAR(50) NOT NULL, -- sacar
-    estado bit not null,
-	UrlImagen NVARCHAR(1000) NULL,
+    Rubro NVARCHAR(50) NOT NULL, 
+    Estado bit not null,
+	UrlImagen NVARCHAR(1000) NULL
 );
 GO
 
@@ -53,13 +53,11 @@ GO
 CREATE TABLE Productos (
     ProductoID INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
     Nombre NVARCHAR(100) NOT NULL,
-    PrecioCompra DECIMAL(10, 2) NOT NULL,
     PorcentajeGanancia DECIMAL(5, 2) NOT NULL,
     StockActual INT NOT NULL,
     StockMinimo INT NOT NULL,
     MarcaID INT FOREIGN KEY REFERENCES Marcas(MarcaID) NOT NULL,
     TipoID INT FOREIGN KEY REFERENCES Tipos(TipoID) NOT NULL,
-	ProveedorID INT FOREIGN KEY REFERENCES Proveedores (ProveedorID) NOT NULL,
 	UrlImagen NVARCHAR(1000) NULL,
 	Estado BIT NOT NULL
 );
@@ -116,7 +114,18 @@ CREATE TABLE Usuarios (
     TipoUsuario INT NOT NULL -- Cambiado a INT
 );
 GO
+--Para los distintos proveedores.
 
+CREATE TABLE Producto_x_Proveedor(
+	ProductoID INT NOT NULL,
+	ProveedorID INT NOT NULL,
+	PrecioCompra decimal (10,2) NOT NULL, 
+	PRIMARY KEY (ProductoID,ProveedorID ),
+	FOREIGN KEY (ProveedorID ) REFERENCES Proveedores(ProveedorID),
+	FOREIGN KEY (ProductoID) REFERENCES Productos (ProductoID)
+
+);
+GO
 delete from Tipos
 select * from Tipos
 select * from Clientes

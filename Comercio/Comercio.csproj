@@ -166,6 +166,7 @@
     <Content Include="ListarUsuarios.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="ListarMarcas.aspx" />
+    <Content Include="Negocio\CambiarPrecio.aspx" />
     <Content Include="ResumenCompra.aspx" />
     <Content Include="ResumenVenta.aspx" />
     <Content Include="Styles.css" />
@@ -305,6 +306,13 @@
     </Compile>
     <Compile Include="ListarMarcas.aspx.designer.cs">
       <DependentUpon>ListarMarcas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Negocio\CambiarPrecio.aspx.cs">
+      <DependentUpon>CambiarPrecio.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Negocio\CambiarPrecio.aspx.designer.cs">
+      <DependentUpon>CambiarPrecio.aspx</DependentUpon>
     </Compile>
     <Compile Include="Negocio\CompraNegocio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

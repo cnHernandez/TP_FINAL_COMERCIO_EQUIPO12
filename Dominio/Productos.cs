@@ -10,15 +10,17 @@ namespace Dominio
     {
         public int IdProductos {  get; set; }
         public string Nombre {  get; set; }
-        public decimal PrecioCompra {  get; set; }
+       
         public decimal PorcentajeGanancia { get; set; }
         public int StockActual {  get; set; }
         public int StockMinimo { get; set; }
         public int IdMarca { get; set; }
         public int IdCategoria { get; set; }
-        public int IdProveedor {  get; set; }
+        public List<int> ListaIdProveedores { get; set; }
         public bool Estado {  get; set; }
         public string UrlImagen { get; set; }
+
+        public List<Producto_x_Proveedor> ProductosXProveedores { get; set; }
 
     }
 }
