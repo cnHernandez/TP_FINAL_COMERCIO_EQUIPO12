@@ -6,7 +6,7 @@ CREATE DATABASE Base_Comercio_2024;
 GO
 
 -- Usar la base de datos
-USE Base_Comercio_2024v_1_1;
+USE Base_Comercio_2024;
 GO
 
 -- Crear tabla de Clientes
@@ -58,12 +58,11 @@ CREATE TABLE Productos (
     StockMinimo INT NOT NULL,
     MarcaID INT FOREIGN KEY REFERENCES Marcas(MarcaID) NOT NULL,
     TipoID INT FOREIGN KEY REFERENCES Tipos(TipoID) NOT NULL,
-	UrlImagen NVARCHAR(1000) NULL,
+	UrlImagen NVARCHAR(MAX) NULL,
 	Estado BIT NOT NULL
 );
 GO
-ALTER TABLE Productos
-ALTER COLUMN UrlImagen NVARCHAR(MAX);
+
 -- Crear tabla de Compras
 CREATE TABLE Compras (
     CompraID INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
@@ -119,7 +118,8 @@ GO
 CREATE TABLE Producto_x_Proveedor(
 	ProductoID INT NOT NULL,
 	ProveedorID INT NOT NULL,
-	PrecioCompra decimal (10,2) NOT NULL, 
+	PrecioCompra decimal (10,2) NOT NULL,
+	Estado bit default(0) NOT NULL  ,
 	PRIMARY KEY (ProductoID,ProveedorID ),
 	FOREIGN KEY (ProveedorID ) REFERENCES Proveedores(ProveedorID),
 	FOREIGN KEY (ProductoID) REFERENCES Productos (ProductoID)
