@@ -47,6 +47,32 @@ namespace Negocio
             }
         }
 
+        public void AgregarProducto_x_Proveedor(int idProducto, int idProveedor, decimal precioCompra)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                // Define la consulta SQL para insertar un nuevo registro en la tabla Producto_x_Proveedor
+                datos.SetearQuery("INSERT INTO Producto_x_Proveedor (ProductoID, ProveedorID, PrecioCompra) VALUES (@ProductoID, @ProveedorID, @PrecioCompra)");
+
+                // Establece los parámetros de la consulta SQL
+                datos.setearParametros("@ProductoID", idProducto);
+                datos.setearParametros("@ProveedorID", idProveedor);
+                datos.setearParametros("@PrecioCompra", precioCompra);
+
+                // Ejecuta la consulta SQL
+                datos.EjecutarLectura();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
 
 
     }

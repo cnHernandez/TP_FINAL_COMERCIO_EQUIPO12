@@ -15,7 +15,7 @@
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>
             <asp:GridView ID="dataGridViewProductos" runat="server" AutoGenerateColumns="False" CssClass="gridview-style" DataKeyNames="IdProductos"
-                AllowPaging="true" PageSize="7" OnPageIndexChanging="dataGridViewProductos_PageIndexChanging" OnSelectedIndexChanged="dataGridViewProductos_SelectedIndexChanged" OnRowDeleting="dataGridViewProductos_RowDeleting">
+                AllowPaging="true" PageSize="7" OnPageIndexChanging="dataGridViewProductos_PageIndexChanging" OnSelectedIndexChanged="dataGridViewProductos_SelectedIndexChanged" OnRowDeleting="dataGridViewProductos_RowDeleting" OnRowCommand="dataGridViewProductos_RowCommand">
                 <RowStyle CssClass="gridview-row" />
                 <HeaderStyle CssClass="gridview-header" />
                 <Columns>
@@ -36,6 +36,12 @@
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:CommandField HeaderText="Modificar" ShowSelectButton="true" SelectText="Modificar" ControlStyle-CssClass="modificar-button" />
+                    <asp:TemplateField HeaderText="Agregar Proveedor y precio">
+                        <ItemTemplate>
+                            <asp:LinkButton ID="lnkAgregarPxP" runat="server" Text="Agregarle Proveedor" CssClass="eliminar-button" CommandName="AgregarProveedor" CommandArgument='<%# Eval("IdProductos") %>'></asp:LinkButton>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+
                 </Columns>
             </asp:GridView>
 

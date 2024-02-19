@@ -32,7 +32,6 @@ namespace Comercio
                 
             }
         }
-
         protected void btnBuscarProducto_Click(object sender, EventArgs e)
         {
             // Obtener el nombre del producto ingresado por el usuario
@@ -93,6 +92,24 @@ namespace Comercio
             ProductosNegocio negocio = new ProductosNegocio();
             negocio.EliminarProducto(int.Parse(ID));
             BindGridViewData();
+        }
+
+        protected void dataGridViewProductos_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "AgregarProveedor")
+            {
+
+                int idProducto = int.TryParse(e.CommandArgument.ToString(), out int result) ? result : -1;
+                ProductosNegocio negocio = new ProductosNegocio();
+                Productos producto = new Productos();
+
+                producto=negocio.ObtenerProductoPorId(idProducto);
+
+                Session["ProductoSeleccionado"] = producto;
+
+                // Redirigir a la página AgregarPxP.aspx
+                Response.Redirect("AgregarPxP.aspx");
+            }
         }
     }
 }

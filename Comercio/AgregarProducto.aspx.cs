@@ -82,7 +82,11 @@ namespace Comercio
                     nuevo.AgregarProducto(prod);
                 }
 
-                Response.Redirect("ListarProductos.aspx", false);
+                // Almacena el objeto Productos en la sesión
+                Session["ProductoSeleccionado"] = prod;
+
+                // Redirige a la página AgregarPxP.aspx
+                Response.Redirect("AgregarPxP.aspx");
             }
             catch (Exception ex)
             {
@@ -90,6 +94,7 @@ namespace Comercio
                 throw;
             }
         }
+
 
         protected void txtURLImagen_TextChanged(object sender, EventArgs e)
         {
