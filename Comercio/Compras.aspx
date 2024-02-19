@@ -5,24 +5,24 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
     <h1 class="Profesionales">Compras.</h1>
-    <asp:ScriptManager ID="ScriptManager1" runat="server" />
-    <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+    <asp:ScriptManager ID="ScriptManager2" runat="server" />
+    <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Conditional">
 
         <ContentTemplate>
 
             <div class="mb-3" style="max-width: 300px; margin-left: 190px;">
                 <label for="ddlProveedor" class="form-label">Proveedor</label>
-                <asp:DropDownList runat="server" ID="ddlProveedor" CssClass="form-control" DataTextField="Proveedor" DataValueField="IdProveedor" OnSelectedIndexChanged="ddlProveedor_SelectedIndexChanged" AutoPostBack="True" />
+                <asp:DropDownList runat="server" ID="ddlProveedor1" CssClass="form-control" DataTextField="Proveedor" DataValueField="IdProveedor" OnSelectedIndexChanged="ddlProveedor_SelectedIndexChanged" AutoPostBack="True" />
                 <div id="ProveedorHelp" class="form-text">Seleccione el proveedor del producto</div>
             </div>
 
             <div class="mb-3" style="max-width: 300px; margin-left: 190px;">
                 <label for="ddlCat" class="form-label">Categorias</label>
-                <asp:DropDownList runat="server" ID="ddlCat" CssClass="form-control" DataTextField="Categorias" DataValueField="IdCategoria" OnSelectedIndexChanged="ddlCat_SelectedIndexChanged" AutoPostBack="True" />
+                <asp:DropDownList runat="server" ID="ddlCat1" CssClass="form-control" DataTextField="Categorias" DataValueField="IdCategoria" OnSelectedIndexChanged="ddlCat_SelectedIndexChanged" AutoPostBack="True" />
                 <div id="CatHelp" class="form-text">Seleccione la categoria del producto</div>
             </div>
-            <asp:GridView ID="dataGridViewProductos" runat="server" AutoGenerateColumns="False" CssClass="gridview-style" DataKeyNames="IdProductos"
-                AllowPaging="true" PageSize="5" OnPageIndexChanging="dataGridViewProductos_PageIndexChanging" OnRowDeleting="dataGridViewProductos_RowDeleting" OnRowDataBound="dataGridViewProductos_RowDataBound">
+            <asp:GridView ID="dataGridViewProductos1" runat="server" AutoGenerateColumns="False" CssClass="gridview-style" DataKeyNames="IdProductos"
+                AllowPaging="true" PageSize="5" OnPageIndexChanging="dataGridViewProductos_PageIndexChanging" OnRowDeleting="dataGridViewProductos_RowDeletingHand" OnRowDataBound="dataGridViewProductos_RowDataBound">
                 <RowStyle CssClass="gridview-row" />
                 <HeaderStyle CssClass="gridview-header" />
                 <Columns>
@@ -54,7 +54,7 @@
                     </asp:TemplateField>
                 </Columns>
             </asp:GridView>
-            <asp:Label ID="lblMensajeError" runat="server" Text="" ForeColor="Red"></asp:Label>
+            <asp:Label ID="lblMensajeError1" runat="server" Text="" ForeColor="Red"></asp:Label>
 
             <div class="login-container" style="margin-bottom: 150px">
                 <asp:Button ID="btnFinalizarCompra" runat="server" Text="Finalizar Compra" OnClick="btnFinalizarCompra_Click" CssClass="btn btn-primary" AutoPostBack="false" />

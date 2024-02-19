@@ -68,7 +68,7 @@ namespace Comercio
         private void BindGridViewData()
         {
             ProductosNegocio negocio = new ProductosNegocio();
-            List<Dominio.Productos> listaProductos = negocio.ListarProductos();
+            List<Dominio.Productos> listaProductos = negocio.ListarProductosLimpio();
 
             dataGridViewProductos.DataSource = listaProductos;
             dataGridViewProductos.DataBind();

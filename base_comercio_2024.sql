@@ -27,7 +27,7 @@ CREATE TABLE Proveedores (
     Nombre NVARCHAR(100) NOT NULL,
     Rubro NVARCHAR(50) NOT NULL, 
     Estado bit not null,
-	UrlImagen NVARCHAR(1000) NULL
+	UrlImagen  NVARCHAR(MAX) NULL
 );
 GO
 
@@ -127,23 +127,22 @@ CREATE TABLE Producto_x_Proveedor(
 );
 GO
 delete from Tipos
-select * from Tipos
+select * from Marcas
 select * from Clientes
 select * from Usuarios
 select * from Ventas
 select * from DetalleVenta
 
 
-
 SELECT p.ProductoID, p.Nombre, p.PrecioCompra, p.PorcentajeGanancia, p.StockActual, p.StockMinimo, p.UrlImagen, p.TipoID, p.MarcaID, p.ProveedorID, p.Estado FROM Productos p WHERE p.Estado = 0 AND p.ProveedorID = 1 AND p.TipoID = 2
 
-INSERT INTO Tipos(Nombre)VALUES('Gaseosas')
+INSERT INTO Tipos(Nombre, Estado, UrlImagen)VALUES('Gaseosas', 0, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHZz3m2YejL4st8KxTfODtwhZPhdlPkhyBhaHkIddYeA&s')
 INSERT INTO Tipos(Nombre)VALUES('Snacks')
 insert into Usuarios(NombreUsuario, Contraseña, TipoUsuario) VALUES('Nico', 'Hernandez', 1)
 insert into Usuarios(NombreUsuario, Contraseña, TipoUsuario) VALUES('Luca', 'diba', 2)
-insert into Marcas(Nombre, UrlImagen, Estado) VALUES('Arcor', 'https://upload.wikimedia.org/wikipedia/commons/9/9d/Arcor_textlogo.png', 0)
+insert into Marcas(Nombre, UrlImagen, Estado) VALUES('Coca Cola', 'https://lh3.googleusercontent.com/proxy/8sEMW-B5DXw5h0wcVv8CXteQqWb9GV2jY9gbp_gRDr5QQmEvsuI9gpGX8fHy42rap3QDa6SydoP7LYwMS7aolJIX9a8HfG2rGhVDRXPUUZbZve9kJ2sDlw0STdg', 0)
 insert into Marcas(Nombre, UrlImagen, Estado) VALUES('Ferrero', 'https://sgfm.elcorteingles.es/SGFM/dctm/MEDIA03/202211/18/00120602500447____6__600x600.jpg', 0)
-insert into Productos(Nombre, PrecioCompra, PorcentajeGanancia, StockActual, StockMinimo, MarcaID, TipoID, UrlImagen, Estado)VALUES('Bombon ferrero', 100, 50.50, 1000, 500, 1, 2, 'https://http2.mlstatic.com/D_NQ_NP_744945-MLU70065031137_062023-O.webp', 0)
+insert into Productos(Nombre, PorcentajeGanancia, StockActual, StockMinimo, MarcaID, TipoID, UrlImagen, Estado)VALUES('Coca', 50.50, 1000, 500, 1, 5, 'https://lh3.googleusercontent.com/proxy/8sEMW-B5DXw5h0wcVv8CXteQqWb9GV2jY9gbp_gRDr5QQmEvsuI9gpGX8fHy42rap3QDa6SydoP7LYwMS7aolJIX9a8HfG2rGhVDRXPUUZbZve9kJ2sDlw0STdg', 0)
 insert into Productos(Nombre, PrecioCompra, PorcentajeGanancia, StockActual, StockMinimo, MarcaID, TipoID, UrlImagen, Estado)VALUES('Huevo Kinder', 100, 50.50, 1000, 500, 1, 2, 'https://camoga.ar/media/catalog/product/cache/17183a23c5d57b885c9e1f3d66234d68/5/0/50081000_huevo_kinder_con_leche_sorpresa_x20_gramos.jpg', 0)
 -- Insertar productos de ejemplo con ProveedorID = 1 y Estado = 0
 INSERT INTO Productos (Nombre, PrecioCompra, PorcentajeGanancia, StockActual, StockMinimo, MarcaID, TipoID, ProveedorID, UrlImagen, Estado)

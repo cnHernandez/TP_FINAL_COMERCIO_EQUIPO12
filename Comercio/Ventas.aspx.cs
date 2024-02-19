@@ -140,7 +140,7 @@ namespace Comercio
         private void CargarProductos()
         {
             ProductosNegocio negocio = new ProductosNegocio();
-            listaProductos = negocio.ListarProductos();
+            listaProductos = negocio.ObtenerProductosConPrecio();
         
         }
 
@@ -313,7 +313,7 @@ namespace Comercio
                         Productos producto = ObtenerProductoPorId(idProducto);
 
                         aux.IdProducto = idProducto;
-                        aux.PrecioVenta = ((producto.PorcentajeGanancia / 100) + 1) * producto.PrecioCompra;
+                       //corregir  aux.PrecioVenta = ((producto.PorcentajeGanancia / 100) + 1) * producto.PrecioCompra;
                         
                         aux.Subtotal = 0;
                         aux.IdVenta = 0;

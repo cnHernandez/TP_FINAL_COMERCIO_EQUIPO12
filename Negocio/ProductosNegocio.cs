@@ -56,8 +56,48 @@ namespace Negocio
         }
 
 
+        public List<Productos> ObtenerProductosConPrecio()
+        {
+            List<Productos> listaProductos = new List<Productos>();
+            AccesoDatos datos = new AccesoDatos();
 
+            try
+            {
+                string query = "SELECT ProductoID, Nombre, PorcentajeGanancia, StockActual, StockMinimo, MarcaID, TipoID, UrlImagen, Estado FROM Productos WHERE Estado = 0";
+                datos.SetearQuery(query);
+                datos.EjecutarLectura();
 
+                while (datos.lector.Read())
+                {
+                    Productos aux = new Productos();
+                    aux.IdProductos = (int)datos.lector["ProductoID"];
+                    aux.ProductosXProveedores = new List<Producto_x_Proveedor>();
+                    aux.ProductosXProveedores = MaxPrecio(aux.IdProductos);
+                    aux.Nombre = (string)datos.lector["Nombre"];
+                    aux.PorcentajeGanancia = (decimal)datos.lector["PorcentajeGanancia"];
+                    aux.StockActual = (int)datos.lector["StockActual"];
+                    aux.StockMinimo = (int)datos.lector["StockMinimo"];
+                    aux.UrlImagen = (string)datos.lector["UrlImagen"];
+                    aux.IdCategoria = (int)datos.lector["TipoID"];
+                    aux.IdMarca = (int)datos.lector["MarcaID"];
+                    aux.Estado = (bool)datos.lector["Estado"];
+
+                    listaProductos.Add(aux);
+                }
+
+                return listaProductos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
+        /*
         public Productos ObtenerProductoPorId(int idProducto)
         {
             Productos aux = new Productos();
@@ -96,6 +136,7 @@ namespace Negocio
             }
           
         }
+        */
 
         public List<Productos> ObtenerProductosPorNombre(string nombreProducto)
         {
@@ -104,7 +145,7 @@ namespace Negocio
 
             try
             {
-                string query = "SELECT ProductoID, Nombre, PrecioCompra, PorcentajeGanancia, StockActual, StockMinimo, MarcaID, TipoID, ProveedorID, UrlImagen, Estado FROM Productos WHERE Nombre LIKE @nombreProducto";
+                string query = "SELECT ProductoID, Nombre, PorcentajeGanancia, StockActual, StockMinimo, MarcaID, TipoID, UrlImagen, Estado FROM Productos WHERE Nombre LIKE @nombreProducto";
                 datos.SetearQuery(query);
                 datos.setearParametros("@nombreProducto", "%" + nombreProducto + "%");
                 datos.EjecutarLectura();
@@ -114,14 +155,99 @@ namespace Negocio
                     Productos aux = new Productos();
                     aux.IdProductos = (int)datos.lector["ProductoID"];
                     aux.Nombre = (string)datos.lector["Nombre"];
-                   // aux.PrecioCompra = (decimal)datos.lector["PrecioCompra"];
+                    aux.PorcentajeGanancia = (decimal)datos.lector["PorcentajeGanancia"];
+                    aux.StockActual = (int)datos.lector["StockActual"];
+                    aux.StockMinimo = (int)datos.lector["StockMinimo"];
+                    aux.UrlImagen = (string)datos.lector["UrlImagen"];
+                    aux.IdCategoria = (int)datos.lector["TipoID"];
+                    aux.Estado = (bool)datos.lector["Estado"];
+
+                    listaProductos.Add(aux);
+                }
+
+                return listaProductos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
+        public List<Producto_x_Proveedor> MaxPrecio (int idPro)
+        {
+
+            AccesoDatos datos = new AccesoDatos();
+            List<Producto_x_Proveedor> list = new List<Producto_x_Proveedor>();
+            List<Producto_x_Proveedor> listaPrecio = new List<Producto_x_Proveedor>();
+
+            try
+            {
+                datos.SetearQuery("SELECT ProductoID, ProveedorID, PrecioCompra, Estado FROM Producto_x_Proveedor WHERE @idPro = ProductoID");
+                datos.setearParametros("@idPro", idPro);
+                datos.EjecutarLectura();
+
+                while(datos.lector.Read()){
+                    Producto_x_Proveedor aux = new Producto_x_Proveedor();
+
+                    aux.ProductoID = (int)datos.lector["ProductoID"];
+                    aux.ProveedorID = (int)datos.lector["ProveedorID"];
+                    aux.PrecioCompra = (decimal)datos.lector["PrecioCompra"];
+
+                    list.Add(aux);
+                }
+
+                Producto_x_Proveedor Mayor = new Producto_x_Proveedor();
+                Mayor.PrecioCompra = 0;
+                foreach (Producto_x_Proveedor productos in list)
+                {
+                    if(productos.PrecioCompra > Mayor.PrecioCompra)
+                    {
+                        Mayor.PrecioCompra = productos.PrecioCompra;
+                        Mayor.ProductoID = productos.ProductoID;    
+                        Mayor.ProveedorID = productos.ProveedorID;                      
+                    }
+                }
+
+                listaPrecio.Add( Mayor );
+
+                return listaPrecio;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public List<Productos> ObtenerProductosParaventa(string nombreProducto)
+        {
+            List<Productos> listaProductos = new List<Productos>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                string query = "SELECT ProductoID, Nombre, PorcentajeGanancia, StockActual, StockMinimo, MarcaID, TipoID, UrlImagen, Estado FROM Productos WHERE Nombre LIKE @nombreProducto";
+                datos.SetearQuery(query);
+                datos.setearParametros("@nombreProducto", "%" + nombreProducto + "%");
+                datos.EjecutarLectura();
+
+                while (datos.lector.Read())
+                {
+                    Productos aux = new Productos();
+                    aux.IdProductos = (int)datos.lector["ProductoID"];
+                    aux.ProductosXProveedores = new List<Producto_x_Proveedor>();
+                    aux.ProductosXProveedores = MaxPrecio(aux.IdProductos);
+                    aux.Nombre = (string)datos.lector["Nombre"];
                     aux.PorcentajeGanancia = (decimal)datos.lector["PorcentajeGanancia"];
                     aux.StockActual = (int)datos.lector["StockActual"];
                     aux.StockMinimo = (int)datos.lector["StockMinimo"];
                     aux.UrlImagen = (string)datos.lector["UrlImagen"];
                     aux.IdCategoria = (int)datos.lector["TipoID"];
                     aux.IdMarca = (int)datos.lector["MarcaID"];
-                    //aux.IdProveedor = (int)datos.lector["ProveedorID"];
                     aux.Estado = (bool)datos.lector["Estado"];
 
                     listaProductos.Add(aux);
@@ -178,15 +304,17 @@ namespace Negocio
 
             try
             {
-                // Construir la consulta base
-                string query = "SELECT p.ProductoID, p.Nombre, p.PrecioCompra, p.PorcentajeGanancia, p.StockActual, p.StockMinimo, p.UrlImagen, p.TipoID, p.MarcaID, p.ProveedorID, p.Estado " +
-                               "FROM Productos p " +
-                               "WHERE p.Estado = 0 AND p.ProveedorID = @IdProveedor";
+                // Usar un marcador de posición para el parámetro
 
-                // Si se proporciona una categoría, agregarla a la consulta
+                string query = "SELECT p.IdProductos, p.Nombre, p.PorcentajeGanancia, p.StockActual, p.StockMinimo, p.IdMarca, p.IdCategoria, p.Estado, p.UrlImagen, pxp.PrecioCompra " +
+                 "FROM Productos p " +
+                 "INNER JOIN Producto_x_Proveedor pxp ON p.IdProductos = pxp.IdProducto " +
+                 "WHERE pxp.IdProveedor = @IdProveedor AND p.Estado = 0";
+
+                // Verifica si se proporciona un ID de categoría y ajusta la consulta en consecuencia
                 if (IdCategoria.HasValue)
                 {
-                    query += " AND p.TipoID = @IdCategoria";
+                    query += " AND p.IdCategoria = @IdCategoria";
                 }
 
                 datos.SetearQuery(query);
@@ -206,14 +334,24 @@ namespace Negocio
 
                     aux.IdProductos = (int)datos.lector["ProductoID"];
                     aux.Nombre = (string)datos.lector["Nombre"];
-                   // aux.PrecioCompra = (decimal)datos.lector["PrecioCompra"];
+                    if (aux.ProductosXProveedores == null)
+                    {
+                        // Si no ha sido inicializado, inicializar la lista
+                        aux.ProductosXProveedores = new List<Producto_x_Proveedor>();
+                    }
+
+                    // Crear una instancia de Producto_x_Proveedor para cada registro en la tabla Producto_x_Proveedor
+                    Producto_x_Proveedor productoXProveedor = new Producto_x_Proveedor();
+                    productoXProveedor.PrecioCompra = Convert.ToDecimal(datos.lector["PrecioCompra"]);
+                    productoXProveedor.ProveedorID = IdProveedor;
+                    productoXProveedor.ProductoID = (int)datos.lector["ProductoID"];
+                    aux.ProductosXProveedores.Add(productoXProveedor);
                     aux.PorcentajeGanancia = (decimal)datos.lector["PorcentajeGanancia"];
                     aux.StockActual = (int)datos.lector["StockActual"];
                     aux.StockMinimo = (int)datos.lector["StockMinimo"];
                     aux.UrlImagen = (string)datos.lector["UrlImagen"];
                     aux.IdCategoria = (int)datos.lector["TipoID"];
                     aux.IdMarca = (int)datos.lector["MarcaID"];
-                    //aux.IdProveedor = (int)datos.lector["ProveedorID"];
                     aux.Estado = (bool)datos.lector["Estado"];
                     Lista.Add(aux);
                 }
@@ -238,12 +376,13 @@ namespace Negocio
             try
             {
                 // Usar un marcador de posición para el parámetro
-                string query = "select p.ProductoID, p.Nombre, p.PrecioCompra, p.PorcentajeGanancia, p.StockActual, p.StockMinimo, p.UrlImagen, p.TipoID, p.MarcaID, p.ProveedorID, p.Estado from Productos p where Estado = 0 and p.ProveedorID = @Id";
-                datos.SetearQuery(query);
 
-                // Establecer el valor del parámetro
-                datos.setearParametros("@Id", Id);
+                datos.SetearQuery("SELECT p.ProductoID, p.Nombre, p.PorcentajeGanancia, p.StockActual, p.StockMinimo, p.IdMarca, p.IdCategoria, p.Estado, p.UrlImagen, pxp.PrecioCompra " +
+                             "FROM Productos p " +
+                             "INNER JOIN Producto_x_Proveedor pxp ON p.ProductoID = pxp.ProductoID " +
+                             "WHERE pxp.ProveedorID = @IdProveedor AND p.Estado = 0");
 
+                datos.setearParametros("@IdProveedor", Id);
                 datos.EjecutarLectura();
 
                 while (datos.lector.Read())
@@ -252,14 +391,24 @@ namespace Negocio
 
                     aux.IdProductos = (int)datos.lector["ProductoID"];
                     aux.Nombre = (string)datos.lector["Nombre"];
-                    aux.PrecioCompra = (decimal)datos.lector["PrecioCompra"];
+                    if (aux.ProductosXProveedores == null)
+                    {
+                        // Si no ha sido inicializado, inicializar la lista
+                        aux.ProductosXProveedores = new List<Producto_x_Proveedor>();
+                    }
+
+                    // Crear una instancia de Producto_x_Proveedor para cada registro en la tabla Producto_x_Proveedor
+                    Producto_x_Proveedor productoXProveedor = new Producto_x_Proveedor();
+                    productoXProveedor.PrecioCompra = Convert.ToDecimal(datos.lector["PrecioCompra"]);
+                    productoXProveedor.ProveedorID = Id;
+                    productoXProveedor.ProductoID = (int)datos.lector["ProductoID"];
+                    aux.ProductosXProveedores.Add(productoXProveedor);
                     aux.PorcentajeGanancia = (decimal)datos.lector["PorcentajeGanancia"];
                     aux.StockActual = (int)datos.lector["StockActual"];
                     aux.StockMinimo = (int)datos.lector["StockMinimo"];
                     aux.UrlImagen = (string)datos.lector["UrlImagen"];
                     aux.IdCategoria = (int)datos.lector["TipoID"];
                     aux.IdMarca = (int)datos.lector["MarcaID"];
-                    //aux.IdProveedor = (int)datos.lector["ProveedorID"];
                     aux.Estado = (bool)datos.lector["Estado"];
                     Lista.Add(aux);
                 }
@@ -383,7 +532,6 @@ namespace Negocio
                 datos.setearParametros("@IdProducto", IdProducto);
                 datos.ejecutarAccion();
                 datos.SetearQuery("update Producto_x_Proveedor set estado=1 where ProductoID =@IdProducto");
-                datos.setearParametros("@IdProducto", IdProducto);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)

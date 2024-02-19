@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Negocio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -25,13 +26,13 @@ namespace Comercio
 
         protected void btnBuscarCliente_Click(object sender, EventArgs e)
         {
-           
+
             string dniCliente = txtDniCliente.Text.Trim();
 
             if (!string.IsNullOrEmpty(dniCliente))
             {
-               
-                Negocio.ClientesNegocio negocioClientes= new Negocio.ClientesNegocio();
+
+                ClientesNegocio negocioClientes = new ClientesNegocio();
                 negocioClientes.buscarCliente(dniCliente);
 
                 if (negocioClientes.buscarCliente(dniCliente))
@@ -41,12 +42,12 @@ namespace Comercio
                 }
                 else
                 {
-                    
+
                     lblMensajeClienteNoEncontrado.Text = "Cliente no registrado, por favor registre al cliente.";
                     btnVolverAVenta.Visible = true;
                 }
             }
-          
+
         }
 
         protected void btnVolverAVenta_Click(object sender, EventArgs e)

@@ -16,7 +16,6 @@ namespace Comercio
 
             if (!IsPostBack)
             {
-                CargarProveedor();
                 CargarTipo();
                 CargarMarcas();
             }
@@ -25,18 +24,16 @@ namespace Comercio
             if (legajo != "" && !IsPostBack)
             {
                 ProductosNegocio negocio = new ProductosNegocio();
-                Dominio.Productos seleccionado = (negocio.ListarProductos(legajo))[0];
+                Dominio.Productos seleccionado = (negocio.ListarProductosLimpio(legajo))[0];
 
                 ///precargamos
                 txtNombre.Text = seleccionado.Nombre;
-                txtPrecioCompra.Text = seleccionado.PrecioCompra.ToString();
                 txtPorcentaje.Text = seleccionado.PorcentajeGanancia.ToString();
                 txtStockActual.Text = seleccionado.StockActual.ToString();
                 txtMinimo.Text = seleccionado.StockMinimo.ToString();
                 txtUrl.Text = seleccionado.UrlImagen.ToString();
                 ddlTipo.SelectedValue = seleccionado.IdCategoria.ToString();
                 ddlMarca.SelectedValue = seleccionado.IdMarca.ToString();
-                ddlProveedor.SelectedValue = seleccionado.IdProveedor.ToString();
                 imgProducto.ImageUrl = txtUrl.Text;
                 imgProducto.Visible = !string.IsNullOrEmpty(txtUrl.Text);
             }
@@ -51,14 +48,6 @@ namespace Comercio
             ddlTipo.DataBind();
         }
 
-        private void CargarProveedor()
-        {
-            ProveedoresNegocio pro = new ProveedoresNegocio();
-            ddlProveedor.DataSource = pro.ListarProveedores();
-            ddlProveedor.DataTextField = "Nombre";
-            ddlProveedor.DataValueField = "IdProveedor";
-            ddlProveedor.DataBind();
-        }
         private void CargarMarcas()
         {
             MarcasNegocio marca= new MarcasNegocio();
@@ -75,14 +64,12 @@ namespace Comercio
                 ProductosNegocio nuevo = new ProductosNegocio();
 
                 prod.Nombre = txtNombre.Text;
-                prod.PrecioCompra = decimal.Parse(txtPrecioCompra.Text);
                 prod.PorcentajeGanancia = decimal.Parse(txtPorcentaje.Text);
                 prod.StockActual = int.Parse(txtStockActual.Text);
                 prod.StockMinimo = int.Parse(txtMinimo.Text);
                 prod.UrlImagen = txtUrl.Text;
                 prod.IdMarca = int.Parse(ddlMarca.SelectedValue);
                 prod.IdCategoria = int.Parse(ddlTipo.SelectedValue);
-                prod.IdProveedor = int.Parse(ddlProveedor.SelectedValue);
 
                 if (Request.QueryString["IdProductos"] != null)
                 {

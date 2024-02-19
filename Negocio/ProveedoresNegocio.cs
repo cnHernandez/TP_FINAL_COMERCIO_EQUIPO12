@@ -126,7 +126,7 @@ namespace Negocio
                 Datos.setearParametros("@Rubro", nuevo.Categoria);
                 Datos.setearParametros("@estado", nuevo.Estado);
                 Datos.setearParametros("@UrlImagen", nuevo.UrlImagen);
-               
+                Datos.setearParametros("@IdProveedor", nuevo.IdProveedor);
                 Datos.ejecutarAccion();
 
             }

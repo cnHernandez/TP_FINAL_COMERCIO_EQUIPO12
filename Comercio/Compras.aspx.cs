@@ -35,31 +35,31 @@ namespace Comercio
         private void CargarProveedor()
         {
             ProveedoresNegocio pro = new ProveedoresNegocio();
-            ddlProveedor.DataSource = pro.ListarProveedores();
-            ddlProveedor.DataTextField = "Nombre";
-            ddlProveedor.DataValueField = "IdProveedor";
-            ddlProveedor.DataBind();
+            ddlProveedor1.DataSource = pro.ListarProveedores();
+            ddlProveedor1.DataTextField = "Nombre";
+            ddlProveedor1.DataValueField = "IdProveedor";
+            ddlProveedor1.DataBind();
 
-            ddlProveedor.Items.Insert(0, new ListItem("-- Seleccione un proveedor --", ""));
+            ddlProveedor1.Items.Insert(0, new ListItem("-- Seleccione un proveedor --", ""));
         }
 
         private void CargarCategorias()
         {
             CategoriasNegocio categorias = new CategoriasNegocio();
-            ddlCat.DataSource = categorias.ListarCategorias();
-            ddlCat.DataTextField = "Nombre";
-            ddlCat.DataValueField = "IdCategoria";
-            ddlCat.DataBind();
+            ddlCat1.DataSource = categorias.ListarCategorias();
+            ddlCat1.DataTextField = "Nombre";
+            ddlCat1.DataValueField = "IdCategoria";
+            ddlCat1.DataBind();
 
-            ddlCat.Items.Insert(0, new ListItem("-- Seleccione una categoria --", ""));
-            ddlCat.Items.Insert(1, new ListItem("-- Todos --", "0"));
+            ddlCat1.Items.Insert(0, new ListItem("-- Seleccione una categoria --", ""));
+            ddlCat1.Items.Insert(1, new ListItem("-- Todos --", "0"));
         }
 
         private void BindGridViewDataProveedor(int idProveedor, int idCat)
         {
             if (idProveedor > 0)
             {
-                if (ddlCat.SelectedValue == "0") // "0" es el valor asignado a la opción "Todos"
+                if (ddlCat1.SelectedValue == "0") // "0" es el valor asignado a la opción "Todos"
                 {
                     // Lógica para cargar todos los productos
                     BindGridViewData();
@@ -70,16 +70,17 @@ namespace Comercio
                     ProductosNegocio negocio = new ProductosNegocio();
                     List<Dominio.Productos> listaProductos = negocio.ListarProductosPorProveedor(idProveedor, idCat);
 
-                    dataGridViewProductos.DataSource = listaProductos;
-                    dataGridViewProductos.DataBind();
+                    dataGridViewProductos1.DataSource = listaProductos;
+                    dataGridViewProductos1.DataBind();
                 }
             }
             else
             {
-                dataGridViewProductos.DataSource = null;
-                dataGridViewProductos.DataBind();
+                dataGridViewProductos1.DataSource = null;
+                dataGridViewProductos1.DataBind();
             }
         }
+
 
         private int ObtenerCantidadDesdeSesion(GridViewRow row)
         {
@@ -108,23 +109,23 @@ namespace Comercio
         private void BindGridViewData()
         {
             ProductosNegocio negocio = new ProductosNegocio();
-            int idProveedor = Convert.ToInt32(ddlProveedor.SelectedValue);
+            int idProveedor = Convert.ToInt32(ddlProveedor1.SelectedValue);
             List<Dominio.Productos> listaProductos = negocio.TodoslosProductosPorProveedor(idProveedor);
-            dataGridViewProductos.DataSource = listaProductos;
-            dataGridViewProductos.DataBind();
+            dataGridViewProductos1.DataSource = listaProductos;
+            dataGridViewProductos1.DataBind();
         }
 
 
         protected void dataGridViewProductos_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
-            dataGridViewProductos.PageIndex = e.NewPageIndex;
+            dataGridViewProductos1.PageIndex = e.NewPageIndex;
             BindGridViewData();
         }
 
 
         protected void dataGridViewProductos_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
-            string ID = dataGridViewProductos.DataKeys[e.RowIndex].Value.ToString();
+            string ID = dataGridViewProductos1.DataKeys[e.RowIndex].Value.ToString();
             ProductosNegocio negocio = new ProductosNegocio();
             negocio.EliminarProducto(int.Parse(ID));
             BindGridViewData();
@@ -132,14 +133,14 @@ namespace Comercio
 
         protected void ddlProveedor_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(ddlProveedor.SelectedValue))
+            if (!string.IsNullOrEmpty(ddlProveedor1.SelectedValue))
             {
-                int idProveedor = Convert.ToInt32(ddlProveedor.SelectedValue);
+                int idProveedor = Convert.ToInt32(ddlProveedor1.SelectedValue);
 
                 // Verifica si se ha seleccionado una categoría antes de obtener su valor
-                if (!string.IsNullOrEmpty(ddlCat.SelectedValue))
+                if (!string.IsNullOrEmpty(ddlCat1.SelectedValue))
                 {
-                    int idCat = Convert.ToInt32(ddlCat.SelectedValue);
+                    int idCat = Convert.ToInt32(ddlCat1.SelectedValue);
 
                     // Llama al método para cargar los productos asociados al proveedor y la categoría seleccionados
                     BindGridViewDataProveedor(idProveedor, idCat);
@@ -159,9 +160,9 @@ namespace Comercio
         private int ProveedorSeleccionado()
         {
             int idProveedor = 0;
-            if (!string.IsNullOrEmpty(ddlProveedor.SelectedValue))
+            if (!string.IsNullOrEmpty(ddlProveedor1.SelectedValue))
             {
-                idProveedor = Convert.ToInt32(ddlProveedor.SelectedValue);
+                idProveedor = Convert.ToInt32(ddlProveedor1.SelectedValue);
             }
             return idProveedor;
         }
@@ -169,9 +170,9 @@ namespace Comercio
         private string NombreProveedorSeleccionado()
         {
             string nombreProveedor = "";
-            if (!string.IsNullOrEmpty(ddlProveedor.SelectedValue))
+            if (!string.IsNullOrEmpty(ddlProveedor1.SelectedValue))
             {
-                nombreProveedor = ddlProveedor.SelectedItem.Text;
+                nombreProveedor = ddlProveedor1.SelectedItem.Text;
             }
             return nombreProveedor;
         }
@@ -297,13 +298,13 @@ namespace Comercio
                 ActualizarProductosSeleccionados(row);
                 CalcularTotalCompra();  // Mover la llamada aquí
 
-                lblMensajeError.Text = "";
+                lblMensajeError1.Text = "";
                 int cant = productosSeleccionados.Count;
             }
             else
             {
                 // Manejar el caso en que la entrada no sea válida, por ejemplo, mostrar un mensaje de error.
-                lblMensajeError.Text = "La cantidad ingresada no es válida. Por favor, ingrese un número entero no negativo.";
+                lblMensajeError1.Text = "La cantidad ingresada no es válida. Por favor, ingrese un número entero no negativo.";
             }
         }
 
@@ -379,13 +380,11 @@ namespace Comercio
             // Crea el objeto Productos y devuelve
             producto.IdProductos = idProducto;
             producto.Nombre = nombre;
-            producto.PrecioCompra = precioCompra;
             producto.PorcentajeGanancia = porcentaje;
             producto.StockActual = stockActual;
             producto.StockMinimo = stockMinimo;
             producto.IdMarca = idMarca;
             producto.IdCategoria = idCategoria;
-            producto.IdProveedor = IdProveedor;
             producto.Estado = true;
 
             return producto;
@@ -442,15 +441,15 @@ namespace Comercio
             }
 
             lblTotalCompra.Text = totalCompra.ToString();
-            UpdatePanel1.Update();
+            UpdatePanel2.Update();
         }
         protected void ddlCat_SelectedIndexChanged(object sender, EventArgs e)
         {
             
-            if (!string.IsNullOrEmpty(ddlProveedor.SelectedValue) && !string.IsNullOrEmpty(ddlCat.SelectedValue))
+            if (!string.IsNullOrEmpty(ddlProveedor1.SelectedValue) && !string.IsNullOrEmpty(ddlCat1.SelectedValue))
             {
-                int idProveedor = Convert.ToInt32(ddlProveedor.SelectedValue);
-                int idCat = Convert.ToInt32(ddlCat.SelectedValue);
+                int idProveedor = Convert.ToInt32(ddlProveedor1.SelectedValue);
+                int idCat = Convert.ToInt32(ddlCat1.SelectedValue);
 
                 // Llama al método para cargar los productos asociados al proveedor y la categoría seleccionados
                 BindGridViewDataProveedor(idProveedor, idCat);

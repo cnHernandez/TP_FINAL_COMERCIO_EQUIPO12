@@ -20,13 +20,11 @@
                 <HeaderStyle CssClass="gridview-header" />
                 <Columns>
                     <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
-                    <asp:BoundField DataField="PrecioCompra" HeaderText="PrecioCompra" />
                     <asp:BoundField DataField="PorcentajeGanancia" HeaderText="PorcentajeGanancia" />
                     <asp:BoundField DataField="StockActual" HeaderText="StockActual" />
                     <asp:BoundField DataField="StockMinimo" HeaderText="StockMinimo" />
                     <asp:BoundField DataField="IdMarca" HeaderText="IdMarca" />
                     <asp:BoundField DataField="IdCategoria" HeaderText="IdCategoria" />
-                    <asp:BoundField DataField="IdProveedor" HeaderText="IdProveedor" />
                     <asp:TemplateField HeaderText="Imagen">
                         <ItemTemplate>
                             <asp:Image ID="Image" runat="server" ImageUrl='<%# Eval("UrlImagen") %>' Height="50" Width="50" />

@@ -56,7 +56,7 @@ namespace Comercio
                 prod.Contrasena = txtContraseña.Text;
                 prod.TipoUsuario = (Dominio.Usuarios.TipoUsuarios)Enum.Parse(typeof(Dominio.Usuarios.TipoUsuarios), ddlTipo.SelectedValue);
 
-                if (Request.QueryString["IdProductos"] != null)
+                if (Request.QueryString["IdUsuario"] != null)
                 {
                     string legajo = Request.QueryString["IdUsuario"];
                     prod.IdUsuario = (int)(long.TryParse(legajo, out long legajoComoLong) ? legajoComoLong : 0);

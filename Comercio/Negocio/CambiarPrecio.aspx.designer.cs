@@ -57,7 +57,7 @@ namespace Comercio
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView dataGridViewProductos;
+        protected global::System.Web.UI.WebControls.GridView dataGridViewProductos1;
 
         /// <summary>
         /// lblMensajeError control.

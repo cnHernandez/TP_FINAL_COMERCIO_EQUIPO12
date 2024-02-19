@@ -45,7 +45,7 @@ namespace Comercio
         private void CargarProductos()
         {
             ProductosNegocio negocio = new ProductosNegocio();
-            listaProductos = negocio.ListarProductos();
+            listaProductos = negocio.ObtenerProductosConPrecio();
             reRepeater.DataSource = listaProductos;
             reRepeater.DataBind();
         }
