@@ -9,7 +9,7 @@
     <div class="cards-container">
 
         <!-- Card 5 -->
-        <a href="Compras.aspx" class="custom-card">
+        <a href="Compra.aspx" class="custom-card">
             <i class="fas fa-shopping-cart fa-3x"></i>
             <h2>Compras</h2>
         </a>

@@ -8,11 +8,13 @@ using System.Web.UI.WebControls;
 
 namespace Comercio
 {
-    public partial class Compras : System.Web.UI.Page
+    public partial class Compra : System.Web.UI.Page
     {
         private List<Productos> productosSeleccionados = new List<Productos>();
 
         private List<DetalleCompra> detallesCompra = new List<DetalleCompra>();
+
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -151,7 +153,7 @@ namespace Comercio
                 }
 
                 // Deshabilita el DropDownList después de seleccionar un proveedor
-                ddlProveedor.Enabled = false;
+                ddlProveedor1.Enabled = false;
             }
         }
 
@@ -365,17 +367,21 @@ namespace Comercio
             // a partir de los valores en la GridViewRow.
             // Puedes acceder a los valores mediante los índices de las celdas.
             int idProducto = Convert.ToInt32(row.Cells[0].Text);  // Ajusta el índice según la posición de la columna IdProducto en tu GridView
-
             string nombre = row.Cells[1].Text;
-            decimal precioCompra = Convert.ToDecimal(row.Cells[2].Text);
             decimal porcentaje = Convert.ToDecimal(row.Cells[3].Text);
             int stockActual = Convert.ToInt32(row.Cells[4].Text);
             int stockMinimo = Convert.ToInt32(row.Cells[5].Text);
             int idMarca = Convert.ToInt32(row.Cells[6].Text);
             int idCategoria = Convert.ToInt32(row.Cells[7].Text);
-            int IdProveedor = Convert.ToInt32(row.Cells[8].Text);
 
-
+            // Busca en la lista de ProductosXProveedores el ProductoID correspondiente al IdProducto de la fila
+            Producto_x_Proveedor productoProveedor = producto.ProductosXProveedores.Find(p => p.ProductoID == idProducto);
+            if (productoProveedor != null)
+            {
+                // Asigna los valores de PrecioCompra e IdProveedor desde el objeto productoProveedor
+                producto.PrecioCompra = productoProveedor.PrecioCompra;
+                producto.IdProveedor = productoProveedor.ProveedorID;
+            }
 
             // Crea el objeto Productos y devuelve
             producto.IdProductos = idProducto;
@@ -445,7 +451,7 @@ namespace Comercio
         }
         protected void ddlCat_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
             if (!string.IsNullOrEmpty(ddlProveedor1.SelectedValue) && !string.IsNullOrEmpty(ddlCat1.SelectedValue))
             {
                 int idProveedor = Convert.ToInt32(ddlProveedor1.SelectedValue);
@@ -458,4 +464,3 @@ namespace Comercio
 
     }
 }
-

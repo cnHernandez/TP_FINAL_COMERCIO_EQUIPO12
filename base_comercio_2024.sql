@@ -132,6 +132,8 @@ select * from Clientes
 select * from Usuarios
 select * from Ventas
 select * from DetalleVenta
+select * from Proveedores
+select * from Producto_x_Proveedor
 
 
 SELECT p.ProductoID, p.Nombre, p.PrecioCompra, p.PorcentajeGanancia, p.StockActual, p.StockMinimo, p.UrlImagen, p.TipoID, p.MarcaID, p.ProveedorID, p.Estado FROM Productos p WHERE p.Estado = 0 AND p.ProveedorID = 1 AND p.TipoID = 2
@@ -186,11 +188,21 @@ from Proveedores p where
 select p.Nombre, p.PrecioCompra, p.PorcentajeGanancia, p.StockActual, p.StockMinimo, p.TipoID, p.MarcaID from Productos p where Estado = 0
 UPDATE Productos SET Nombre = @nombre,PrecioCompra=@precioCompra, PorcentajeGanancia=@PorcentajeGanancia,StockActual=@StockActual,StockMinimo=@stockMinimo,MarcaID=@IdMarca,TipoID=@idCategoria,Estado=@Estado,UrlImagen=@urlImagen WHERE ProductoID=@idProductos
 
-
 select VentaID,ClienteID,FechaVenta,TotalVenta from Ventas 
 
 select CompraID,ProveedorID,FechaCompra,TotalCompra,Estado from Compras where Estado=0
 INSERT INTO Ventas(ClienteID,FechaVenta,TotalVenta,Estado) VALUES (@ClienteID,@FechaVenta,@TotalVenta,@Estado)
 insert into Compras (ProveedorID,FechaCompra,TotalCompra,Estado) values (@ProveedorID,@FechaCompra,@TotalCompra,@Estado)
-UPDATE Compras SET proveedorid=@ProveedorID,FechaCompra=@FechaCompra,TotalCompra=@TotalCompra where CompraID=@CompraID"
+UPDATE Compras SET proveedorid=@ProveedorID,FechaCompra=@FechaCompra,TotalCompra=@TotalCompra where CompraID=@CompraID
+
+select p.ProductoID,p.Nombre, p.PorcentajeGanancia, p.StockActual, p.StockMinimo, p.MarcaID, p.TipoID, p.Estado,p.UrlImagen, pp.PrecioCompra from Productos p 
+inner join Producto_x_Proveedor pp on pp.ProductoID = p.ProductoID
+where pp.ProveedorID = 1 and p.Estado = 0
+
+
+SELECT p., p.Nombre, p.PorcentajeGanancia, p.StockActual, p.StockMinimo, p.IdMarca, p.IdCategoria, p.Estado, p.UrlImagen, pxp.PrecioCompra 
+                 FROM Productos p 
+                 INNER JOIN Producto_x_Proveedor pxp ON p.IdProductos = pxp.IdProducto 
+                 WHERE pxp.IdProveedor = 1 AND p.Estado = 0
+
 

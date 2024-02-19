@@ -304,15 +304,12 @@ namespace Negocio
             {
                 // Usar un marcador de posición para el parámetro
 
-                string query = "SELECT p.IdProductos, p.Nombre, p.PorcentajeGanancia, p.StockActual, p.StockMinimo, p.IdMarca, p.IdCategoria, p.Estado, p.UrlImagen, pxp.PrecioCompra " +
-                 "FROM Productos p " +
-                 "INNER JOIN Producto_x_Proveedor pxp ON p.IdProductos = pxp.IdProducto " +
-                 "WHERE pxp.IdProveedor = @IdProveedor AND p.Estado = 0";
+                string query = "select p.ProductoID,p.Nombre, p.PorcentajeGanancia, p.StockActual, p.StockMinimo, p.MarcaID, p.TipoID, p.Estado,p.UrlImagen, pp.PrecioCompra from Productos p \r\ninner join Producto_x_Proveedor pp on pp.ProductoID = p.ProductoID\r\nwhere pp.ProveedorID = @IdProveedor and p.Estado = 0";
 
                 // Verifica si se proporciona un ID de categoría y ajusta la consulta en consecuencia
                 if (IdCategoria.HasValue)
                 {
-                    query += " AND p.IdCategoria = @IdCategoria";
+                    query += " AND p.TipoID = @IdCategoria";
                 }
 
                 datos.SetearQuery(query);

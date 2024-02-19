@@ -18,8 +18,14 @@ namespace Dominio
         public int IdCategoria { get; set; }
         public bool Estado {  get; set; }
         public string UrlImagen { get; set; }
-
+        public decimal PrecioCompra { get; set; } // Agregar propiedad PrecioCompra
+        public int IdProveedor { get; set; } // Agregar propiedad IdProveedor
         public List<Producto_x_Proveedor> ProductosXProveedores { get; set; }
 
+        public Productos()
+        {
+            // Inicializar la lista de ProductosXProveedores
+            ProductosXProveedores = new List<Producto_x_Proveedor>();
+        }
     }
 }
