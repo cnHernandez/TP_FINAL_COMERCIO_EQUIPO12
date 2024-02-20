@@ -143,7 +143,7 @@ namespace Negocio
 
             try
             {
-                string query = "SELECT ProductoID, Nombre, PorcentajeGanancia, StockActual, StockMinimo, MarcaID, TipoID, UrlImagen, Estado FROM Productos WHERE Nombre LIKE @nombreProducto";
+                string query = "SELECT ProductoID, Nombre, PorcentajeGanancia, StockActual, StockMinimo, MarcaID, TipoID, UrlImagen, Estado FROM Productos WHERE Estado = 0 and Nombre LIKE @nombreProducto";
                 datos.SetearQuery(query);
                 datos.setearParametros("@nombreProducto", "%" + nombreProducto + "%");
                 datos.EjecutarLectura();

@@ -1,6 +1,12 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Web.Master" AutoEventWireup="true" CodeBehind="AgregarPxP.aspx.cs" Inherits="Comercio.AgregarPxP" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+
+    <style>
+        body {
+            background-image: url('https://www.solidbackgrounds.com/images/1920x1080/1920x1080-bottle-green-solid-color-background.jpg');
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -8,7 +14,7 @@
         <div class="row">
             <asp:Repeater ID="reRepeater" runat="server" OnItemDataBound="reRepeater_ItemDataBound">
                 <ItemTemplate>
-                    <div class="col-md-4">
+                    <div class="col-md-4 mx-auto">
                         <div class="card mb-3">
                             <img src="<%#Eval("UrlImagen") %>" class="card-image card-img-top" alt="..." onerror="this.src='https://camarasal.com/wp-content/uploads/2020/08/default-image-5-1.jpg'">
                             <div class="card-body">
@@ -23,11 +29,11 @@
                                     </asp:DropDownList>
                                     <asp:TextBox ID="txtPrecio" runat="server" CssClass="form-control" placeholder="Precio"></asp:TextBox>
                                 </div>
+                                <div class="login-container">
+                                    <asp:Button runat="server" ID="btnAgregar" CssClass="btn btn-primary btn-block" Text="Agregar" OnClick="btnAgregar_Click" />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="login-container">
-                        <asp:Button runat="server" ID="btnAgregar" CssClass="btn btn-primary btn-block" Text="Agregar" OnClick="btnAgregar_Click"/>
                     </div>
                 </ItemTemplate>
             </asp:Repeater>

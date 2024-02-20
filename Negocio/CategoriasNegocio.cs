@@ -57,7 +57,7 @@ namespace Negocio
 
             try
             {
-                string query = "SELECT TipoID, Nombre, UrlImagen, Estado FROM Tipos WHERE Nombre LIKE @nombreCategoria";
+                string query = "SELECT TipoID, Nombre, UrlImagen, Estado FROM Tipos WHERE Estado = 0 and Nombre LIKE @nombreCategoria";
                 datos.SetearQuery(query);
                 datos.setearParametros("@nombreCategoria", "%" + nombreCategoria + "%");
                 datos.EjecutarLectura();

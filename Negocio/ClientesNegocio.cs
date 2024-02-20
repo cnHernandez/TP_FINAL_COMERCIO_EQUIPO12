@@ -121,7 +121,7 @@ namespace Negocio
 
             try
             {
-                string query = "SELECT ClienteID, Nombre, Apellido, Mail, Dni, Telefono, Estado FROM Clientes WHERE Nombre LIKE @filtro OR Apellido LIKE @filtro";
+                string query = "SELECT ClienteID, Nombre, Apellido, Mail, Dni, Telefono, Estado FROM Clientes WHERE Estado = 0 AND (Nombre LIKE @filtro OR Apellido LIKE @filtro)";
                 datos.SetearQuery(query);
                 datos.setearParametros("@filtro", "%" + filtro + "%");
                 datos.EjecutarLectura();

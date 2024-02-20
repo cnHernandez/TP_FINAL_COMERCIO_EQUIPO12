@@ -66,7 +66,7 @@ namespace Negocio
 
             try
             {
-                string query = "SELECT MarcaID, Nombre, UrlImagen, Estado FROM Marcas WHERE Nombre LIKE @nombreMarca";
+                string query = "SELECT MarcaID, Nombre, UrlImagen, Estado FROM Marcas WHERE Estado = 0 and Nombre LIKE @nombreMarca";
                 datos.SetearQuery(query);
                 datos.setearParametros("@nombreMarca", "%" + nombreMarca + "%");
                 datos.EjecutarLectura();

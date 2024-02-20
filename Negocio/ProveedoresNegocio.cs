@@ -57,7 +57,7 @@ namespace Negocio
 
             try
             {
-                string query = "SELECT ProveedorID, Nombre, Rubro, Estado, UrlImagen FROM Proveedores WHERE Nombre LIKE @nombreProveedor";
+                string query = "SELECT ProveedorID, Nombre, Rubro, Estado, UrlImagen FROM Proveedores WHERE Estado = 0 and Nombre LIKE @nombreProveedor";
                 datos.SetearQuery(query);
                 datos.setearParametros("@nombreProveedor", "%" + nombreProveedor + "%");
                 datos.EjecutarLectura();

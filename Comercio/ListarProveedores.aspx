@@ -4,13 +4,11 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container" style="margin-top: 30px; margin-bottom: 80px;">
-        <div class="login-container">
-            <a href="AgregarProveedor.aspx" class="btn btn-primary">Agregar Proveedor</a>
-        </div>
-        <div class="login-container" style="display: flex; align-items: center; max-width: 600px; margin-left: 320px; margin-top: 10px;">
-            <label for="txtNombre" style="margin-right: 10px; margin-bottom: 0;">Ingrese el Nombre del Proveedor </label>
-            <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control" Style="margin-right: 10px; margin-bottom: 0;"></asp:TextBox>
-            <asp:Button runat="server" ID="btnBuscarProveedor" Text="Buscar Proveedor" CssClass="btn btn-primary" Style="margin-top: 10px;" OnClick="btnBuscarProveedor_Click" />
+
+        <div class="login-container" style="display: flex; flex-direction: column; align-items: center; max-width: 600px; margin: 0 auto; margin-top: 10px;">
+            <label for="txtNombre" style="margin-bottom: 10px;">Nombre del Proveedor: </label>
+            <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control" Style="margin-bottom: 10px;"></asp:TextBox>
+            <asp:Button runat="server" ID="btnBuscarProveedor" Text="Buscar Proveedor" CssClass="btn btn-primary" OnClick="btnBuscarProveedor_Click" />
         </div>
         <div class="container" style="margin-top: 30px">
             <div class="row">
@@ -38,7 +36,9 @@
 
         </div>
     </div>
-
+    <div class="login-container" style="margin-bottom:100px;">
+        <a href="AgregarProveedor.aspx" class="btn btn-primary">Agregar Proveedor</a>
+    </div>
     <script>
         function confirmarEliminacion(IdProveedor) {
             // Muestra un modal de Bootstrap para confirmar la eliminación

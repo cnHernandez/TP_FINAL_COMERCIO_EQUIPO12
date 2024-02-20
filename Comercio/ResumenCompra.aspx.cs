@@ -17,7 +17,7 @@ namespace Comercio
         {
             if (!IsPostBack)
             {
-                MostrarDetallesCompra();
+                MostrarDetallesCompra();               
             }
         }
         private void MostrarDetallesCompra()

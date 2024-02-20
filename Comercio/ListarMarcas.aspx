@@ -5,13 +5,11 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
     <div class="container" style="margin-top: 30px; margin-bottom: 80px;">
-        <div class="login-container">
-            <a href="AgregarMarca.aspx" class="btn btn-primary">Agregar Marca</a>
-        </div>
-        <div class="login-container" style="display: flex; align-items: center; max-width: 600px; margin-left: 320px; margin-top: 10px;">
-            <label for="txtNombre" style="margin-right: 10px; margin-bottom: 0;">Ingrese el Nombre de la marca: </label>
-            <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control" Style="margin-right: 10px; margin-bottom: 0;"></asp:TextBox>
-            <asp:Button runat="server" ID="btnBuscarMarca" Text="Buscar Marca" CssClass="btn btn-primary" Style="margin-top: 10px;" OnClick="btnBuscarMarca_Click" />
+
+        <div class="login-container" style="display: flex; flex-direction: column; align-items: center; max-width: 600px; margin: 0 auto; margin-top: 10px;">
+            <label for="txtNombre" style="margin-bottom: 10px;">Nombre de la Marca: </label>
+            <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control" Style="margin-bottom: 10px;"></asp:TextBox>
+            <asp:Button runat="server" ID="btnBuscarMarca" Text="Buscar Marca" CssClass="btn btn-primary" OnClick="btnBuscarMarca_Click" />
         </div>
         <div class="container" style="margin-top: 30px">
             <div class="row">
@@ -37,7 +35,9 @@
 
         </div>
     </div>
-
+    <div class="login-container" style="margin-bottom: 100px;">
+        <a href="AgregarMarca.aspx" class="btn btn-primary">Agregar Marca</a>
+    </div>
     <script>
         function confirmarEliminacion(idMarcas) {
             // Muestra un modal de Bootstrap para confirmar la eliminación

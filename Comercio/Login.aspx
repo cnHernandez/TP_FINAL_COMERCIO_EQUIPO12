@@ -16,7 +16,7 @@
                         <div class="form-group">
                             <label for="txtPassword">Contraseña:</label>
                             <br />
-                            <asp:TextBox ID="txtPass" runat="server" TextMode="Password"></asp:TextBox>
+                            <asp:TextBox ID="txtPass" runat="server" TextMode="Password" style="margin-left: 25px;"></asp:TextBox>
                             <span id="togglePassword" style="cursor: pointer;" onclick="togglePasswordVisibility()">
                                 <img src="https://e7.pngegg.com/pngimages/946/952/png-clipart-workforce-planning-business-unicornio-angle-company.png" alt="Toggle Password Visibility" width="20" height="20" />
                             </span>

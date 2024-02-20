@@ -28,6 +28,8 @@ namespace Comercio
             if (!IsPostBack)
             {
                 // Cargar proveedores solo en la carga inicial
+                Session["productosSeleccionados"] = null;
+                Session["detallesCompra"] = null;
                 CargarProveedor();
                 CargarCategorias();
             }

@@ -6,11 +6,12 @@
 
     <h1 class="Profesionales">Nuestros Productos</h1>
 
-    <div class="login-container" style="display: flex; align-items: center; max-width: 600px; margin-left: 700px; margin-top: 10px;">
-        <label for="txtNombre" style="margin-right: 10px; margin-bottom: 0;">Ingrese el Nombre del Producto: </label>
-        <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control" Style="margin-right: 10px; margin-bottom: 0;"></asp:TextBox>
-        <asp:Button runat="server" ID="btnBuscarProducto" Text="Buscar Producto" CssClass="btn btn-primary" Style="margin-top: 10px;" OnClick="btnBuscarProducto_Click" />
+    <div class="login-container" style="display: flex; flex-direction: column; align-items: center; max-width: 600px; margin: 0 auto; margin-top: 10px;">
+        <label for="txtNombre" style="margin-bottom: 10px;">Nombre del Producto: </label>
+        <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control" Style="margin-bottom: 10px;"></asp:TextBox>
+        <asp:Button runat="server" ID="btnBuscarProducto" Text="Buscar Producto" CssClass="btn btn-primary" OnClick="btnBuscarProducto_Click" />
     </div>
+
     <asp:ScriptManager ID="ScriptManager1" runat="server" />
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>
@@ -38,7 +39,7 @@
                     <asp:CommandField HeaderText="Modificar" ShowSelectButton="true" SelectText="Modificar" ControlStyle-CssClass="modificar-button" />
                     <asp:TemplateField HeaderText="Agregar Proveedor y precio">
                         <ItemTemplate>
-                            <asp:LinkButton ID="lnkAgregarPxP" runat="server" Text="Agregarle Proveedor" CssClass="eliminar-button" CommandName="AgregarProveedor" CommandArgument='<%# Eval("IdProductos") %>'></asp:LinkButton>
+                            <asp:LinkButton ID="lnkAgregarPxP" runat="server" Text="Agregar Proveedor" CssClass="eliminar-button" CommandName="AgregarProveedor" CommandArgument='<%# Eval("IdProductos") %>'></asp:LinkButton>
                         </ItemTemplate>
                     </asp:TemplateField>
 
@@ -48,7 +49,7 @@
 
         </ContentTemplate>
     </asp:UpdatePanel>
-    <div class="login-container">
+    <div class="login-container" style="margin-bottom:100px;">
         <a href="AgregarProducto.aspx" class="btn btn-primary">Agregar Producto</a>
     </div>
 
