@@ -1,10 +1,11 @@
-﻿using Dominio;
-using Negocio;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
+using System.Web.UI;
 using System.Web.UI.WebControls;
-
+using Dominio;
+using Negocio;
 
 namespace Comercio
 {
@@ -13,8 +14,6 @@ namespace Comercio
         private List<Productos> productosSeleccionados = new List<Productos>();
 
         private List<DetalleCompra> detallesCompra = new List<DetalleCompra>();
-
-
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -37,12 +36,12 @@ namespace Comercio
         private void CargarProveedor()
         {
             ProveedoresNegocio pro = new ProveedoresNegocio();
-            ddlProveedor1.DataSource = pro.ListarProveedores();
-            ddlProveedor1.DataTextField = "Nombre";
-            ddlProveedor1.DataValueField = "IdProveedor";
-            ddlProveedor1.DataBind();
+            ddlProveedor.DataSource = pro.ListarProveedores();
+            ddlProveedor.DataTextField = "Nombre";
+            ddlProveedor.DataValueField = "IdProveedor";
+            ddlProveedor.DataBind();
 
-            ddlProveedor1.Items.Insert(0, new ListItem("-- Seleccione un proveedor --", ""));
+            ddlProveedor.Items.Insert(0, new ListItem("-- Seleccione un proveedor --", ""));
         }
 
         private void CargarCategorias()
@@ -83,7 +82,6 @@ namespace Comercio
             }
         }
 
-
         private int ObtenerCantidadDesdeSesion(GridViewRow row)
         {
             // Obtener el Id del producto desde la GridViewRow
@@ -111,7 +109,7 @@ namespace Comercio
         private void BindGridViewData()
         {
             ProductosNegocio negocio = new ProductosNegocio();
-            int idProveedor = Convert.ToInt32(ddlProveedor1.SelectedValue);
+            int idProveedor = Convert.ToInt32(ddlProveedor.SelectedValue);
             List<Dominio.Productos> listaProductos = negocio.TodoslosProductosPorProveedor(idProveedor);
             dataGridViewProductos1.DataSource = listaProductos;
             dataGridViewProductos1.DataBind();
@@ -135,9 +133,9 @@ namespace Comercio
 
         protected void ddlProveedor_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(ddlProveedor1.SelectedValue))
+            if (!string.IsNullOrEmpty(ddlProveedor.SelectedValue))
             {
-                int idProveedor = Convert.ToInt32(ddlProveedor1.SelectedValue);
+                int idProveedor = Convert.ToInt32(ddlProveedor.SelectedValue);
 
                 // Verifica si se ha seleccionado una categoría antes de obtener su valor
                 if (!string.IsNullOrEmpty(ddlCat1.SelectedValue))
@@ -153,7 +151,7 @@ namespace Comercio
                 }
 
                 // Deshabilita el DropDownList después de seleccionar un proveedor
-                ddlProveedor1.Enabled = false;
+                ddlProveedor.Enabled = false;
             }
         }
 
@@ -162,9 +160,9 @@ namespace Comercio
         private int ProveedorSeleccionado()
         {
             int idProveedor = 0;
-            if (!string.IsNullOrEmpty(ddlProveedor1.SelectedValue))
+            if (!string.IsNullOrEmpty(ddlProveedor.SelectedValue))
             {
-                idProveedor = Convert.ToInt32(ddlProveedor1.SelectedValue);
+                idProveedor = Convert.ToInt32(ddlProveedor.SelectedValue);
             }
             return idProveedor;
         }
@@ -172,9 +170,9 @@ namespace Comercio
         private string NombreProveedorSeleccionado()
         {
             string nombreProveedor = "";
-            if (!string.IsNullOrEmpty(ddlProveedor1.SelectedValue))
+            if (!string.IsNullOrEmpty(ddlProveedor.SelectedValue))
             {
-                nombreProveedor = ddlProveedor1.SelectedItem.Text;
+                nombreProveedor = ddlProveedor.SelectedItem.Text;
             }
             return nombreProveedor;
         }
@@ -367,21 +365,17 @@ namespace Comercio
             // a partir de los valores en la GridViewRow.
             // Puedes acceder a los valores mediante los índices de las celdas.
             int idProducto = Convert.ToInt32(row.Cells[0].Text);  // Ajusta el índice según la posición de la columna IdProducto en tu GridView
-            string nombre = row.Cells[1].Text;
-            decimal porcentaje = Convert.ToDecimal(row.Cells[3].Text);
-            int stockActual = Convert.ToInt32(row.Cells[4].Text);
-            int stockMinimo = Convert.ToInt32(row.Cells[5].Text);
-            int idMarca = Convert.ToInt32(row.Cells[6].Text);
-            int idCategoria = Convert.ToInt32(row.Cells[7].Text);
 
-            // Busca en la lista de ProductosXProveedores el ProductoID correspondiente al IdProducto de la fila
-            Producto_x_Proveedor productoProveedor = producto.ProductosXProveedores.Find(p => p.ProductoID == idProducto);
-            if (productoProveedor != null)
-            {
-                // Asigna los valores de PrecioCompra e IdProveedor desde el objeto productoProveedor
-                producto.PrecioCompra = productoProveedor.PrecioCompra;
-                producto.IdProveedor = productoProveedor.ProveedorID;
-            }
+            string nombre = row.Cells[1].Text;
+            decimal precioCompra = Convert.ToDecimal(row.Cells[7].Text);
+            decimal porcentaje = Convert.ToDecimal(row.Cells[2].Text);
+            int stockActual = Convert.ToInt32(row.Cells[3].Text);
+            int stockMinimo = Convert.ToInt32(row.Cells[4].Text);
+            int idMarca = Convert.ToInt32(row.Cells[5].Text);
+            int idCategoria = Convert.ToInt32(row.Cells[6].Text);
+            int IdProveedor = Convert.ToInt32(row.Cells[8].Text);
+
+
 
             // Crea el objeto Productos y devuelve
             producto.IdProductos = idProducto;
@@ -392,6 +386,7 @@ namespace Comercio
             producto.IdMarca = idMarca;
             producto.IdCategoria = idCategoria;
             producto.Estado = true;
+
 
             return producto;
         }
@@ -425,7 +420,7 @@ namespace Comercio
             if (txtCantidad != null && lblSubtotal != null)
             {
                 // Acceder directamente a las celdas de GridView para obtener los valores
-                decimal precioCompra = Convert.ToDecimal(row.Cells[2].Text); // Cambia el índice según la posición de la columna PrecioCompra en tu GridView
+                decimal precioCompra = Convert.ToDecimal(row.Cells[7].Text); // Cambia el índice según la posición de la columna PrecioCompra en tu GridView
                 int cantidad = Convert.ToInt32(txtCantidad.Text);
                 decimal subtotal = precioCompra * cantidad;
 
@@ -452,9 +447,9 @@ namespace Comercio
         protected void ddlCat_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-            if (!string.IsNullOrEmpty(ddlProveedor1.SelectedValue) && !string.IsNullOrEmpty(ddlCat1.SelectedValue))
+            if (!string.IsNullOrEmpty(ddlProveedor.SelectedValue) && !string.IsNullOrEmpty(ddlCat1.SelectedValue))
             {
-                int idProveedor = Convert.ToInt32(ddlProveedor1.SelectedValue);
+                int idProveedor = Convert.ToInt32(ddlProveedor.SelectedValue);
                 int idCat = Convert.ToInt32(ddlCat1.SelectedValue);
 
                 // Llama al método para cargar los productos asociados al proveedor y la categoría seleccionados

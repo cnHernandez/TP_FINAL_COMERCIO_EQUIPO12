@@ -27,6 +27,14 @@ namespace Comercio
             }
         }
 
+        protected decimal ObtenerPrecioCompra(object productosXProveedores)
+        {
+            if (productosXProveedores is List<Producto_x_Proveedor> lista && lista.Any())
+            {
+                return lista[0].PrecioCompra;
+            }
+            return 0; // O cualquier otro valor predeterminado que desees
+        }
         protected void btnBuscarProducto_Click(object sender, EventArgs e)
         {
             string nombreProducto = txtNombre.Text.Trim();
@@ -35,7 +43,7 @@ namespace Comercio
             {
                 // Utilizar la misma lista de productos para agregar resultados de búsqueda
                 ProductosNegocio negocio = new ProductosNegocio();
-                listaProductos = negocio.ObtenerProductosPorNombre(nombreProducto);
+                listaProductos = negocio.ObtenerProductosConPrecioYnombre(nombreProducto);
 
                 reRepeater.DataSource = listaProductos;
                 reRepeater.DataBind();

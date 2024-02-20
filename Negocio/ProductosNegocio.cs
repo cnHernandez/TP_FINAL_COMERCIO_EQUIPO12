@@ -175,6 +175,48 @@ namespace Negocio
             }
         }
 
+        public List<Productos> ObtenerProductosConPrecioYnombre(string nombreProducto)
+        {
+            List<Productos> listaProductos = new List<Productos>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                string query = "SELECT ProductoID, Nombre, PorcentajeGanancia, StockActual, StockMinimo, MarcaID, TipoID, UrlImagen, Estado FROM Productos WHERE Estado = 0 and Nombre LIKE @nombreProducto";
+                datos.SetearQuery(query);
+                datos.setearParametros("@nombreProducto", "%" + nombreProducto + "%");
+                datos.EjecutarLectura();
+
+                while (datos.lector.Read())
+                {
+                    Productos aux = new Productos();
+                    aux.IdProductos = (int)datos.lector["ProductoID"];
+                    aux.ProductosXProveedores = new List<Producto_x_Proveedor>();
+                    aux.ProductosXProveedores = MaxPrecio(aux.IdProductos);
+                    aux.Nombre = (string)datos.lector["Nombre"];
+                    aux.PorcentajeGanancia = (decimal)datos.lector["PorcentajeGanancia"];
+                    aux.StockActual = (int)datos.lector["StockActual"];
+                    aux.StockMinimo = (int)datos.lector["StockMinimo"];
+                    aux.UrlImagen = (string)datos.lector["UrlImagen"];
+                    aux.IdCategoria = (int)datos.lector["TipoID"];
+                    aux.IdMarca = (int)datos.lector["MarcaID"];
+                    aux.Estado = (bool)datos.lector["Estado"];
+
+                    listaProductos.Add(aux);
+                }
+
+                return listaProductos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
         public List<Producto_x_Proveedor> MaxPrecio (int idPro)
         {
 
@@ -372,10 +414,10 @@ namespace Negocio
             {
                 // Usar un marcador de posición para el parámetro
 
-                datos.SetearQuery("SELECT p.ProductoID, p.Nombre, p.PorcentajeGanancia, p.StockActual, p.StockMinimo, p.IdMarca, p.IdCategoria, p.Estado, p.UrlImagen, pxp.PrecioCompra " +
-                             "FROM Productos p " +
-                             "INNER JOIN Producto_x_Proveedor pxp ON p.ProductoID = pxp.ProductoID " +
-                             "WHERE pxp.ProveedorID = @IdProveedor AND p.Estado = 0");
+                datos.SetearQuery("SELECT p.ProductoID, p.Nombre, p.PorcentajeGanancia, p.StockActual, p.StockMinimo, p.MarcaID, p.TipoID, p.Estado, p.UrlImagen, pxp.PrecioCompra, pxp.ProveedorID " +
+                                 "FROM Productos p " +
+                                 "INNER JOIN Producto_x_Proveedor pxp ON p.ProductoID = pxp.ProductoID " +
+                                 "WHERE pxp.ProveedorID = @IdProveedor AND p.Estado = 0");
 
                 datos.setearParametros("@IdProveedor", Id);
                 datos.EjecutarLectura();
@@ -419,6 +461,7 @@ namespace Negocio
                 datos.CerrarConexion();
             }
         }
+
 
         public long AgregarProducto(Productos nuevo)
         {
