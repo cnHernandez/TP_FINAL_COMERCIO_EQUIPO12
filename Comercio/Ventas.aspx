@@ -17,7 +17,11 @@
             <Columns>
                 <asp:BoundField DataField="IdProductos" HeaderText="ID" SortExpression="IdProductos" />
                 <asp:BoundField DataField="Nombre" HeaderText="Nombre" SortExpression="Nombre" />
-                <asp:BoundField DataField="PrecioCompra" HeaderText="Precio Compra" SortExpression="PrecioCompra" />
+                <asp:TemplateField HeaderText="Precio Compra">
+                    <ItemTemplate>
+                        <asp:Label ID="lblPrecioCompra" runat="server" Text='<%# Eval("ProductosXProveedores[0].PrecioCompra") %>'></asp:Label>
+                    </ItemTemplate>
+                </asp:TemplateField>
                 <asp:BoundField DataField="PorcentajeGanancia" HeaderText="Porcentaje Ganancia" SortExpression="PorcentajeGanancia" />
                 <asp:BoundField DataField="StockActual" HeaderText="Stock Actual" SortExpression="StockActual" />
                 <asp:BoundField DataField="StockMinimo" HeaderText="Stock Mínimo" SortExpression="StockMinimo" />

@@ -160,6 +160,7 @@ namespace Negocio
                     aux.IdCategoria = (int)datos.lector["TipoID"];
                     aux.Estado = (bool)datos.lector["Estado"];
 
+
                     listaProductos.Add(aux);
                 }
 

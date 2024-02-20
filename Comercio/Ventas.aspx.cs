@@ -152,7 +152,7 @@ namespace Comercio
             {
                 // Utilizar la misma lista de productos para agregar resultados de búsqueda
                 ProductosNegocio negocio = new ProductosNegocio();
-                listaProductos = negocio.ObtenerProductosPorNombre(nombreProducto);
+                listaProductos = negocio.ObtenerProductosConPrecioYnombre(nombreProducto);
 
                 dgvProductos.DataSource = listaProductos;
                 dgvProductos.DataBind();
@@ -254,25 +254,12 @@ namespace Comercio
             }
             catch (Exception ex)
             {
+                throw ex; 
             }
         }
 
-        /*  public int? buscarIdCliente( string dni)
-          {
-              ClientesNegocio negocio = new ClientesNegocio();
-
-              try
-              {
-                  return negocio.buscarNroCliente(dni);
-
-
-              }
-              catch (Exception)
-              {
-
-                  throw;
-              }
-          }*/
+   
+        
         public decimal getTotalVenta()
         {
             decimal totalVenta;
@@ -309,19 +296,29 @@ namespace Comercio
 
                     if (!ProductoYaSeleccionado(idProducto))
                     {
-                        DetalleVenta aux = new DetalleVenta();
                         Productos producto = ObtenerProductoPorId(idProducto);
 
-                        aux.IdProducto = idProducto;
-                       //corregir  aux.PrecioVenta = ((producto.PorcentajeGanancia / 100) + 1) * producto.PrecioCompra;
-                        
-                        aux.Subtotal = 0;
-                        aux.IdVenta = 0;
-                        detallesVentaSession.Add(aux);
-                        productosSeleccionadosSession.Add(producto);
+                        // Validar si hay suficiente stock disponible
+                        if (producto.StockActual > 0)
+                        {
+                            DetalleVenta aux = new DetalleVenta();
+                            aux.IdProducto = idProducto;
+                            aux.PrecioVenta = (producto.ProductosXProveedores[0].PrecioCompra) * (producto.PorcentajeGanancia / 100 + 1);
+                            aux.Subtotal = 0;
+                            aux.IdVenta = 0;
 
-                        // Limpiar el mensaje de error
-                        lblMensajeError.Text = string.Empty;
+                            // Agregar el producto y detalle de venta a las listas
+                            detallesVentaSession.Add(aux);
+                            productosSeleccionadosSession.Add(producto);
+
+                            // Limpiar el mensaje de error
+                            lblMensajeError.Text = string.Empty;
+                        }
+                        else
+                        {
+                            lblMensajeError.Text = "El producto seleccionado no tiene suficiente stock disponible.";
+                            return; // Sale del método si no hay suficiente stock
+                        }
                     }
                     else
                     {
