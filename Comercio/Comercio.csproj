@@ -162,6 +162,7 @@
     <Content Include="DefaultVendedor.aspx" />
     <Content Include="Error.aspx" />
     <Content Include="ListarCategorias.aspx" />
+    <Content Include="ListarCompras.aspx" />
     <Content Include="ListarProductos.aspx" />
     <Content Include="ListarProveedores.aspx" />
     <Content Include="ListarUsuarios.aspx" />
@@ -279,6 +280,13 @@
     </Compile>
     <Compile Include="ListarCategorias.aspx.designer.cs">
       <DependentUpon>ListarCategorias.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ListarCompras.aspx.cs">
+      <DependentUpon>ListarCompras.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ListarCompras.aspx.designer.cs">
+      <DependentUpon>ListarCompras.aspx</DependentUpon>
     </Compile>
     <Compile Include="ListarProductos.aspx.cs">
       <DependentUpon>ListarProductos.aspx</DependentUpon>

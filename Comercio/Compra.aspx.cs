@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -209,7 +210,14 @@ namespace Comercio
             {
                 Dominio.Compras nuevaCompra = new Dominio.Compras();
                 nuevaCompra.IdProveedor = ProveedorSeleccionado();
-                nuevaCompra.FechaCompra = DateTime.Now;
+                string fechaCompraString = DateTime.Now.ToString("dd/MM/yyyy");
+
+                // Parsear la cadena de fecha al tipo DateTime
+                DateTime fechaCompra;
+                if (DateTime.TryParseExact(fechaCompraString, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out fechaCompra))
+                {
+                    nuevaCompra.FechaCompra = fechaCompra;
+                }
                 nuevaCompra.Estado = true;
                 nuevaCompra.TotalCompra = TotalDeCompra();
 
@@ -459,5 +467,9 @@ namespace Comercio
             }
         }
 
+        protected void btnListadoCompras_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("ListarCompras.aspx");
+        }
     }
 }

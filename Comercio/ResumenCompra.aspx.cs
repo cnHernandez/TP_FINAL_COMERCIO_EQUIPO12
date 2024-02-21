@@ -15,10 +15,26 @@ namespace Comercio
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            DetalleCompraNegocio negocio = new DetalleCompraNegocio();
             if (!IsPostBack)
             {
-                MostrarDetallesCompra();               
-            }
+
+                if (Request.QueryString["IdCompra"] != null)
+                {
+                    // Obtener el valor del parámetro IdCompra de la URL
+                    string idCompra = Request.QueryString["IdCompra"];
+                    
+                        // Llamar al método para mostrar los detalles de la compra por IdCompra
+                        
+                    gvDetallesCompra.DataSource = negocio.ListarCompras(idCompra);
+                    gvDetallesCompra.DataBind();
+                }
+                    else
+                    {
+                    MostrarDetallesCompra();
+                    }
+                }
+            
         }
         private void MostrarDetallesCompra()
         {
@@ -34,6 +50,7 @@ namespace Comercio
 
             }
         }
+    
         protected void btnIrAPaginaPrincipal_Click(object sender, EventArgs e)
         {
             // Redirigir a la página principal (cambia la URL según tu estructura de proyecto)
@@ -74,11 +91,39 @@ namespace Comercio
 
             protected void btnDescargarFactura_Click(object sender, EventArgs e)
             {
-                List<DetalleCompra> detallesCompra = Session["detallesCompra"] as List<DetalleCompra>;
+           
+                List<DetalleCompra> detallesCompra = null;
+                decimal total = 0;
+
+                // Verificar si hay un IdCompra en la URL
+                if (Request.QueryString["IdCompra"] != null)
+                {
+                    // Obtener el IdCompra de la URL
+                    string idCompra = Request.QueryString["IdCompra"];
+
+                    // Llamar al método para obtener los detalles de la compra por IdCompra
+                    detallesCompra = ObtenerDetallesCompraPorId(idCompra);
+
+                    // Calcular el total de la compra
+                    total = detallesCompra.Sum(detalle => detalle.Subtotal);
+                }
+                else
+                {
+                    // Si no hay un IdCompra en la URL, verificar si hay detalles de compra en la sesión
+                    if (Session["detallesCompra"] != null)
+                    {
+                        // Obtener los detalles de la compra de la sesión
+                        detallesCompra = Session["detallesCompra"] as List<DetalleCompra>;
+
+                        // Calcular el total de la compra
+                        total = detallesCompra.Sum(detalle => detalle.Subtotal);
+                    }
+                }
+
+                // Verificar si se obtuvieron detalles de compra
                 if (detallesCompra != null && detallesCompra.Count > 0)
                 {
-                    decimal total = detallesCompra.Sum(detalle => detalle.Subtotal);
-
+                    // Generar el contenido HTML de la factura
                     string contenidoHTML = GenerarContenidoFactura(detallesCompra, total);
 
                     // Configuración de la respuesta HTTP para descargar el archivo
@@ -89,6 +134,14 @@ namespace Comercio
                     Response.End();
                 }
             }
+
+            private List<DetalleCompra> ObtenerDetallesCompraPorId(string idCompra)
+            {
+                // Llamar al método para obtener los detalles de la compra por IdCompra
+                DetalleCompraNegocio negocio = new DetalleCompraNegocio();
+                return negocio.ListarCompras(idCompra);
+            }
+        
 
         protected string GenerarContenidoFactura(List<DetalleCompra> detallesCompra, decimal total)
         {
@@ -107,10 +160,10 @@ namespace Comercio
             foreach (DetalleCompra detalle in detallesCompra)
             {
                 // Supongamos que tienes una lista de productos con IdProducto y NombreProducto
-                Productos producto = ObtenerProductoPorId(detalle.IdProducto);
+               // Productos producto = ObtenerProductoPorId(detalle.IdProducto);
 
                 sb.AppendLine($"<p>ID Producto: {detalle.IdProducto}</p>");
-                sb.AppendLine($"<p>Nombre Producto: {producto.Nombre}</p>");
+                sb.AppendLine($"<p>Nombre Producto: {detalle.NombreProducto}</p>");
                 sb.AppendLine($"<p>Nombre Proveedor: {detalle.NombreProveedor}</p>");
                 sb.AppendLine($"<p>Cantidad: {detalle.Cantidad}</p>");
                 sb.AppendLine($"<p>Precio Unitario: {detalle.PrecioCompra.ToString("C")}</p>");
@@ -128,13 +181,23 @@ namespace Comercio
 
         private Productos ObtenerProductoPorId(int idProducto)
         {
-            // Supongamos que tienes una lista de productos llamada 'listaProductos'
-            // y que Producto tiene propiedades IdProducto y NombreProducto
             List<Productos> productosSeleccionados = Session["productosSeleccionados"] as List<Productos>;
-            // Asegúrate de tener la lógica adecuada para obtener el producto desde tu fuente de datos
-            Productos productoEncontrado = productosSeleccionados.FirstOrDefault(p => p.IdProductos == idProducto);
 
-            return productoEncontrado ?? new Productos(); // Manejo de caso cuando el producto no se encuentra
+            // Verificar si la lista de productos seleccionados no es nula y contiene elementos
+            if (productosSeleccionados != null && productosSeleccionados.Count > 0)
+            {
+                // Intentar encontrar el producto con el IdProducto especificado
+                Productos productoEncontrado = productosSeleccionados.FirstOrDefault(p => p.IdProductos == idProducto);
+
+                // Verificar si se encontró un producto con el IdProducto especificado
+                if (productoEncontrado != null)
+                {
+                    return productoEncontrado; // Devolver el producto encontrado
+                }
+            }
+
+            // Si no se encuentra el producto o la lista de productos es nula o está vacía, devolver un nuevo objeto Productos
+            return new Productos();
         }
     }
 
