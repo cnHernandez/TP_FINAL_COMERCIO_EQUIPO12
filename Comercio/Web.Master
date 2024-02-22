@@ -15,91 +15,94 @@
 </head>
 <body>
     <form runat="server">
-         <div id="headerAdmin" runat="server" visible="false">
-        <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/Default.aspx">
-                    <img src="https://cdn-icons-png.flaticon.com/512/8194/8194058.png" alt="Logo" style="height: 30px; margin-right: 10px;">
-                    Mercado Útil
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="ListarProductos.aspx">Productos</a>
-                        </li>
+        <div id="headerAdmin" runat="server" visible="false">
+            <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="/Default.aspx">
+                        <img src="https://cdn-icons-png.flaticon.com/512/8194/8194058.png" alt="Logo" style="height: 30px; margin-right: 10px;">
+                        Mercado Útil
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="ListarProductos.aspx">Productos</a>
+                            </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="Clientes.aspx">Clientes</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="Clientes.aspx">Clientes</a>
+                            </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="ListarMarcas.aspx">Marcas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="ListarCategorias.aspx">Categorias</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="ListarProveedores.aspx">Proveedores</a>
-                        </li>
-                          <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="ListarUsuarios.aspx">Usuarios</a>
-                    </li>
-                    </ul>
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/Login.aspx"><span runat="server" id="Admin"></span><i class="fas fa-user"></i></a>
-                        </li>
-                        <li class="nav-item">
-                            <asp:LinkButton ID="btnLogout" runat="server" Text="Cerrar sesión" OnClick="Logout_Click" CssClass="nav-link logout-link">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="ListarMarcas.aspx">Marcas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="ListarCategorias.aspx">Categorias</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="ListarProveedores.aspx">Proveedores</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="ListarUsuarios.aspx">Usuarios</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="RegistrosCompras.aspx">Registros</a>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Login.aspx"><span runat="server" id="Admin"></span><i class="fas fa-user"></i></a>
+                            </li>
+                            <li class="nav-item">
+                                <asp:LinkButton ID="btnLogout" runat="server" Text="Cerrar sesión" OnClick="Logout_Click" CssClass="nav-link logout-link">
                                     <i class="fas fa-sign-out-alt"></i>
-                            </asp:LinkButton>
-                        </li>
-                    </ul>
+                                </asp:LinkButton>
+                            </li>
+                        </ul>
 
-               </div>
+                    </div>
                 </div>
-            
-            
-        </nav>
-             </div>
 
-<div id="headerUser" runat="server" visible="false">
-    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/Default.aspx">
-            <img src="https://cdn-icons-png.flaticon.com/512/8194/8194058.png" alt="Logo" style="height: 30px; margin-right: 10px;">
-            Mercado Útil
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent2">
-            
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="DefaultVendedor.aspx">Ventas</a>
-                </li>
-                           
-                <li class="nav-item">
-                    <a class="nav-link" href="/Login.aspx"><span runat="server" id="Vendedor"></span><i class="fas fa-user"></i></a>
-                </li>
-                <li class="nav-item">
-                    <asp:LinkButton ID="LinkButton1" runat="server" Text="Cerrar sesión" OnClick="Logout_Click" CssClass="nav-link logout-link">
-                            <i class="fas fa-sign-out-alt"></i>
-                    </asp:LinkButton>
-                </li>
-            </ul>
 
-       </div>
+            </nav>
         </div>
-    
-    
-</nav>
-     </div>
-    
+
+        <div id="headerUser" runat="server" visible="false">
+            <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="/Default.aspx">
+                        <img src="https://cdn-icons-png.flaticon.com/512/8194/8194058.png" alt="Logo" style="height: 30px; margin-right: 10px;">
+                        Mercado Útil
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent2">
+
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="DefaultVendedor.aspx">Ventas</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Login.aspx"><span runat="server" id="Vendedor"></span><i class="fas fa-user"></i></a>
+                            </li>
+                            <li class="nav-item">
+                                <asp:LinkButton ID="LinkButton1" runat="server" Text="Cerrar sesión" OnClick="Logout_Click" CssClass="nav-link logout-link">
+                            <i class="fas fa-sign-out-alt"></i>
+                                </asp:LinkButton>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+
+            </nav>
+        </div>
+
 
         <div>
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">

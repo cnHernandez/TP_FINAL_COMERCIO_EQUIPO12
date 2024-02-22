@@ -53,9 +53,6 @@
                 </Columns>
             </asp:GridView>
 
-            <div>
-            <asp:Button ID="btnListadoCompras"  runat="server" Text="Listado de Compras" OnClick="btnListadoCompras_Click" />
-            </div>
 
             <asp:Label ID="lblMensajeError1" runat="server" Text="" ForeColor="Red"></asp:Label>
 
@@ -69,12 +66,10 @@
 
 
 
+
         </ContentTemplate>
         <Triggers>
             <asp:PostBackTrigger ControlID="btnFinalizarCompra" />
-            
         </Triggers>
-        
-        
     </asp:UpdatePanel>
 </asp:Content>

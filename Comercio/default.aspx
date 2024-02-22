@@ -44,9 +44,14 @@
             <h2>Categorias</h2>
         </a>
 
-          <a href="CambiarPrecios.aspx" class="custom-card">
+        <a href="CambiarPrecios.aspx" class="custom-card">
             <i class="fas fa-tags fa-3x"></i>
             <h2>Cambio De Precio</h2>
+        </a>
+
+        <a href="RegistrosCompras.aspx" class="custom-card">
+            <i class="fas fa-tags fa-3x"></i>
+            <h2>Registros Compras</h2>
         </a>
     </div>
 

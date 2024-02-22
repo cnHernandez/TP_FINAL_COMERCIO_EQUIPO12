@@ -9,18 +9,18 @@ namespace Negocio
 {
     public class ComprasNegocio
     {
-        public List<Compras> ListarVentas(string id = "")
+        public List<Compras> ListarVentas(int id = 0)
         {
             List<Compras> Lista = new List<Compras>();
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.SetearQuery("select CompraID,ProveedorID,FechaCompra,TotalCompra,Estado from Compras where Estado=0");
-                if (!string.IsNullOrEmpty(id))
+                datos.SetearQuery("select CompraID, ProveedorID, FechaCompra, TotalCompra, Estado from Compras where Estado = 0");
+                if (id != 0)
                 {
                     datos.Comando.CommandText += " and CompraID = @Id";
-                    datos.setearParametros("@Id", Convert.ToInt32(id));
+                    datos.setearParametros("@Id", id);
                 }
 
                 datos.EjecutarLectura();
@@ -34,6 +34,8 @@ namespace Negocio
                     aux.TotalCompra = (decimal)datos.lector["TotalCompra"];
                     aux.Estado = (bool)datos.lector["Estado"];
 
+                    // Agregar el objeto Compras a la lista
+                    Lista.Add(aux);
                 }
 
                 return Lista;
@@ -47,6 +49,8 @@ namespace Negocio
                 datos.CerrarConexion();
             }
         }
+
+
 
         public long AgregarCompra(Compras nuevo)
         {

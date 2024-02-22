@@ -7,55 +7,7 @@ using Negocio;
 using Dominio; 
 
 public class DetalleCompraNegocio
-{
-    public List<DetalleCompra> ListarCompras(string id = "")
-    {
-        List<DetalleCompra> Lista = new List<DetalleCompra>();
-        AccesoDatos datos = new AccesoDatos();
-
-        try
-        {
-            datos.SetearQuery("select dc.CompraID, p.Nombre as NombreProducto, pv.Nombre as NombreProveedor, dc.Cantidad, dc.PrecioCompra, dc.Subtotal, c.FechaCompra from DetalleCompra dc inner join Productos p on p.ProductoID = dc.ProductoID\r\ninner join Producto_x_Proveedor pp on pp.ProductoID = p.ProductoID inner join Proveedores pv on pv.ProveedorID = pp.ProveedorID inner join Compras c on c.CompraID = dc.CompraID");
-
-            if (!string.IsNullOrEmpty(id))
-            {
-                datos.Comando.CommandText += " AND c.CompraID = @Id";
-                datos.setearParametros("@Id", id);
-            }
-
-            datos.EjecutarLectura();
-
-            while (datos.lector.Read())
-            {
-                DetalleCompra aux = new DetalleCompra();
-              
-                aux.IdCompra = (int)datos.lector["CompraID"];
-                aux.NombreProducto = (string)datos.lector["NombreProducto"];
-                aux.NombreProveedor = (string)datos.lector["NombreProveedor"];
-                aux.Cantidad = (int)datos.lector["Cantidad"];
-                aux.PrecioCompra = (decimal)datos.lector["PrecioCompra"];
-                aux.Subtotal = (decimal)datos.lector["Subtotal"];
-                aux.Fecha = (DateTime)datos.lector["FechaCompra"];
-
-                Lista.Add(aux);
-            }
-
-            return Lista;
-        }
-        catch (Exception ex)
-        {
-            throw ex;
-        }
-        finally
-        {
-            datos.CerrarConexion();
-        }
-    }
-
-    
-
-
-    public void InsertarDetalleCompra( DetalleCompra detalleCompra)
+{   public void InsertarDetalleCompra( DetalleCompra detalleCompra)
     {
         try
         {
@@ -81,7 +33,70 @@ public class DetalleCompraNegocio
         }
     }
 
-   
+    public List<DetalleCompra> ObtenerDetallesPorIdCompra(int idCompra, string pro)
+    {
+        try
+        {
+            List<DetalleCompra> detallesCompra = new List<DetalleCompra>();
+
+            using (AccesoDatos Datos = new AccesoDatos())
+            {
+                Datos.SetearQuery("SELECT dc.DetalleCompraID, dc.CompraID, dc.ProductoID, dc.Cantidad, dc.PrecioCompra, dc.Subtotal, p.Nombre AS NombreProducto, pxp.ProveedorID " +
+                                  "FROM DetalleCompra dc " +
+                                  "INNER JOIN Productos p ON dc.ProductoID = p.ProductoID " +
+                                  "INNER JOIN Producto_x_Proveedor pxp ON dc.ProductoID = pxp.ProductoID " +
+                                  "WHERE dc.CompraID = @IdCompra");
+                Datos.setearParametros("@IdCompra", idCompra);
+                Datos.EjecutarLectura();
+
+                while (Datos.lector.Read())
+                {
+                    DetalleCompra detalle = new DetalleCompra();
+                    detalle.IdDetalleCompra = Datos.lector.GetInt32(0);
+                    detalle.IdCompra = Datos.lector.GetInt32(1);
+                    detalle.IdProducto = Datos.lector.GetInt32(2);
+                    detalle.Cantidad = Datos.lector.GetInt32(3);
+                    detalle.PrecioCompra = Datos.lector.GetDecimal(4);
+                    detalle.Subtotal = Datos.lector.GetDecimal(5);
+                    detalle.NombreProducto = Datos.lector.GetString(6);
+
+                    // Obtener el nombre del proveedor
+                    int proveedorID = Datos.lector.GetInt32(7);
+
+                    ProveedoresNegocio negocio = new ProveedoresNegocio();
+                    detalle.NombreProveedor = pro;                 
+                    detallesCompra.Add(detalle);
+                    detallesCompra = EliminarDuplicados(detallesCompra);
+                }
+            }
+
+            return detallesCompra;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
+
+    private List<DetalleCompra> EliminarDuplicados(List<DetalleCompra> detallesCompra)
+    {
+        List<DetalleCompra> detallesFiltrados = new List<DetalleCompra>();
+        HashSet<int> idsAgregados = new HashSet<int>();
+
+        foreach (var detalle in detallesCompra)
+        {
+            if (!idsAgregados.Contains(detalle.IdProducto))
+            {
+                detallesFiltrados.Add(detalle);
+                idsAgregados.Add(detalle.IdProducto);
+            }
+        }
+
+        return detallesFiltrados;
+    }
+
+
 }
 
 

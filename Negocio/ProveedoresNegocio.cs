@@ -86,6 +86,35 @@ namespace Negocio
             }
         }
 
+        public string ObtenerNombreProveedorPorId(int idProveedor)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.SetearQuery("SELECT Nombre FROM Proveedores WHERE ProveedorID = @IdProveedor AND Estado = 0");
+                datos.setearParametros("@IdProveedor", idProveedor);
+                datos.EjecutarLectura();
+
+                if (datos.lector.Read())
+                {
+                    return datos.lector["Nombre"].ToString();
+                }
+                else
+                {
+                    // Manejar el caso en el que no se encuentre el proveedor con el ID dado
+                    return "Proveedor no encontrado";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
         public long AgregarProveedor(Proveedores nuevo)
         {
             try

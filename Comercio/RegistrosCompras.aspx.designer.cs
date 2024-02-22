@@ -11,8 +11,26 @@ namespace Comercio
 {
 
 
-    public partial class ListarCompras
+    public partial class RegistrosCompras
     {
+
+        /// <summary>
+        /// Control txtIdCompra.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtIdCompra;
+
+        /// <summary>
+        /// Control btnBuscarCompra.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnBuscarCompra;
 
         /// <summary>
         /// Control ScriptManager1.

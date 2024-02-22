@@ -162,13 +162,13 @@
     <Content Include="DefaultVendedor.aspx" />
     <Content Include="Error.aspx" />
     <Content Include="ListarCategorias.aspx" />
-    <Content Include="ListarCompras.aspx" />
     <Content Include="ListarProductos.aspx" />
     <Content Include="ListarProveedores.aspx" />
     <Content Include="ListarUsuarios.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="ListarMarcas.aspx" />
     <Content Include="Negocio\CambiarPrecio.aspx" />
+    <Content Include="RegistrosCompras.aspx" />
     <Content Include="ResumenCompra.aspx" />
     <Content Include="ResumenVenta.aspx" />
     <Content Include="Styles.css" />
@@ -281,13 +281,6 @@
     <Compile Include="ListarCategorias.aspx.designer.cs">
       <DependentUpon>ListarCategorias.aspx</DependentUpon>
     </Compile>
-    <Compile Include="ListarCompras.aspx.cs">
-      <DependentUpon>ListarCompras.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="ListarCompras.aspx.designer.cs">
-      <DependentUpon>ListarCompras.aspx</DependentUpon>
-    </Compile>
     <Compile Include="ListarProductos.aspx.cs">
       <DependentUpon>ListarProductos.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -332,6 +325,13 @@
     </Compile>
     <Compile Include="Negocio\CompraNegocio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegistrosCompras.aspx.cs">
+      <DependentUpon>RegistrosCompras.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RegistrosCompras.aspx.designer.cs">
+      <DependentUpon>RegistrosCompras.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ResumenCompra.aspx.cs">
       <DependentUpon>ResumenCompra.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
