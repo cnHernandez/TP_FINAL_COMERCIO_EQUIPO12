@@ -202,11 +202,21 @@ namespace Comercio
             List<Productos> productosEnSession = Session["ListaProductos"] as List<Productos>;
             List<DetalleVenta> detalleVentaEnSession = Session["ListaProductosSeleccionados"] as List<DetalleVenta>;
 
+            if (detalleVentaEnSession == null || detalleVentaEnSession.Any(detalle => detalle.Cantidad == 0))
+            {
+                lblMensajeError.Text = "Debe especificar la cantidad para todos los productos seleccionados antes de finalizar la venta.";
+                return;
+            }
+
             VentasNegocio negocio = new VentasNegocio();
             DetalleVentaNegocio ventaNegocio = new DetalleVentaNegocio();
             ProductosNegocio productosNegocio = new ProductosNegocio();
             ClientesNegocio clientesNegocio = new ClientesNegocio();
             long idVenta;
+
+           
+
+
             try
             {
 
