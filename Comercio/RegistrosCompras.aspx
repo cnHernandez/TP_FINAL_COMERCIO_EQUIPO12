@@ -31,13 +31,13 @@
                     <asp:BoundField DataField="TotalCompra" HeaderText="Total de Compra" DataFormatString="{0:C}" />
                     <asp:TemplateField HeaderText="Ver Detalle">
                         <ItemTemplate>
-                            <asp:LinkButton ID="lnkDetallesCompra" runat="server" Text="Ver Detalle" CommandName="DetallesCompra" CommandArgument='<%# Eval("IdCompras") %>' CssClass="eliminar-button"/>
+                            <asp:LinkButton ID="lnkDetallesCompra" runat="server" Text="Ver Detalle" CommandName="DetallesCompra" CommandArgument='<%# Eval("IdCompras") %>' CssClass="eliminar-button" />
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>
             </asp:GridView>
         </ContentTemplate>
     </asp:UpdatePanel>
-    <asp:Label ID="lblTotalFacturado" runat="server" CssClass="total-label" style="float: right; margin-right: 180px;"></asp:Label>
+    <asp:Label ID="lblTotalFacturado" runat="server" CssClass="total-label" Style="float: right; margin-right: 180px;"></asp:Label>
 
 </asp:Content>

@@ -13,6 +13,13 @@ namespace Comercio
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!(Session["Usuario"] is Dominio.Usuarios usuario && usuario.TipoUsuario == Dominio.Usuarios.TipoUsuarios.administrador))
+            {
+                Session.Add("Error", "No eres administrador");
+                Response.Redirect("Login.aspx", false);
+            }
+
+            // Verificar si es la carga inicial de la página
             if (!IsPostBack)
             {
                 ListarCompras();

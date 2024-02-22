@@ -401,7 +401,7 @@ namespace Comercio
             // Ajusta los índices según la posición de las columnas en tu GridView
             int idProducto = Convert.ToInt32(row.Cells[0].Text);
             int cantidad = Convert.ToInt32(((TextBox)row.FindControl("txtCantidad")).Text);
-            decimal precioCompra = Convert.ToDecimal(row.Cells[2].Text);
+            decimal precioCompra = Convert.ToDecimal(row.Cells[7].Text);
             decimal subtotal = Convert.ToDecimal(((Label)row.FindControl("lblSubtotal")).Text);
 
 
