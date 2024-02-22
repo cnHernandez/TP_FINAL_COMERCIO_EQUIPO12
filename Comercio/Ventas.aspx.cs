@@ -2,6 +2,7 @@
 using Negocio;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -56,7 +57,10 @@ namespace Comercio
                     // Si ya existe, obtén la lista de la sesión
                     listaProductosSeleccionados = (List<DetalleVenta>)Session["ListaProductosSeleccionados"];
                 }
-
+                
+                    // Lógica para manejar la actualización de la página, como cuando se selecciona una cantidad de productos
+                
+                
 
 
                 // Inicializar el dgvProductos solo si la página no está en un postback
@@ -66,13 +70,17 @@ namespace Comercio
                 dgvProductosSeleccionados.DataSource = listaProductosSeleccionados;
                 dgvProductosSeleccionados.DataBind();
 
+
                 foreach (GridViewRow row in dgvProductosSeleccionados.Rows)
                 {
                     CalcularYActualizarSubtotal(row);
                 }
                 CalcularTotalVenta();
-            }          
+            } 
+                    
+            
         }
+
 
         protected void dgvProductosSeleccionados_RowCommand(object sender, GridViewCommandEventArgs e)
         {
@@ -211,8 +219,9 @@ namespace Comercio
                         lblMensajeError.Text = "La cantidad seleccionada en uno o más productos excede el stock disponible.";
                         return; // Detener el proceso si hay un problema
                     }
+                // Verificar si la cantidad seleccionada supera el stock mínimo
+                
                 }
-
 
                 if (productosEnSession.Count > 0)
                 {
@@ -346,7 +355,7 @@ namespace Comercio
             }
             CalcularTotalVenta();
         }
-    
+
 
 
         protected void txtCantidad_TextChanged(object sender, EventArgs e)
@@ -357,19 +366,35 @@ namespace Comercio
 
             if (int.TryParse(txtCantidad.Text, out int cantidad) && cantidad >= 0)
             {
+                // Obtener el producto asociado a esta fila
+                int idProducto = Convert.ToInt32(row.Cells[0].Text);
+                Productos producto = ObtenerProductoPorId(idProducto);
+
+                // Verificar el stock mínimo
+                if (producto.StockActual - cantidad < producto.StockMinimo)
+                {
+                    // Mostrar advertencia sobre el stock mínimo
+                    lblMensajeAdvertencia.Text = "Advertencia: La cantidad seleccionada para el producto '" + producto.Nombre + "' está cerca o por debajo del stock mínimo. Considere comprar más.";
+                    lblMensajeAdvertencia.Visible = true;
+                }
+                else
+                {
+                    // Ocultar la advertencia si no es necesaria
+                    lblMensajeAdvertencia.Visible = false;
+                }
+
+                // Calcular y actualizar subtotal y total de la venta
                 CalcularYActualizarSubtotal(row);
                 CalcularTotalVenta();
 
                 // Actualizar la lista de detalles de venta con la nueva cantidad
-                int idProducto = Convert.ToInt32(row.Cells[0].Text);
                 decimal subtotal = decimal.TryParse(lblSubtotal.Text, out decimal result) ? result : 0;
                 ActualizarDetallesVenta(idProducto, cantidad, subtotal);
-
             }
             else
             {
                 // Manejar el caso en que la entrada no sea válida, por ejemplo, mostrar un mensaje de error.
-                 lblMensajeError.Text = "La cantidad ingresada no es válida. Por favor, ingrese un número entero no negativo.";
+                lblMensajeError.Text = "La cantidad ingresada no es válida. Por favor, ingrese un número entero no negativo.";
             }
         }
 
