@@ -39,6 +39,7 @@ namespace Comercio
             catch (Exception ex)
             {
                 // Manejar la excepción de acuerdo a tu lógica de negocio
+                throw ex; 
             }
         }
 
@@ -71,10 +72,10 @@ namespace Comercio
             }
         }
 
-        protected void btnBuscarCompra_Click(object sender, EventArgs e)
+       /* protected void btnBuscarCompra_Click(object sender, EventArgs e)
         {
             ListarCompras();
-        }
+        }*/
 
         protected void dataGridViewCompras_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {

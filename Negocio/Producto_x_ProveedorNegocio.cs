@@ -74,6 +74,30 @@ namespace Negocio
             }
         }
 
+        public void updatearPrecios (List<Producto_x_Proveedor> lista)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                foreach (Producto_x_Proveedor producto in lista)
+                {
+                    datos.SetearQuery("update Producto_x_Proveedor set PrecioCompra=@precioCompra where ProductoID=@productoID and ProveedorID=@proveedorID");
+                    datos.setearParametros("@precioCompra", producto.PrecioCompra);
+                    datos.setearParametros("@productoID", producto.ProductoID);
+                    datos.setearParametros("@proveedorID", producto.ProveedorID);
+                    datos.ejecutarAccion();
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            
+        }
+
 
     }
 }
