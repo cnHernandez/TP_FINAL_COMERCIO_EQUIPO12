@@ -32,8 +32,8 @@ namespace Negocio
                     aux.IdCliente = (int)datos.lector["CLienteID"];
                     aux.FechaVenta = (DateTime)datos.lector["FechaVenta"];
                     aux.TotalVenta = (decimal)datos.lector["TotalVenta"];
-                    aux.Estado = (bool)datos.lector["Estado"]; 
-                    
+                    aux.Estado = (bool)datos.lector["Estado"];
+                    Lista.Add(aux); // Agregar la venta a la lista
                 }
 
                 return Lista;

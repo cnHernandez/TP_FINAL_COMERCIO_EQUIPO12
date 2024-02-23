@@ -23,7 +23,7 @@ namespace Comercio
         private void MostrarDetallesVenta()
         {
             // Obtén los detalles de la venta de la sesión
-            List<DetalleVenta> detallesVenta = Session["listaProductosSeleccionados"] as List<DetalleVenta>;
+            List<DetalleVenta> detallesVenta = Session["detallesVenta"] as List<DetalleVenta>;
 
             // Verifica si hay detalles de venta disponibles
             if (detallesVenta != null && detallesVenta.Count > 0)
@@ -45,7 +45,7 @@ namespace Comercio
                 {
                     string nombre = productosNegocio.ObtenerNombreProductoPorId(detalle.IdProducto);
                     detalle.NombreProducto = nombre;
-                    detalle.NombreProveedor = "Mercado Util"; // Asignar el nombre del proveedor
+                    detalle.NombreCliente = "Mercado Util"; // Asignar el nombre del proveedor
                 }
 
                 // Enlaza los detalles de venta al GridView
@@ -59,8 +59,8 @@ namespace Comercio
         protected void btnIrAPaginaPrincipal_Click(object sender, EventArgs e)
         {
             // Redirigir a la página principal (cambia la URL según tu estructura de proyecto)
-            Session["ListaProductos"] = null;
-            Session["ListaProductosSeleccionados"] = null;
+            Session["detallesVenta"] = null;
+            Session["productosSeleccionados"] = null;
             Response.Redirect("~/DefaultVendedor.aspx");
         }
 
@@ -68,7 +68,7 @@ namespace Comercio
         {
             if (e.Row.RowType == DataControlRowType.Footer)
             {
-                List<DetalleVenta> detallesVenta = Session["listaProductosSeleccionados"] as List<DetalleVenta>;
+                List<DetalleVenta> detallesVenta = Session["detallesVenta"] as List<DetalleVenta>;
 
                 if (detallesVenta != null && detallesVenta.Count > 0)
                 {
@@ -98,14 +98,14 @@ namespace Comercio
 
         protected void btnDescargarFactura_Click(object sender, EventArgs e)
         {
-            List<DetalleVenta> detallesVenta = Session["listaProductosSeleccionados"] as List<DetalleVenta>;
+            List<DetalleVenta> detallesVenta = Session["detallesVenta"] as List<DetalleVenta>;
             if (detallesVenta != null && detallesVenta.Count > 0)
             {
                 decimal total = detallesVenta.Sum(detalle => detalle.Subtotal);
 
                 string contenidoHTML = GenerarContenidoFactura(detallesVenta, total);
-                Session["ListaProductos"] = null;
-                Session["ListaProductosSeleccionados"] = null;
+                Session["productosSeleccionados"] = null;
+                Session["detallesVenta"] = null;
                 // Configuración de la respuesta HTTP para descargar el archivo
                 Response.Clear();
                 Response.ContentType = "application/force-download";
@@ -154,7 +154,7 @@ namespace Comercio
         {
             // Supongamos que tienes una lista de productos llamada 'listaProductos'
             // y que Producto tiene propiedades IdProducto y NombreProducto
-            List<Productos> productosSeleccionados = Session["listaProductos"] as List<Productos>;
+            List<Productos> productosSeleccionados = Session["productosSeleccionados"] as List<Productos>;
             // Asegúrate de tener la lógica adecuada para obtener el producto desde tu fuente de datos
             Productos productoEncontrado = productosSeleccionados.FirstOrDefault(p => p.IdProductos == idProducto);
 
