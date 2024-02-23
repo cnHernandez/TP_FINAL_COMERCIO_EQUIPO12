@@ -22,38 +22,20 @@ namespace Comercio
 
         private void MostrarDetallesVenta()
         {
-            // Obtén los detalles de la venta de la sesión
+            // Obtén los detalles de la compra de la sesión
             List<DetalleVenta> detallesVenta = Session["detallesVenta"] as List<DetalleVenta>;
 
-            // Verifica si hay detalles de venta disponibles
+            // Verifica si hay detalles de compra disponibles
             if (detallesVenta != null && detallesVenta.Count > 0)
             {
-                // Obtener el ID de venta de la última instancia de DetalleVenta en la lista
-                int idVenta = detallesVenta.Last().IdVenta;
-
-                // Utilizar el ID de la venta para obtener el nombre del cliente
-                VentasNegocio ventasNegocio = new VentasNegocio();
-                string nombreCliente = ventasNegocio.ObtenerNombreClientePorIdVenta(idVenta);
-
-                // Asigna el nombre del cliente al Label correspondiente
-                lblNombreCliente.Text = nombreCliente;
-
-                ProductosNegocio productosNegocio = new ProductosNegocio();
-
-                // Iterar sobre cada detalle de venta y asignar el nombre del cliente
-                foreach (DetalleVenta detalle in detallesVenta)
-                {
-                    string nombre = productosNegocio.ObtenerNombreProductoPorId(detalle.IdProducto);
-                    detalle.NombreProducto = nombre;
-                    detalle.NombreCliente = "Mercado Util"; // Asignar el nombre del proveedor
-                }
-
-                // Enlaza los detalles de venta al GridView
+                // Enlaza los detalles de compra al GridView
                 gvDetallesVenta.DataSource = detallesVenta;
                 gvDetallesVenta.DataBind();
 
             }
+
         }
+        
 
 
         protected void btnIrAPaginaPrincipal_Click(object sender, EventArgs e)
@@ -104,14 +86,13 @@ namespace Comercio
                 decimal total = detallesVenta.Sum(detalle => detalle.Subtotal);
 
                 string contenidoHTML = GenerarContenidoFactura(detallesVenta, total);
-                Session["productosSeleccionados"] = null;
-                Session["detallesVenta"] = null;
+
                 // Configuración de la respuesta HTTP para descargar el archivo
                 Response.Clear();
                 Response.ContentType = "application/force-download";
                 Response.AddHeader("content-disposition", "attachment; filename=Factura.html");
                 Response.Write(contenidoHTML);
-                Response.End();              
+                Response.End();
             }
         }
 
@@ -136,6 +117,7 @@ namespace Comercio
 
                 sb.AppendLine($"<p>ID Producto: {detalle.IdProducto}</p>");
                 sb.AppendLine($"<p>Nombre Producto: {producto.Nombre}</p>");
+                sb.AppendLine($"<p>Nombre Cliente: {detalle.NombreCliente}</p>");
                 sb.AppendLine($"<p>Cantidad: {detalle.Cantidad}</p>");
                 sb.AppendLine($"<p>Precio Unitario: {detalle.PrecioVenta.ToString("C")}</p>");
                 sb.AppendLine($"<p>Subtotal: {detalle.Subtotal.ToString("C")}</p>");

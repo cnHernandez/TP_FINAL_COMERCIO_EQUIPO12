@@ -30,7 +30,7 @@
                 <asp:BoundField DataField="TotalVenta" HeaderText="Total de Venta" DataFormatString="{0:C}" />
                 <asp:TemplateField HeaderText="Ver Detalle">
                     <ItemTemplate>
-                        <asp:LinkButton ID="lnkDetallesVenta" runat="server" Text="Ver Detalle" CommandName="DetallesVenta" CommandArgument='<%# Eval("IdVenta") %>' CssClass="eliminar-button" />
+                        <asp:LinkButton ID="lnkDetallesVenta" runat="server" Text="Ver Detalle" CommandName="detallesVenta" CommandArgument='<%# Eval("IdVenta") %>' CssClass="eliminar-button" />
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>

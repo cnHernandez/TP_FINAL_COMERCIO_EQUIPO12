@@ -39,8 +39,8 @@ namespace Negocio
 
                 using (AccesoDatos Datos = new AccesoDatos())
                 {
-                    Datos.SetearQuery("select dv.DetalleVentaID, dv.VentaID, dv.ProductoID, c.Nombre, p.Nombre,  dv.Cantidad, dv.PrecioVenta, dv.Subtotal from DetalleVenta dv inner join Ventas v on dv.VentaID = v.VentaID inner join Clientes c on c.ClienteID = v.ClienteID inner join Productos p on p.ProductoID = dv.ProductoID");
-                    Datos.setearParametros("@IdCompra", idVenta);
+                    Datos.SetearQuery("select dv.DetalleVentaID, dv.VentaID, dv.ProductoID, c.Nombre, p.Nombre,  dv.Cantidad, dv.PrecioVenta, dv.Subtotal from DetalleVenta dv inner join Ventas v on dv.VentaID = v.VentaID inner join Clientes c on c.ClienteID = v.ClienteID inner join Productos p on p.ProductoID = dv.ProductoID where dv.VentaID = @IdVenta");
+                    Datos.setearParametros("@IdVenta", idVenta);
                     Datos.EjecutarLectura();
 
                     while (Datos.lector.Read())
@@ -60,7 +60,7 @@ namespace Negocio
 
                         //ClientesNegocio negocio = new ClientesNegocio();
                         //detalle.NombreCliente = cliente;
-                        //detallesVenta.Add(detalle);
+                        detallesVenta.Add(detalle);
                         //detallesCompra = EliminarDuplicados(detallesCompra);
                     }
                 }

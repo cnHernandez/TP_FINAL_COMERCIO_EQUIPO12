@@ -89,14 +89,13 @@ namespace Comercio
 
         protected void dataGridViewVentas_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            if (e.CommandName == "DetallesVenta")
+            if (e.CommandName == "detallesVenta")
             {
                 // Obtener el ID de la compra seleccionada
                 int idVenta = Convert.ToInt32(e.CommandArgument);
 
                 DetalleVentaNegocio detalleVentaNegocio = new DetalleVentaNegocio();
-                ProveedoresNegocio negocio = new ProveedoresNegocio();
-
+                
                 // Obtener el índice de la fila seleccionada
                 int rowIndex = ((GridViewRow)((Control)e.CommandSource).NamingContainer).RowIndex;
                 GridViewRow selectedRow = dataGridViewVentas.Rows[rowIndex];
@@ -106,8 +105,8 @@ namespace Comercio
                 string nombreCliente = lblCliente.Text;
 
                 // Obtener la lista de detalles de compra por ID de venta
-                List<DetalleVenta> detallesVenta = detalleVentaNegocio.
-                    ObtenerDetallesPorIdVenta(idVenta, nombreCliente);
+                List<DetalleVenta> detallesVenta = detalleVentaNegocio.ObtenerDetallesPorIdVenta(idVenta, nombreCliente);
+
 
                 // Crear una lista para almacenar los productos
                 List<Productos> productosSeleccionados = new List<Productos>();
