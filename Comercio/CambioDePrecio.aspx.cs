@@ -136,7 +136,6 @@ namespace Comercio
                 Producto_x_ProveedorNegocio negocio = new Producto_x_ProveedorNegocio();
                 negocio.updatearPrecios(listaProductosXProveedor);
 
-                // Agrega un mensaje de éxito y redirecciona después de la actualización
                 string script = "alert('Guardado correctamente.'); window.location.href = 'default.aspx';";
                 ClientScript.RegisterStartupScript(this.GetType(), "guardadoCorrectamente", script, true);
 

@@ -107,8 +107,14 @@ namespace Negocio
             // Implementa la interfaz IDisposable para cerrar la conexión y liberar recursos
             CerrarConexion();
         }
+        public void LimpiarParametros()
+        {
+            if (Comando != null)
+            {
+                Comando.Parameters.Clear();
+            }
+        }
 
-        
         public void EjecutarLectura()
         {
             Comando.Connection = Conexion;

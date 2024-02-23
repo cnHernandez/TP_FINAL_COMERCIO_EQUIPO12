@@ -87,6 +87,8 @@ namespace Negocio
                     datos.setearParametros("@proveedorID", producto.ProveedorID);
                     datos.ejecutarAccion();
 
+                    datos.LimpiarParametros();
+
                 }
 
             }

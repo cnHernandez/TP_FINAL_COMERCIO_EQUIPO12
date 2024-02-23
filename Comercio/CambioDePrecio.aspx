@@ -46,4 +46,11 @@
             
         </div>
     </div>
+
+    <script type="text/javascript">
+    function mostrarMensaje() {
+        alert('Guardado correctamente.');
+        window.location.href = 'default.aspx';
+    }
+    </script>t>
 </asp:Content>
