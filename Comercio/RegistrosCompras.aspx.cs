@@ -13,6 +13,13 @@ namespace Comercio
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!(Session["Usuario"] is Dominio.Usuarios usuario && usuario.TipoUsuario == Dominio.Usuarios.TipoUsuarios.administrador))
+            {
+                Session.Add("Error", "No eres administrador");
+                Response.Redirect("Login.aspx", false);
+            }
+
+            // Verificar si es la carga inicial de la página
             if (!IsPostBack)
             {
                 ListarCompras();
@@ -50,6 +57,7 @@ namespace Comercio
 
                 // Asignar el nombre del proveedor al Label
                 lblProveedor.Text = nombreProveedor;
+
             }
 
             if (e.Row.RowType == DataControlRowType.Footer)
@@ -73,7 +81,7 @@ namespace Comercio
             dataGridViewCompras.PageIndex = e.NewPageIndex;
             ListarCompras();
         }
-
+        // :)
         protected void dataGridViewCompras_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName == "DetallesCompra")
@@ -95,13 +103,35 @@ namespace Comercio
                 // Obtener la lista de detalles de compra por ID de compra
                 List<DetalleCompra> detallesCompra = detalleCompraNegocio.ObtenerDetallesPorIdCompra(idCompra, nombreProveedor);
 
-                // Almacenar la lista en la sesión
+                // Crear una lista para almacenar los productos
+                List<Productos> productosSeleccionados = new List<Productos>();
+                ProductosNegocio negocioProducto = new ProductosNegocio();
+
+                // Obtener los productos asociados a cada detalle de compra
+                foreach (var detalle in detallesCompra)
+                {
+                    // Obtener el producto asociado al detalle de compra
+                    Productos producto = negocioProducto.ObtenerProductoPorId(detalle.IdProducto);
+
+                    // Verificar si se encontró el producto
+                    if (producto != null)
+                    {
+                        // Agregar el producto a la lista de productos seleccionados
+                        productosSeleccionados.Add(producto);
+                    }
+                }
+
+                // Almacenar la lista de productos en la sesión
+                Session["productosSeleccionados"] = productosSeleccionados;
+
+                // Almacenar la lista de detalles de compra en la sesión
                 Session["detallesCompra"] = detallesCompra;
 
                 // Redireccionar a la página de resumen de la compra
                 Response.Redirect($"ResumenCompra.aspx?id={idCompra}");
             }
         }
+
 
 
 

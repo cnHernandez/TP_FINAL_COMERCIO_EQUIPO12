@@ -16,33 +16,51 @@ namespace Comercio
         {
             if (!IsPostBack)
             {
-                MostrarDetallesVenta();               
+                MostrarDetallesVenta();
             }
         }
 
         private void MostrarDetallesVenta()
         {
-            // Obtén los detalles de la compra de la sesión
-            List<DetalleVenta> detallesVenta = Session["detallesVenta"] as List<DetalleVenta>;
+            // Obtén los detalles de la venta de la sesión
+            List<DetalleVenta> detallesVenta = Session["listaProductosSeleccionados"] as List<DetalleVenta>;
 
-            // Verifica si hay detalles de compra disponibles
+            // Verifica si hay detalles de venta disponibles
             if (detallesVenta != null && detallesVenta.Count > 0)
             {
-                // Enlaza los detalles de compra al GridView
+                // Obtener el ID de venta de la última instancia de DetalleVenta en la lista
+                int idVenta = detallesVenta.Last().IdVenta;
+
+                // Utilizar el ID de la venta para obtener el nombre del cliente
+                VentasNegocio ventasNegocio = new VentasNegocio();
+                string nombreCliente = ventasNegocio.ObtenerNombreClientePorIdVenta(idVenta);
+
+                // Asigna el nombre del cliente al Label correspondiente
+                lblNombreCliente.Text = nombreCliente;
+
+                ProductosNegocio productosNegocio = new ProductosNegocio();
+
+                // Iterar sobre cada detalle de venta y asignar el nombre del cliente
+                foreach (DetalleVenta detalle in detallesVenta)
+                {
+                    string nombre = productosNegocio.ObtenerNombreProductoPorId(detalle.IdProducto);
+                    detalle.NombreProducto = nombre;
+                    detalle.NombreProveedor = "Mercado Util"; // Asignar el nombre del proveedor
+                }
+
+                // Enlaza los detalles de venta al GridView
                 gvDetallesVenta.DataSource = detallesVenta;
                 gvDetallesVenta.DataBind();
 
             }
-
         }
-        
 
 
         protected void btnIrAPaginaPrincipal_Click(object sender, EventArgs e)
         {
             // Redirigir a la página principal (cambia la URL según tu estructura de proyecto)
-            Session["detallesVenta"] = null;
-            Session["productosSeleccionados"] = null;
+            Session["ListaProductos"] = null;
+            Session["ListaProductosSeleccionados"] = null;
             Response.Redirect("~/DefaultVendedor.aspx");
         }
 
@@ -50,7 +68,7 @@ namespace Comercio
         {
             if (e.Row.RowType == DataControlRowType.Footer)
             {
-                List<DetalleVenta> detallesVenta = Session["detallesVenta"] as List<DetalleVenta>;
+                List<DetalleVenta> detallesVenta = Session["listaProductosSeleccionados"] as List<DetalleVenta>;
 
                 if (detallesVenta != null && detallesVenta.Count > 0)
                 {
@@ -80,13 +98,14 @@ namespace Comercio
 
         protected void btnDescargarFactura_Click(object sender, EventArgs e)
         {
-            List<DetalleVenta> detallesVenta = Session["detallesVenta"] as List<DetalleVenta>;
+            List<DetalleVenta> detallesVenta = Session["listaProductosSeleccionados"] as List<DetalleVenta>;
             if (detallesVenta != null && detallesVenta.Count > 0)
             {
                 decimal total = detallesVenta.Sum(detalle => detalle.Subtotal);
 
                 string contenidoHTML = GenerarContenidoFactura(detallesVenta, total);
-
+                Session["ListaProductos"] = null;
+                Session["ListaProductosSeleccionados"] = null;
                 // Configuración de la respuesta HTTP para descargar el archivo
                 Response.Clear();
                 Response.ContentType = "application/force-download";
@@ -117,7 +136,6 @@ namespace Comercio
 
                 sb.AppendLine($"<p>ID Producto: {detalle.IdProducto}</p>");
                 sb.AppendLine($"<p>Nombre Producto: {producto.Nombre}</p>");
-                sb.AppendLine($"<p>Nombre Cliente: {detalle.NombreCliente}</p>");
                 sb.AppendLine($"<p>Cantidad: {detalle.Cantidad}</p>");
                 sb.AppendLine($"<p>Precio Unitario: {detalle.PrecioVenta.ToString("C")}</p>");
                 sb.AppendLine($"<p>Subtotal: {detalle.Subtotal.ToString("C")}</p>");
@@ -136,7 +154,7 @@ namespace Comercio
         {
             // Supongamos que tienes una lista de productos llamada 'listaProductos'
             // y que Producto tiene propiedades IdProducto y NombreProducto
-            List<Productos> productosSeleccionados = Session["productosSeleccionados"] as List<Productos>;
+            List<Productos> productosSeleccionados = Session["listaProductos"] as List<Productos>;
             // Asegúrate de tener la lógica adecuada para obtener el producto desde tu fuente de datos
             Productos productoEncontrado = productosSeleccionados.FirstOrDefault(p => p.IdProductos == idProducto);
 

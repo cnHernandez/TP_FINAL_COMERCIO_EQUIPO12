@@ -38,11 +38,8 @@
 
         <asp:GridView ID="gvDetallesVenta" CssClass="table-custom" runat="server" AutoGenerateColumns="False" OnRowDataBound="gvDetallesVenta_RowDataBound">
             <Columns>
-                <asp:BoundField DataField="IdDetalleVenta" HeaderText="ID" SortExpression="IdDetalle" />
-                <asp:BoundField DataField="IdVenta" HeaderText="ID" SortExpression="IdVenta" />
                 <asp:BoundField DataField="IdProducto" HeaderText="ID" SortExpression="IdProducto" />
                 <asp:BoundField DataField="NombreProducto" HeaderText="Producto" SortExpression="NombreProducto" />
-                <asp:BoundField DataField="NombreCliente" HeaderText="Cliente" SortExpression="Cliente" />
                 <asp:BoundField DataField="Cantidad" HeaderText="Cantidad" SortExpression="Cantidad" />
                 <asp:BoundField DataField="PrecioVenta" HeaderText="Precio Unitario" SortExpression="PrecioVenta" />
                 <asp:BoundField DataField="Subtotal" HeaderText="Subtotal" SortExpression="Subtotal" />

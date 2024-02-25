@@ -4,7 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <h1 class="Profesionales">Registros de Compras</h1>
+<h1 class="Profesionales">Registros de Compras</h1>
 
     <div class="login-container" style="display: flex; flex-direction: column; align-items: center; max-width: 600px; margin: 0 auto; margin-top: 10px;">
         <label for="txtNombre" style="margin-bottom: 10px;">ID de Compra: </label>
