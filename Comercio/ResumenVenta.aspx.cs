@@ -16,43 +16,71 @@ namespace Comercio
         {
             if (!IsPostBack)
             {
-                MostrarDetallesVenta();
+                if (Request.QueryString["id"] != null)
+                {
+                    int idVenta;
+                    if (int.TryParse(Request.QueryString["id"], out idVenta))
+                    {
+                        MostrarDetallesVenta(idVenta);
+                    }
+                }
+                else
+                {
+                    MostrarDetallesVenta(); // Mostrar la última venta si no se proporciona un ID en la URL
+                }
             }
         }
 
-        private void MostrarDetallesVenta()
+        private void MostrarDetallesVenta(int? idVenta = null)
         {
-            // Obtén los detalles de la venta de la sesión
-            List<DetalleVenta> detallesVenta = Session["listaProductosSeleccionados"] as List<DetalleVenta>;
+            DetalleVentaNegocio detalleVentaNegocio = new DetalleVentaNegocio();
+            VentasNegocio ventasNegocio = new VentasNegocio();
+            ProductosNegocio productosNegocio = new ProductosNegocio();
+            List<DetalleVenta> detallesVenta;
 
-            // Verifica si hay detalles de venta disponibles
-            if (detallesVenta != null && detallesVenta.Count > 0)
+            int ventaId = idVenta.HasValue ? idVenta.Value : 0; // Obtener el valor entero de idVenta o 0 si es nulo
+
+            if (ventaId != 0)
             {
-                // Obtener el ID de venta de la última instancia de DetalleVenta en la lista
-                int idVenta = detallesVenta.Last().IdVenta;
+                detallesVenta = detalleVentaNegocio.ObtenerDetallesPorIdVentaCompra(ventaId);
 
-                // Utilizar el ID de la venta para obtener el nombre del cliente
-                VentasNegocio ventasNegocio = new VentasNegocio();
-                string nombreCliente = ventasNegocio.ObtenerNombreClientePorIdVenta(idVenta);
-
-                // Asigna el nombre del cliente al Label correspondiente
-                lblNombreCliente.Text = nombreCliente;
-
-                ProductosNegocio productosNegocio = new ProductosNegocio();
-
-                // Iterar sobre cada detalle de venta y asignar el nombre del cliente
+                // Asignar el nombre del producto a cada detalle de venta
                 foreach (DetalleVenta detalle in detallesVenta)
                 {
-                    string nombre = productosNegocio.ObtenerNombreProductoPorId(detalle.IdProducto);
-                    detalle.NombreProducto = nombre;
-                    detalle.NombreProveedor = "Mercado Util"; // Asignar el nombre del proveedor
+                    // Aquí obtienes el nombre del producto por su ID
+                    detalle.NombreProducto = productosNegocio.ObtenerNombreProductoPorId(detalle.IdProducto);
+                }
+            }
+            else
+            {
+                // Obtén los detalles de la última venta de la sesión
+                detallesVenta = Session["listaProductosSeleccionados"] as List<DetalleVenta>;
+
+                // Si no hay detalles de venta disponibles, muestra un mensaje de error o maneja el caso según sea necesario
+                if (detallesVenta == null || detallesVenta.Count == 0)
+                {
+                    // Manejo de error si no hay detalles de venta disponibles
+                    return;
                 }
 
-                // Enlaza los detalles de venta al GridView
-                gvDetallesVenta.DataSource = detallesVenta;
-                gvDetallesVenta.DataBind();
+                // Obtener el ID de venta de la última instancia de DetalleVenta en la lista
+                ventaId = detallesVenta.Last().IdVenta;
 
+                // Asignar el nombre del producto a cada detalle de venta
+                foreach (DetalleVenta detalle in detallesVenta)
+                {
+                    // Aquí obtienes el nombre del producto por su ID
+                    detalle.NombreProducto = productosNegocio.ObtenerNombreProductoPorId(detalle.IdProducto);
+                }
             }
+
+            // Utilizar el ID de la venta para obtener el nombre del cliente
+            string nombreCliente = ventasNegocio.ObtenerNombreClientePorIdVenta(ventaId);
+            lblNombreCliente.Text = nombreCliente;
+
+            // Enlazar los detalles de venta al GridView
+            gvDetallesVenta.DataSource = detallesVenta;
+            gvDetallesVenta.DataBind();
         }
 
 
@@ -66,6 +94,8 @@ namespace Comercio
 
         protected void gvDetallesVenta_RowDataBound(object sender, GridViewRowEventArgs e)
         {
+
+           
             if (e.Row.RowType == DataControlRowType.Footer)
             {
                 List<DetalleVenta> detallesVenta = Session["listaProductosSeleccionados"] as List<DetalleVenta>;
@@ -98,21 +128,53 @@ namespace Comercio
 
         protected void btnDescargarFactura_Click(object sender, EventArgs e)
         {
-            List<DetalleVenta> detallesVenta = Session["listaProductosSeleccionados"] as List<DetalleVenta>;
+            List<DetalleVenta> detallesVenta = null;
+            decimal total = 0;
+
+            // Obtener el ID de venta de la URL
+            if (Request.QueryString["id"] != null)
+            {
+                int idVenta;
+                if (int.TryParse(Request.QueryString["id"], out idVenta))
+                {
+                    // Obtener los detalles de la venta por el ID de venta
+                    DetalleVentaNegocio detalleVentaNegocio = new DetalleVentaNegocio();
+                    detallesVenta = detalleVentaNegocio.ObtenerDetallesPorIdVentaCompra(idVenta);
+                }
+            }
+
+            // Si no se encontraron detalles de venta por ID de venta, intenta obtenerlos de la lista de productos seleccionados
+            if (detallesVenta == null || detallesVenta.Count == 0)
+            {
+                detallesVenta = Session["ListaProductosSeleccionados"] as List<DetalleVenta>;
+            }
+
+            // Verificar si se encontraron detalles de la venta
             if (detallesVenta != null && detallesVenta.Count > 0)
             {
-                decimal total = detallesVenta.Sum(detalle => detalle.Subtotal);
-
-                string contenidoHTML = GenerarContenidoFactura(detallesVenta, total);
-                Session["ListaProductos"] = null;
-                Session["ListaProductosSeleccionados"] = null;
-                // Configuración de la respuesta HTTP para descargar el archivo
-                Response.Clear();
-                Response.ContentType = "application/force-download";
-                Response.AddHeader("content-disposition", "attachment; filename=Factura.html");
-                Response.Write(contenidoHTML);
-                Response.End();
+                // Calcular el total
+                total = detallesVenta.Sum(detalle => detalle.Subtotal);
             }
+            else
+            {
+                // Manejar el caso en el que no se encuentren detalles de la venta
+                // Puedes mostrar un mensaje de error o redirigir a una página de error
+                return;
+            }
+
+            // Generar el contenido HTML de la factura
+            string contenidoHTML = GenerarContenidoFactura(detallesVenta, total);
+
+            // Limpiar las sesiones
+            Session["ListaProductos"] = null;
+            Session["ListaProductosSeleccionados"] = null;
+
+            // Configurar la respuesta HTTP para descargar el archivo
+            Response.Clear();
+            Response.ContentType = "application/force-download";
+            Response.AddHeader("content-disposition", "attachment; filename=Factura.html");
+            Response.Write(contenidoHTML);
+            Response.End();
         }
 
         protected string GenerarContenidoFactura(List<DetalleVenta> detallesVenta, decimal total)
@@ -132,10 +194,10 @@ namespace Comercio
             foreach (DetalleVenta detalle in detallesVenta)
             {
                 // Supongamos que tienes una lista de productos con IdProducto y NombreProducto
-                Productos producto = ObtenerProductoPorId(detalle.IdProducto);
+                //Productos producto = ObtenerProductoPorId(detalle.IdProducto);
 
                 sb.AppendLine($"<p>ID Producto: {detalle.IdProducto}</p>");
-                sb.AppendLine($"<p>Nombre Producto: {producto.Nombre}</p>");
+                sb.AppendLine($"<p>Nombre Producto: {detalle.NombreProducto}</p>");
                 sb.AppendLine($"<p>Cantidad: {detalle.Cantidad}</p>");
                 sb.AppendLine($"<p>Precio Unitario: {detalle.PrecioVenta.ToString("C")}</p>");
                 sb.AppendLine($"<p>Subtotal: {detalle.Subtotal.ToString("C")}</p>");

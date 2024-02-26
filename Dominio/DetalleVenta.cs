@@ -14,6 +14,7 @@ namespace Dominio
         public int Cantidad { get; set; }
         public string NombreProveedor { get; set; }
         public string NombreProducto { get; set; }
+        public string NombreCliente { get; set; }
         public decimal PrecioVenta { get; set; }
         public decimal Subtotal { get; set; }
 

@@ -9,18 +9,18 @@ namespace Negocio
 {
      public class VentasNegocio
     {
-        public List<Ventas> ListarVentas(string id = "")
+        public List<Ventas> ListarVentas(int id = 0)
         {
             List<Ventas> Lista = new List<Ventas>();
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.SetearQuery("select VentaID,ClienteID,FechaVenta,TotalVenta,Estado from Ventas where Estado=0");
-                if (!string.IsNullOrEmpty(id))
+                datos.SetearQuery("select VentaID, ClienteID, FechaVenta, TotalVenta, Estado from Ventas where Estado = 0");
+                if (id != 0)
                 {
                     datos.Comando.CommandText += " and VentaID = @Id";
-                    datos.setearParametros("@Id", Convert.ToInt32(id));
+                    datos.setearParametros("@Id", id);
                 }
 
                 datos.EjecutarLectura();
@@ -29,7 +29,7 @@ namespace Negocio
                 {
                     Ventas aux = new Ventas();
                     aux.IdVenta = (int)datos.lector["VentaID"];
-                    aux.IdCliente = (int)datos.lector["CLienteID"];
+                    aux.IdCliente = (int)datos.lector["ClienteID"];
                     aux.FechaVenta = (DateTime)datos.lector["FechaVenta"];
                     aux.TotalVenta = (decimal)datos.lector["TotalVenta"];
                     aux.Estado = (bool)datos.lector["Estado"];

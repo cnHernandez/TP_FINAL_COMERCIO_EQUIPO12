@@ -30,6 +30,42 @@ namespace Negocio
             }
         }
 
+        public List<DetalleVenta> ObtenerDetallesPorIdVentaCompra(int idVenta)
+        {
+            try
+            {
+                List<DetalleVenta> detallesVenta = new List<DetalleVenta>();
+
+                using (AccesoDatos Datos = new AccesoDatos())
+                {
+                    Datos.SetearQuery("\tselect dv.DetalleVentaID, dv.VentaID, dv.ProductoID,p.Nombre,c.Nombre, dv.Cantidad, dv.PrecioVenta, dv.Subtotal from DetalleVenta dv inner join Ventas v on v.VentaID = dv.VentaID inner join Clientes c on c.ClienteID= v.ClienteID inner join Productos p on p.ProductoID = dv.ProductoID where dv.VentaID = @idVenta");
+                    Datos.setearParametros("@idVenta", idVenta);
+                    Datos.EjecutarLectura();
+
+                    while (Datos.lector.Read())
+                    {
+                        DetalleVenta detalle = new DetalleVenta();
+                        detalle.IdDetalleVenta = Datos.lector.GetInt32(0);
+                        detalle.IdVenta = Datos.lector.GetInt32(1);
+                        detalle.IdProducto = Datos.lector.GetInt32(2);
+                        detalle.NombreProducto = Datos.lector.GetString(3);
+                        detalle.NombreCliente = Datos.lector.GetString(4);
+                        detalle.Cantidad = Datos.lector.GetInt32(5);
+                        detalle.PrecioVenta = Datos.lector.GetDecimal(6);
+                        detalle.Subtotal = Datos.lector.GetDecimal(7);
+                        detallesVenta.Add(detalle);
+                     
+                    }
+                }
+
+                return detallesVenta;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 
     }
 }
