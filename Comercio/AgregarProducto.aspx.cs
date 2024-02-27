@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -56,12 +58,103 @@ namespace Comercio
             ddlMarca.DataValueField = "IdMarcas";
             ddlMarca.DataBind();
         }
+
+        private bool EsNumeroConComa(string texto)
+        {
+            foreach (char c in texto)
+            {
+                if (!char.IsDigit(c) && c != ',')
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private bool NoContieneOtrosCaracteres(string texto)
+        {
+            foreach (char c in texto)
+            {
+                if (!char.IsDigit(c))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+
+
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
             try
             {
                 Dominio.Productos prod = new Dominio.Productos();
                 ProductosNegocio nuevo = new ProductosNegocio();
+                StringBuilder errores = new StringBuilder();
+
+                errores.Clear();
+
+                if (string.IsNullOrWhiteSpace(txtNombre.Text))
+                {
+                    errores.AppendLine("Nombre inválido...");
+                    lblNombreError.Text = "Nombre inválido...";
+                    lblNombreError.Visible = true; // Asegúrate de que el label de error sea visible
+                }
+                else
+                {
+                    lblNombreError.Visible = false;
+                }
+
+                if (!EsNumeroConComa(txtPorcentaje.Text) || string.IsNullOrWhiteSpace(txtPorcentaje.Text))
+                {
+                    errores.AppendLine("Porcentaje de ganancia inválido. Ingrese solo números.");
+                    lblPorcentajeError.Text = "Porcentaje de ganancia inválido. Ingrese solo números.";
+                    lblPorcentajeError.Visible = true;
+                }
+                else
+                {
+                    lblPorcentajeError.Visible = false;
+                }
+
+                if (!NoContieneOtrosCaracteres(txtStockActual.Text) || string.IsNullOrWhiteSpace(txtStockActual.Text))
+                {
+                    errores.AppendLine("Stock actual inválido...");
+                    lblActual.Text = "Stock actual inválido...";
+                    lblActual.Visible = true;
+                }
+                else
+                {
+                    lblActual.Visible = false;
+                }
+
+                if (!NoContieneOtrosCaracteres(txtMinimo.Text) || string.IsNullOrWhiteSpace(txtMinimo.Text))
+                {
+                    errores.AppendLine("Stock mínimo inválido...");
+                    lblMinimo.Text = "Stock minimo inválido...";
+                    lblMinimo.Visible = true;
+                }
+                else
+                {
+                    lblActual.Visible = false;
+                }
+
+                if (string.IsNullOrWhiteSpace(txtUrl.Text))
+                {
+                    errores.AppendLine("Stock mínimo inválido...");
+                    lblUrlError.Text = "Url vacia...";
+                    lblUrlError.Visible = true;
+                }
+                else
+                {
+                    lblUrlError.Visible = false;
+                }
+
+                if (errores.Length > 0)
+                {
+                    return; // Detener el proceso ya que hay errores
+                }
+
 
                 prod.Nombre = txtNombre.Text;
                 prod.PorcentajeGanancia = decimal.Parse(txtPorcentaje.Text);

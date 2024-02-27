@@ -12,25 +12,28 @@
                 <label for="txtNombre" class="form-label">Nombre del Producto</label>
                 <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control" name="txtNombre" />
                 <div id="NombreHelp" class="form-text">Ingrese el nombre del Producto.</div>
+                <asp:Label runat="server" ID="lblNombreError" CssClass="text-danger" Visible="false" />
             </div>
 
             <div class="mb-3">
                 <label for="txtPorcentaje" class="form-label">Porcentaje de ganancia</label>
                 <asp:TextBox runat="server" ID="txtPorcentaje" CssClass="form-control" name="txtPorcentaje" />
                 <div id="PorcentajeHelp" class="form-text">Ingrese el Porcentaje de ganancia.</div>
-                <asp:Label runat="server" ID="lblDniError" CssClass="error-message" />
+                <asp:Label runat="server" ID="lblPorcentajeError" CssClass="text-danger" Visible="false" />
             </div>
 
             <div class="mb-3">
                 <label for="txtStockActual" class="form-label">Stock Actual</label>
                 <asp:TextBox runat="server" ID="txtStockActual" CssClass="form-control" name="txtStockActual" />
                 <div id="ActualHelp" class="form-text">Ingrese el Stock actual.</div>
+                <asp:Label runat="server" ID="lblActual" CssClass="text-danger" Visible="false" />
             </div>
 
             <div class="mb-3">
                 <label for="txtMinimo" class="form-label">Stock Minimo</label>
                 <asp:TextBox runat="server" ID="txtMinimo" CssClass="form-control" name="txtMinimo" />
                 <div id="MinimoHelp" class="form-text">Ingrese el stock minimo.</div>
+                <asp:Label runat="server" ID="lblMinimo" CssClass="text-danger" Visible="false" />
             </div>
 
             <div class="mb-3">
@@ -48,6 +51,7 @@
                 <label for="txtUrl" class="form-label">Url de imagen</label>
                 <asp:TextBox runat="server" ID="txtUrl" CssClass="form-control" name="txtUrl" AutoPostBack="true" OnTextChanged="txtURLImagen_TextChanged" />
                 <div id="ProductoHelp" class="form-text">Ingrese el Url del producto.</div>
+                <asp:Label runat="server" ID="lblUrlError" CssClass="text-danger" Visible="false" />
             </div>
 
             <div class="mb-3">
@@ -58,7 +62,6 @@
                 <asp:Button runat="server" ID="btnCancelar" Text="Cancelar" CssClass="btn btn-primary" OnClick="btnCancelar_Click" />
                 <asp:Label runat="server" ID="lblMensaje" CssClass="error-message" />
             </div>
-
             <div class="row">
                 <div class="col-6">
                     <asp:UpdatePanel ID="UpdatePanel2" runat="server">

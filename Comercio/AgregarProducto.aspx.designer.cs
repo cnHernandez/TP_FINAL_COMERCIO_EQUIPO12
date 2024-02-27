@@ -33,6 +33,15 @@ namespace Comercio
         protected global::System.Web.UI.WebControls.TextBox txtNombre;
 
         /// <summary>
+        /// Control lblNombreError.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblNombreError;
+
+        /// <summary>
         /// Control txtPorcentaje.
         /// </summary>
         /// <remarks>
@@ -42,13 +51,13 @@ namespace Comercio
         protected global::System.Web.UI.WebControls.TextBox txtPorcentaje;
 
         /// <summary>
-        /// Control lblDniError.
+        /// Control lblPorcentajeError.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblDniError;
+        protected global::System.Web.UI.WebControls.Label lblPorcentajeError;
 
         /// <summary>
         /// Control txtStockActual.
@@ -60,6 +69,15 @@ namespace Comercio
         protected global::System.Web.UI.WebControls.TextBox txtStockActual;
 
         /// <summary>
+        /// Control lblActual.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblActual;
+
+        /// <summary>
         /// Control txtMinimo.
         /// </summary>
         /// <remarks>
@@ -67,6 +85,15 @@ namespace Comercio
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtMinimo;
+
+        /// <summary>
+        /// Control lblMinimo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblMinimo;
 
         /// <summary>
         /// Control ddlTipo.
@@ -94,6 +121,15 @@ namespace Comercio
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtUrl;
+
+        /// <summary>
+        /// Control lblUrlError.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblUrlError;
 
         /// <summary>
         /// Control imgProducto.

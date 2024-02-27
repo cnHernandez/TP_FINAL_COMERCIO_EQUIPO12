@@ -31,7 +31,17 @@ namespace Comercio
 
             }
         }
-
+        private bool ContieneNumeros(string texto)
+        {
+            foreach (char c in texto)
+            {
+                if (char.IsDigit(c))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
             try
