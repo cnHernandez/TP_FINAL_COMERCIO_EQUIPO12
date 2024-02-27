@@ -29,9 +29,9 @@ namespace Negocio
             //Conexion = new SqlConnection("server=LAPTOP-OTJVIM30\\SQLEXPRESS; database=Base_Comercio_2024; integrated security=true;");
 
             //NICO ACCESO
-            Conexion = new SqlConnection("server=DESKTOP-PNIP72A\\SQLEXPRESS; database=Base_Comercio_2024; integrated security=true;");
+            //Conexion = new SqlConnection("server=DESKTOP-PNIP72A\\SQLEXPRESS; database=Base_Comercio_2024; integrated security=true;");
             //LUCA ACCESO
-            //Conexion = new SqlConnection("server=DESKTOP-LRPR1H0; database=Base_Comercio_2024; integrated security=true;");
+            Conexion = new SqlConnection("server=DESKTOP-LRPR1H0; database=Base_Comercio_2024; integrated security=true;");
             Comando = new SqlCommand();
             
         }

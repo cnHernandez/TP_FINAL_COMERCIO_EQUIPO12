@@ -64,8 +64,15 @@ namespace Comercio
                         {
                             nuevo.AgregarClientes(cliente);
                         }
-
-                        Response.Redirect("Clientes.aspx", false);
+                        if (!(Session["Usuario"] is Dominio.Usuarios usuario && usuario.TipoUsuario == Dominio.Usuarios.TipoUsuarios.vendedor))
+                        {
+                            Response.Redirect("default.aspx", false);
+                        }
+                        else
+                        {
+                            Response.Redirect("DefaultVendedor.aspx", false);
+                        }
+                        
                     }
                     else
                     {

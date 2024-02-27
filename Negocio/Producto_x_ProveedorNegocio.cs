@@ -74,6 +74,40 @@ namespace Negocio
             }
         }
 
+        public bool ExisteProductoProveedor(int idProducto, int idProveedor)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            bool existe = false;
+
+            try
+            {
+                // Define la consulta SQL para buscar un registro en la tabla Producto_x_Proveedor
+                datos.SetearQuery("SELECT COUNT(*) FROM Producto_x_Proveedor WHERE ProductoID = @ProductoID AND ProveedorID = @ProveedorID");
+
+                // Establece los parámetros de la consulta SQL
+                datos.setearParametros("@ProductoID", idProducto);
+                datos.setearParametros("@ProveedorID", idProveedor);
+
+                // Ejecuta la consulta SQL y verifica si hay algún registro que coincida con los parámetros
+                datos.EjecutarLectura();
+                if (datos.Lector.Read())
+                {
+                    int cantidadRegistros = Convert.ToInt32(datos.Lector[0]);
+                    existe = (cantidadRegistros > 0);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+
+            return existe;
+        }
+
         public void updatearPrecios (List<Producto_x_Proveedor> lista)
         {
             AccesoDatos datos = new AccesoDatos();

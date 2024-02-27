@@ -38,7 +38,7 @@ namespace Negocio
 
                 using (AccesoDatos Datos = new AccesoDatos())
                 {
-                    Datos.SetearQuery("\tselect dv.DetalleVentaID, dv.VentaID, dv.ProductoID,p.Nombre,c.Nombre, dv.Cantidad, dv.PrecioVenta, dv.Subtotal from DetalleVenta dv inner join Ventas v on v.VentaID = dv.VentaID inner join Clientes c on c.ClienteID= v.ClienteID inner join Productos p on p.ProductoID = dv.ProductoID where dv.VentaID = @idVenta");
+                    Datos.SetearQuery("select dv.DetalleVentaID, dv.VentaID, dv.ProductoID,p.Nombre,c.Nombre, dv.Cantidad, dv.PrecioVenta, dv.Subtotal from DetalleVenta dv inner join Ventas v on v.VentaID = dv.VentaID inner join Clientes c on c.ClienteID= v.ClienteID inner join Productos p on p.ProductoID = dv.ProductoID where dv.VentaID = @idVenta");
                     Datos.setearParametros("@idVenta", idVenta);
                     Datos.EjecutarLectura();
 

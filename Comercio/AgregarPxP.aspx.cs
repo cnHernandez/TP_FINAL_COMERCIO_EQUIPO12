@@ -64,40 +64,103 @@ namespace Comercio
 
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
+            bool hayErrores = false;
+
             foreach (RepeaterItem item in reRepeater.Items)
             {
                 // Encuentra el DropDownList y el TextBox en la fila actual del Repeater
                 DropDownList ddlProveedor = (DropDownList)item.FindControl("ddlProveedor");
                 TextBox txtPrecio = (TextBox)item.FindControl("txtPrecio");
+                Label lblError = (Label)item.FindControl("lblError");
 
                 // Verifica que tanto el DropDownList como el TextBox se hayan encontrado correctamente
-                if (ddlProveedor != null && txtPrecio != null)
+                if (ddlProveedor != null && txtPrecio != null && lblError != null)
                 {
-                    // Obtén el ID del producto de la sesión si está disponible
-                    int idProducto = -1; // Valor predeterminado en caso de que no se encuentre en la sesión
-                    if (Session["ProductoSeleccionado"] != null)
+                    // Verifica si el DropDownList tiene un proveedor seleccionado
+                    if (ddlProveedor.SelectedIndex == 0)
                     {
-                        Productos producto = (Productos)Session["ProductoSeleccionado"];
-                        idProducto = producto.IdProductos;
+                        lblError.Text = "Por favor seleccione un proveedor.";
+                        hayErrores = true;
+                        return;
+                    }
+                    else
+                    {
+                        lblError.Text = ""; // Borra cualquier mensaje de error anterior
                     }
 
-                    // Obtén el ID del proveedor seleccionado del DropDownList
-                    int idProveedor = Convert.ToInt32(ddlProveedor.SelectedValue);
-
-                    // Obtén el precio del TextBox
+                    // Verifica si el TextBox tiene un precio válido
                     decimal precioCompra;
-                    if (decimal.TryParse(txtPrecio.Text, out precioCompra))
+                    if (!decimal.TryParse(txtPrecio.Text, out precioCompra))
                     {
+                        lblError.Text = "Ingrese un precio válido.";
+                        hayErrores = true;
+                        return;
+                    }
+                    else
+                    {
+                        lblError.Text = ""; // Borra cualquier mensaje de error anterior
+                    }
+                    if (txtPrecio.Text.Contains(".") || txtPrecio.Text.Contains(","))
+                    {
+                        lblError.Text = "Ingrese un precio válido sin puntos ni comas.";
+                        hayErrores = true;
+                        return;
+                    }
+                    else
+                    {
+                        lblError.Text = ""; // Borra cualquier mensaje de error anterior
+                    }
+                    // Verifica si el TextBox del precio está vacío
+                    if (string.IsNullOrWhiteSpace(txtPrecio.Text))
+                    {
+                        lblError.Text = "Ingrese el precio.";
+                        hayErrores = true;
+                        return;
+                    }
+                    else
+                    {
+                        lblError.Text = ""; // Borra cualquier mensaje de error anterior
+                    }
+                   
+                    if (!hayErrores)
+                    {
+                        // Obtén el ID del producto de la sesión si está disponible
+                        int idProducto = -1; // Valor predeterminado en caso de que no se encuentre en la sesión
+                        if (Session["ProductoSeleccionado"] != null)
+                        {
+                            Productos producto = (Productos)Session["ProductoSeleccionado"];
+                            idProducto = producto.IdProductos;
+                        }
+
+                        // Obtén el ID del proveedor seleccionado del DropDownList
+                        int idProveedor = Convert.ToInt32(ddlProveedor.SelectedValue);
+
                         // Inserta el registro en la base de datos utilizando el método del negocio
                         Producto_x_ProveedorNegocio negocio = new Producto_x_ProveedorNegocio();
-                        negocio.AgregarProducto_x_Proveedor(idProducto, idProveedor, precioCompra);
+
+                        if (negocio.ExisteProductoProveedor(idProducto, idProveedor))
+                        {
+                            lblError.Text = "Producto por proveedor ya existente";
+                            return;
+                        }
+                        else
+                        {
+                            negocio.AgregarProducto_x_Proveedor(idProducto, idProveedor, precioCompra);
+                        }
+
+                        // Borra cualquier mensaje de error anterior después de una operación exitosa
+                        lblError.Text = "";
                     }
                 }
             }
 
             // Redirige a la página ListarProductos.aspx después de la operación
-            Response.Redirect("ListarProductos.aspx");
+            if (!hayErrores)
+            {
+                Response.Redirect("ListarProductos.aspx");
+            }
         }
+
 
     }
 }

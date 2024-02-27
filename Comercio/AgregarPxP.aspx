@@ -32,6 +32,7 @@
                                 <div class="login-container">
                                     <asp:Button runat="server" ID="btnAgregar" CssClass="btn btn-primary btn-block" Text="Agregar" OnClick="btnAgregar_Click" />
                                 </div>
+                                <asp:Label ID="lblError" runat="server" CssClass="text-danger"></asp:Label>
                             </div>
                         </div>
                     </div>

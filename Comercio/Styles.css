@@ -492,6 +492,7 @@
     text-align: center;
     z-index: 0; /* Asegura que el footer esté detrás de las cards */
 }
+
 .button-container {
     display: flex;
     flex-direction: column;
@@ -511,7 +512,7 @@
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom:150px;
+    margin-bottom: 150px;
 }
 
 .total-label {
@@ -587,5 +588,3 @@
     .table-custom th {
         background-color: #f2f2f2;
     }
-
-
