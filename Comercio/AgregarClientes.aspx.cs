@@ -46,6 +46,21 @@ namespace Comercio
         {
             try
             {
+                if (string.IsNullOrEmpty(txtNombre.Text) || string.IsNullOrEmpty(txtApellido.Text) || string.IsNullOrEmpty(txtMail.Text) || string.IsNullOrEmpty(txtDni.Text) || string.IsNullOrEmpty(txtTelefono.Text))
+                {
+                    lblMensaje.Text = "Todos los campos son obligatorios.";
+                    lblMensaje.ForeColor = System.Drawing.Color.Red;
+                    return;
+                }
+
+                // Validar que no se ingresen números en nombre y apellido
+                if (ContieneNumeros(txtNombre.Text) || ContieneNumeros(txtApellido.Text))
+                {
+                    lblMensaje.Text = "El nombre y el apellido no deben contener números.";
+                    lblMensaje.ForeColor = System.Drawing.Color.Red;
+                    return;
+                }
+
                 Dominio.Clientes cliente = new Dominio.Clientes();
                 ClientesNegocio nuevo = new ClientesNegocio();
 

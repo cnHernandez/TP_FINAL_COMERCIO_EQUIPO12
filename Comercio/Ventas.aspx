@@ -1,6 +1,9 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Web.Master" AutoEventWireup="true" CodeBehind="Ventas.aspx.cs" Inherits="Comercio.Venta" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+
+  
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -42,6 +45,7 @@
         <asp:GridView ID="dgvProductosSeleccionados" runat="server" AutoGenerateColumns="False" CssClass="table table-bordered" OnRowDataBound="dgvProductosSeleccionados_RowDataBound" OnRowCommand="dgvProductosSeleccionados_RowCommand">
             <Columns>
                 <asp:BoundField DataField="IdProducto" HeaderText="ID" SortExpression="IdProducto" />
+              
                 <asp:BoundField DataField="PrecioVenta" HeaderText="Precio Venta" SortExpression="PrecioVenta" />
                 <asp:TemplateField HeaderText="Cantidad">
                     <ItemTemplate>
@@ -70,5 +74,7 @@
             <asp:Label ID="lblTotalVenta" Visible="false" runat="server" CssClass="font-weight-bold total-value"></asp:Label>
         </div>
     </div>
+
+
 
 </asp:Content>

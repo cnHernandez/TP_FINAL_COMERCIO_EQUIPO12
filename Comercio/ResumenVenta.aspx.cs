@@ -88,17 +88,29 @@ namespace Comercio
         {
             // Redirigir a la página principal (cambia la URL según tu estructura de proyecto)
             Session["ListaProductos"] = null;
-            Session["ListaProductosSeleccionados"] = null;
-            Response.Redirect("~/DefaultVendedor.aspx");
+            Session["listaProductosSeleccionados"] = null;
+            Session["DetallesVenta"] = null;
+
+            if (Request.QueryString["id"] != null)
+            {
+                Response.Redirect("RegistrosVentas.aspx");
+            }
+            else { Response.Redirect("~/DefaultVendedor.aspx"); }
         }
 
         protected void gvDetallesVenta_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-
-           
+            List<DetalleVenta> detallesVenta = null;
             if (e.Row.RowType == DataControlRowType.Footer)
             {
-                List<DetalleVenta> detallesVenta = Session["listaProductosSeleccionados"] as List<DetalleVenta>;
+                if (Request.QueryString["id"] != null)
+                {
+                    detallesVenta = Session["DetallesVenta"] as List<DetalleVenta>;
+                }
+                else
+                {
+                    detallesVenta = Session["listaProductosSeleccionados"] as List<DetalleVenta>;
+                }
 
                 if (detallesVenta != null && detallesVenta.Count > 0)
                 {
@@ -124,7 +136,7 @@ namespace Comercio
                     gvDetallesVenta.Controls[0].Controls.Add(footerRow);
                 }
             }
-        }
+            }
 
         protected void btnDescargarFactura_Click(object sender, EventArgs e)
         {
@@ -146,7 +158,7 @@ namespace Comercio
             // Si no se encontraron detalles de venta por ID de venta, intenta obtenerlos de la lista de productos seleccionados
             if (detallesVenta == null || detallesVenta.Count == 0)
             {
-                detallesVenta = Session["ListaProductosSeleccionados"] as List<DetalleVenta>;
+                detallesVenta = Session["listaProductosSeleccionados"] as List<DetalleVenta>;
             }
 
             // Verificar si se encontraron detalles de la venta
@@ -166,8 +178,8 @@ namespace Comercio
             string contenidoHTML = GenerarContenidoFactura(detallesVenta, total);
 
             // Limpiar las sesiones
-            Session["ListaProductos"] = null;
-            Session["ListaProductosSeleccionados"] = null;
+            Session["listaProductos"] = null;
+            Session["listaProductosSeleccionados"] = null;
 
             // Configurar la respuesta HTTP para descargar el archivo
             Response.Clear();
