@@ -262,6 +262,10 @@ namespace Negocio
 
                 throw ex;
             }
+            finally
+            {
+                datos.CerrarConexion();
+            }
         }
 
         public List<Productos> ObtenerProductosParaventa(string nombreProducto)
@@ -528,9 +532,9 @@ namespace Negocio
 
         public void ModificarStock(int id, int cantidad)
         {
+            AccesoDatos datos = new AccesoDatos();
             try
             {
-                AccesoDatos datos = new AccesoDatos();
                 datos.SetearQuery("update Productos set StockActual += @cantidad where ProductoID = @id");
                 datos.setearParametros("@id", id);
                 datos.setearParametros("@cantidad", cantidad);
@@ -540,13 +544,17 @@ namespace Negocio
             {
                 throw Ex;
             }
+            finally
+            {
+                datos.CerrarConexion();
+            }
         }
 
         public void ModificarStockVenta(int id, int cantidad)
         {
+            AccesoDatos datos = new AccesoDatos();
             try
             {
-                AccesoDatos datos = new AccesoDatos();
                 datos.SetearQuery("update Productos set StockActual -= @cantidad where ProductoID = @id");
                 datos.setearParametros("@id", id);
                 datos.setearParametros("@cantidad", cantidad);
@@ -555,6 +563,10 @@ namespace Negocio
             catch (Exception Ex)
             {
                 throw Ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
             }
         }
 
