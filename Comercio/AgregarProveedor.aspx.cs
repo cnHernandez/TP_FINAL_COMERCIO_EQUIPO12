@@ -38,6 +38,14 @@ namespace Comercio
         {
             try
             {
+                // Verificar si algún campo está vacío
+                if (string.IsNullOrEmpty(txtNombre.Text) || string.IsNullOrEmpty(txtUrl.Text) || string.IsNullOrEmpty(txtCategoria.Text))
+                {
+                    lblMensaje.Text = "Todos los campos son obligatorios.";
+                    lblMensaje.ForeColor = System.Drawing.Color.Red;
+                    return;
+                }
+
                 Proveedores Proveedor = new Proveedores();
                 ProveedoresNegocio nuevo = new ProveedoresNegocio();
 

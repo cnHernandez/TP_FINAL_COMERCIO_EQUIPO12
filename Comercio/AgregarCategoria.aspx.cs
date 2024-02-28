@@ -35,6 +35,14 @@ namespace Comercio
         {
             try
             {
+
+                // Verificar si algún campo está vacío
+                if (string.IsNullOrEmpty(txtNombre.Text) || string.IsNullOrEmpty(txtUrl.Text))
+                {
+                    lblMensaje.Text = "Todos los campos son obligatorios.";
+                    lblMensaje.ForeColor = System.Drawing.Color.Red;
+                    return;
+                }
                 Dominio.Categorias cat = new Dominio.Categorias();
                 CategoriasNegocio nuevo = new CategoriasNegocio();
 
