@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -36,12 +37,35 @@ namespace Comercio
             try
             {
 
-                // Verificar si algún campo está vacío
-                if (string.IsNullOrEmpty(txtNombre.Text) || string.IsNullOrEmpty(txtUrl.Text))
+                StringBuilder errores = new StringBuilder();
+                errores.Clear();
+
+
+                if (string.IsNullOrWhiteSpace(txtNombre.Text))
                 {
-                    lblMensaje.Text = "Todos los campos son obligatorios.";
-                    lblMensaje.ForeColor = System.Drawing.Color.Red;
-                    return;
+                    errores.AppendLine("Complete el Nombre...");
+                    lblNombre.Text = "Complete el Nombre...";
+                    lblNombre.Visible = true;
+                }
+                else
+                {
+                    lblNombre.Visible = false;
+                }
+
+                if (string.IsNullOrWhiteSpace(txtUrl.Text))
+                {
+                    errores.AppendLine("Complete la Url...");
+                    lblUrl.Text = "Complete la Url...";
+                    lblUrl.Visible = true;
+                }
+                else
+                {
+                    lblUrl.Visible = false;
+                }
+
+                if (errores.Length > 0)
+                {
+                    return; // Detener el proceso ya que hay errores
                 }
                 Dominio.Categorias cat = new Dominio.Categorias();
                 CategoriasNegocio nuevo = new CategoriasNegocio();

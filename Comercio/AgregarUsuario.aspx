@@ -11,12 +11,14 @@
                <label for="txtNombre" class="form-label">Nombre del Usuario</label>
                <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control" name="txtNombre" />
                <div id="NombreHelp" class="form-text">Ingrese el nombre del Usuario.</div>
+               <asp:Label runat="server" ID="lblNombre" CssClass="text-danger" Visible="false" />
            </div>
 
            <div class="mb-3">
                <label for="txtContraseña" class="form-label">Contraseña</label>
                <asp:TextBox runat="server" ID="txtContraseña" CssClass="form-control" name="txtContraseña" />
                <div id="ContraseñaHelp" class="form-text">Ingrese la contraseña del usuario.</div>
+               <asp:Label runat="server" ID="lblPass" CssClass="text-danger" Visible="false" />
            </div>
 
      <div class="mb-3">

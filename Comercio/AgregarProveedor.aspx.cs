@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Dominio;
+using System.Text;
 
 namespace Comercio
 {
@@ -39,11 +40,45 @@ namespace Comercio
             try
             {
                 // Verificar si algún campo está vacío
-                if (string.IsNullOrEmpty(txtNombre.Text) || string.IsNullOrEmpty(txtUrl.Text) || string.IsNullOrEmpty(txtCategoria.Text))
+                StringBuilder errores = new StringBuilder();
+                errores.Clear();
+
+
+                if (string.IsNullOrWhiteSpace(txtNombre.Text))
                 {
-                    lblMensaje.Text = "Todos los campos son obligatorios.";
-                    lblMensaje.ForeColor = System.Drawing.Color.Red;
-                    return;
+                    errores.AppendLine("Complete el Nombre...");
+                    lblErrorNombre.Text = "Complete el Nombre...";
+                    lblErrorNombre.Visible = true;
+                }
+                else
+                {
+                    lblErrorNombre.Visible = false;
+                }
+
+                if (string.IsNullOrWhiteSpace(txtUrl.Text))
+                {
+                    errores.AppendLine("Complete la Url...");
+                    lblErrorUrl.Text = "Complete la Url...";
+                    lblErrorUrl.Visible = true;
+                }
+                else
+                {
+                    lblErrorUrl.Visible = false;
+                }
+
+                if (string.IsNullOrWhiteSpace(txtCategoria.Text))
+                {
+                    errores.AppendLine("Complete la Categoria..");
+                    lblErrorCat.Text = "Complete la Categoria...";
+                    lblErrorCat.Visible = true;
+                }
+                else
+                {
+                    lblErrorCat.Visible = false;
+                }
+                if (errores.Length > 0)
+                {
+                    return; // Detener el proceso ya que hay errores
                 }
 
                 Proveedores Proveedor = new Proveedores();

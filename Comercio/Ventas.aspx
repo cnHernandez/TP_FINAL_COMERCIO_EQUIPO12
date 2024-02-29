@@ -45,7 +45,7 @@
         <asp:GridView ID="dgvProductosSeleccionados" runat="server" AutoGenerateColumns="False" CssClass="table table-bordered" OnRowDataBound="dgvProductosSeleccionados_RowDataBound" OnRowCommand="dgvProductosSeleccionados_RowCommand">
             <Columns>
                 <asp:BoundField DataField="IdProducto" HeaderText="ID" SortExpression="IdProducto" />
-              
+                <asp:BoundField DataField="NombreProducto" HeaderText="Nombre" SortExpression="NombreProducto" />
                 <asp:BoundField DataField="PrecioVenta" HeaderText="Precio Venta" SortExpression="PrecioVenta" />
                 <asp:TemplateField HeaderText="Cantidad">
                     <ItemTemplate>
@@ -61,7 +61,7 @@
                     <ItemTemplate>
                         <asp:Button ID="btnEliminar" runat="server" CommandName="Eliminar" CommandArgument='<%# Container.DataItemIndex %>' CssClass="btn btn-danger btn-sm" ImageUrl="~/Images/delete_icon.png" Text="Eliminar" />
                     </ItemTemplate>
-                </asp:TemplateField>
+                </asp:TemplateField>                
 
             </Columns>
         </asp:GridView>

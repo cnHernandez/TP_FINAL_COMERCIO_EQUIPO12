@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -42,23 +43,81 @@ namespace Comercio
             }
             return false;
         }
+        private bool ContieneLetras(string texto)
+        {
+            foreach (char c in texto)
+            {
+                if (char.IsLetter(c))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
             try
             {
-                if (string.IsNullOrEmpty(txtNombre.Text) || string.IsNullOrEmpty(txtApellido.Text) || string.IsNullOrEmpty(txtMail.Text) || string.IsNullOrEmpty(txtDni.Text) || string.IsNullOrEmpty(txtTelefono.Text))
+                StringBuilder errores = new StringBuilder();
+                errores.Clear();
+
+
+                if (string.IsNullOrWhiteSpace(txtNombre.Text) || ContieneNumeros(txtNombre.Text))
                 {
-                    lblMensaje.Text = "Todos los campos son obligatorios.";
-                    lblMensaje.ForeColor = System.Drawing.Color.Red;
-                    return;
+                    errores.AppendLine("Nombre Invalido...");
+                    lblNombre.Text = "Nombre Invalido...";
+                    lblNombre.Visible = true;
+                }
+                else
+                {
+                    lblNombre.Visible = false;
+                }
+                if (string.IsNullOrWhiteSpace(txtApellido.Text) || ContieneNumeros(txtApellido.Text))
+                {
+                    errores.AppendLine("Apellido Invalido...");
+                    lblApellido.Text = "Apellido Invalido...";
+                    lblApellido.Visible = true;
+                }
+                else
+                {
+                    lblApellido.Visible = false;
+                }
+                if (string.IsNullOrWhiteSpace(txtDni.Text) || ContieneLetras(txtDni.Text))
+                {
+                    errores.AppendLine("Dni Invalido...");
+                    lblDniError.Text = "Dni Invalido...";
+                    lblDniError.Visible = true;
+                }
+                else
+                {
+                    lblDniError.Visible = false;
+                }
+                if (string.IsNullOrWhiteSpace(txtTelefono.Text) || ContieneLetras(txtTelefono.Text))
+                {
+                    errores.AppendLine("Telefono Invalido...");
+                    lblTelefono.Text = "Telefono Invalido...";
+                    lblTelefono.Visible = true;
+                }
+                else
+                {
+                    lblTelefono.Visible = false;
+                }
+                if (string.IsNullOrWhiteSpace(txtMail.Text))
+                {
+                    errores.AppendLine("Mail Invalido...");
+                    lblMail.Text = "Mail Invalido...";
+                    lblMail.Visible = true;
+                }
+                else
+                {
+                    lblMail.Visible = false;
                 }
 
-                // Validar que no se ingresen números en nombre y apellido
-                if (ContieneNumeros(txtNombre.Text) || ContieneNumeros(txtApellido.Text))
+                if (errores.Length > 0)
                 {
-                    lblMensaje.Text = "El nombre y el apellido no deben contener números.";
-                    lblMensaje.ForeColor = System.Drawing.Color.Red;
-                    return;
+                    return; // Detener el proceso ya que hay errores
                 }
 
                 Dominio.Clientes cliente = new Dominio.Clientes();
@@ -74,7 +133,7 @@ namespace Comercio
                     cliente.Dni = dni;
 
                     // Validar que el DNI no exista ya en la base de datos
-                    if (!DNIExiste(cliente.Dni, cliente.IdCliente))
+                    if (!DNIExiste(cliente.Dni))
                     {
                         // Continuar con la asignación de otros campos
                         cliente.Telefono = long.Parse(txtTelefono.Text);
@@ -100,17 +159,12 @@ namespace Comercio
                         
                     }
                     else
-                    {
+                    {                      
                         // El DNI ya existe en la base de datos, mostrar mensaje al usuario
-                        lblMensaje.Text = "El DNI ya ha sido utilizado. Por favor, ingrese un DNI diferente.";
-                        lblMensaje.ForeColor = System.Drawing.Color.Red;
+                        lblDniError.Text = "El DNI ya ha sido utilizado. Por favor, ingrese un DNI diferente.";
+                        lblDniError.ForeColor = System.Drawing.Color.Red;
+                        lblDniError.Visible = true;
                     }
-                }
-                else
-                {
-                    // El DNI no es un número válido, mostrar mensaje de error
-                    lblMensaje.Text = "Ingrese un valor válido para el DNI.";
-                    lblMensaje.ForeColor = System.Drawing.Color.Red;
                 }
             }
             catch (Exception ex)
@@ -126,7 +180,7 @@ namespace Comercio
             Response.Redirect("Clientes.aspx", false);
         }
 
-        private bool DNIExiste(long dni, int idCliente)
+        private bool DNIExiste(long dni)
         {
             // Lógica para verificar si el DNI ya existe en la base de datos
             // Excluye el DNI del cliente actual durante la verificación
@@ -135,9 +189,8 @@ namespace Comercio
             // Ejemplo (ajusta la consulta y la conexión a tu base de datos):
             using (AccesoDatos Datos = new AccesoDatos())
             {
-                Datos.SetearQuery("SELECT COUNT(*) FROM Clientes WHERE Dni = @Dni AND ClienteID = @IdCliente");
+                Datos.SetearQuery("SELECT COUNT(*) FROM Clientes WHERE Dni = @Dni");
                 Datos.setearParametros("@Dni", dni);
-                Datos.setearParametros("@IdCliente", idCliente);
                 int count = Convert.ToInt32(Datos.ejecutarScalar());
                 return count > 0;
             }

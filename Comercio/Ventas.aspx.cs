@@ -325,6 +325,7 @@ namespace Comercio
                             aux.PrecioVenta = (producto.ProductosXProveedores[0].PrecioCompra) * (producto.PorcentajeGanancia / 100 + 1);
                             aux.Subtotal = 0;
                             aux.IdVenta = 0;
+                            aux.NombreProducto = producto.Nombre;
 
                             // Agregar el producto y detalle de venta a las listas
                             detallesVentaSession.Add(aux);
@@ -455,7 +456,7 @@ namespace Comercio
             TextBox txtCantidad = (TextBox)row.FindControl("txtCantidad");
             if (txtCantidad != null)
             {
-                decimal PrecioVenta = Convert.ToDecimal(row.Cells[1].Text);
+                decimal PrecioVenta = Convert.ToDecimal(row.Cells[2].Text);
                 int cantidad = Convert.ToInt32(txtCantidad.Text);
                 return PrecioVenta * cantidad;
             }
@@ -470,7 +471,7 @@ namespace Comercio
             if (txtCantidad != null && lblSubtotal != null)
             {
                 // Acceder directamente a las celdas de GridView para obtener los valores
-                decimal PrecioVenta = Convert.ToDecimal(row.Cells[1].Text); // Cambia el índice según la posición de la columna PrecioCompra en tu GridView
+                decimal PrecioVenta = Convert.ToDecimal(row.Cells[2].Text); // Cambia el índice según la posición de la columna PrecioCompra en tu GridView
                 int cantidad = Convert.ToInt32(txtCantidad.Text);
                 decimal subtotal = PrecioVenta * cantidad;
 
