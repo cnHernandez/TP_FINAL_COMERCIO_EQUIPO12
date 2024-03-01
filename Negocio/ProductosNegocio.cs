@@ -478,7 +478,7 @@ namespace Negocio
 
                     Datos.setearParametros("@Nombre", nuevo.Nombre);
                     Datos.setearParametros("@PorcentajeGanancia", nuevo.PorcentajeGanancia);
-                    Datos.setearParametros("@StockActual", nuevo.StockActual);
+                    Datos.setearParametros("@StockActual", 0);
                     Datos.setearParametros("@StockMinimo", nuevo.StockMinimo);
                     Datos.setearParametros("@TipoID", nuevo.IdCategoria);
                     Datos.setearParametros("@MarcaID", nuevo.IdMarca);
@@ -507,11 +507,11 @@ namespace Negocio
 
             try
             {
-                Datos.SetearQuery("UPDATE Productos SET Nombre = @nombre, PorcentajeGanancia=@PorcentajeGanancia,StockActual=@StockActual,StockMinimo=@stockMinimo,MarcaID=@IdMarca,TipoID=@idCategoria, Estado=@Estado,UrlImagen=@urlImagen WHERE ProductoID=@IdProductos");
+                Datos.SetearQuery("UPDATE Productos SET Nombre = @nombre, PorcentajeGanancia=@PorcentajeGanancia,StockMinimo=@stockMinimo,MarcaID=@IdMarca,TipoID=@idCategoria, Estado=@Estado,UrlImagen=@urlImagen WHERE ProductoID=@IdProductos");
                 Datos.setearParametros("@nombre", nuevo.Nombre);
                 Datos.setearParametros("@IdProductos", nuevo.IdProductos);
                 Datos.setearParametros("@PorcentajeGanancia",nuevo.PorcentajeGanancia);
-                Datos.setearParametros("@StockActual",nuevo.StockActual);
+                
                 Datos.setearParametros("@stockMinimo",nuevo.StockMinimo);
                 Datos.setearParametros("@IdMarca",nuevo.IdMarca);
                 Datos.setearParametros("@IdCategoria",nuevo.IdCategoria);

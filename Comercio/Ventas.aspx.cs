@@ -226,7 +226,7 @@ namespace Comercio
 
                     if (producto.StockActual < detalle.Cantidad)
                     {
-                        lblMensajeError.Text = "La cantidad seleccionada en uno o más productos excede el stock disponible.";
+                        lblMensajeError.Text = "La cantidad seleccionada de "+ detalle.NombreProducto +" excede el stock disponible.";
                         return; // Detener el proceso si hay un problema
                     }
                 // Verificar si la cantidad seleccionada supera el stock mínimo
@@ -336,7 +336,7 @@ namespace Comercio
                         }
                         else
                         {
-                            lblMensajeError.Text = "El producto seleccionado no tiene suficiente stock disponible.";
+                            lblMensajeError.Text = "El producto "+ producto.Nombre + " no tiene suficiente stock disponible.";
                             return; // Sale del método si no hay suficiente stock
                         }
                     }

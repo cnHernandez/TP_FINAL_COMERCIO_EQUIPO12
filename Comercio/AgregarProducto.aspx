@@ -22,12 +22,7 @@
                 <asp:Label runat="server" ID="lblPorcentajeError" CssClass="text-danger" Visible="false" />
             </div>
 
-            <div class="mb-3">
-                <label for="txtStockActual" class="form-label">Stock Actual</label>
-                <asp:TextBox runat="server" ID="txtStockActual" CssClass="form-control" name="txtStockActual" />
-                <div id="ActualHelp" class="form-text">Ingrese el Stock actual.</div>
-                <asp:Label runat="server" ID="lblActual" CssClass="text-danger" Visible="false" />
-            </div>
+         
 
             <div class="mb-3">
                 <label for="txtMinimo" class="form-label">Stock Minimo</label>

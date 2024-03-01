@@ -31,7 +31,7 @@ namespace Comercio
                 ///precargamos
                 txtNombre.Text = seleccionado.Nombre;
                 txtPorcentaje.Text = seleccionado.PorcentajeGanancia.ToString();
-                txtStockActual.Text = seleccionado.StockActual.ToString();
+                
                 txtMinimo.Text = seleccionado.StockMinimo.ToString();
                 txtUrl.Text = seleccionado.UrlImagen.ToString();
                 ddlTipo.SelectedValue = seleccionado.IdCategoria.ToString();
@@ -117,16 +117,7 @@ namespace Comercio
                     lblPorcentajeError.Visible = false;
                 }
 
-                if (!NoContieneOtrosCaracteres(txtStockActual.Text) || string.IsNullOrWhiteSpace(txtStockActual.Text))
-                {
-                    errores.AppendLine("Stock actual inválido...");
-                    lblActual.Text = "Stock actual inválido...";
-                    lblActual.Visible = true;
-                }
-                else
-                {
-                    lblActual.Visible = false;
-                }
+               
 
                 if (!NoContieneOtrosCaracteres(txtMinimo.Text) || string.IsNullOrWhiteSpace(txtMinimo.Text))
                 {
@@ -136,7 +127,7 @@ namespace Comercio
                 }
                 else
                 {
-                    lblActual.Visible = false;
+                    lblMinimo.Visible = false;
                 }
 
                 if (string.IsNullOrWhiteSpace(txtUrl.Text))
@@ -158,7 +149,7 @@ namespace Comercio
 
                 prod.Nombre = txtNombre.Text;
                 prod.PorcentajeGanancia = decimal.Parse(txtPorcentaje.Text);
-                prod.StockActual = int.Parse(txtStockActual.Text);
+                
                 prod.StockMinimo = int.Parse(txtMinimo.Text);
                 prod.UrlImagen = txtUrl.Text;
                 prod.IdMarca = int.Parse(ddlMarca.SelectedValue);

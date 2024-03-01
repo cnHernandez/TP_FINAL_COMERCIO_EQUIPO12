@@ -16,7 +16,7 @@
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>
             <asp:GridView ID="dataGridViewCompras" runat="server" AutoGenerateColumns="False" CssClass="gridview-style" DataKeyNames="IdCompras"
-                AllowPaging="true" PageSize="7" OnPageIndexChanging="dataGridViewCompras_PageIndexChanging" OnSelectedIndexChanged="dataGridViewCompras_SelectedIndexChanged" OnRowDeleting="dataGridViewCompras_RowDeleting" OnRowCommand="dataGridViewCompras_RowCommand" OnRowDataBound="dataGridViewCompras_RowDataBound">
+                AllowPaging="true" PageSize="5" OnPageIndexChanging="dataGridViewCompras_PageIndexChanging" OnSelectedIndexChanged="dataGridViewCompras_SelectedIndexChanged" OnRowDeleting="dataGridViewCompras_RowDeleting" OnRowCommand="dataGridViewCompras_RowCommand" OnRowDataBound="dataGridViewCompras_RowDataBound">
                 <RowStyle CssClass="gridview-row" />
                 <HeaderStyle CssClass="gridview-header" />
                 <Columns>
