@@ -202,46 +202,103 @@ namespace Comercio
             ComprasNegocio compra = new ComprasNegocio();
             ProductosNegocio productos = new ProductosNegocio();
             long idCompra;
-            // agrego a la tabla compra  
-
-
-
-            if (productosSeleccionadosSession.Count > 0)
+            // agrego a la tabla compra
+            // Verificar si hay algún detalle de compra en la sesión
+            if (Session["detallesCompra"] != null)
             {
-                Dominio.Compras nuevaCompra = new Dominio.Compras();
-                nuevaCompra.IdProveedor = ProveedorSeleccionado();
-                nuevaCompra.FechaCompra = DateTime.Now;
-                nuevaCompra.Estado = true;
-                nuevaCompra.TotalCompra = TotalDeCompra();
-
-                idCompra = compra.AgregarCompra(nuevaCompra);
-
-                // Insertar en la tabla DetalleCompra
-                InsertarDetalleCompra((int)idCompra, detalleComprasSession);
-
-                foreach (DetalleCompra detalle in detalleComprasSession)
+                
+                // Verificar si la lista de detalles de compra no es nula y si tiene al menos un elemento
+                if (detalleComprasSession != null || detalleComprasSession.Count > 0)
                 {
+                    Dominio.Compras nuevaCompra = new Dominio.Compras();
+                    nuevaCompra.IdProveedor = ProveedorSeleccionado();
+                    nuevaCompra.FechaCompra = DateTime.Now;
+                    nuevaCompra.Estado = true;
+                    nuevaCompra.TotalCompra = TotalDeCompra();
 
-                    productos.ModificarStock(detalle.IdProducto, detalle.Cantidad);
+                    idCompra = compra.AgregarCompra(nuevaCompra);
+
+                   
+
+                    foreach (DetalleCompra detalle in detalleComprasSession)
+                    {
+
+                        productos.ModificarStock(detalle.IdProducto, detalle.Cantidad);
+                        ActualizarProductos(productosSeleccionadosSession, detalle.IdProducto, detalle.Cantidad);
+                    }
+
+                    ActualizarDetalle(detalleComprasSession);
+
+                    // Insertar en la tabla DetalleCompra
+                    InsertarDetalleCompra((int)idCompra, detalleComprasSession);
+
+                    // Actualizar las etiquetas de subtotal y total de compra después de la inserción
+                    CalcularTotalCompra();
+
+                    // Recargar la página después de la inserción
+                    //Response.Redirect(Request.RawUrl);
+                    Session["CompraPage"] = true; // Para la página de ventas
+                    Response.Redirect("ResumenCompra.aspx");
                 }
-
-
-
-                // Actualizar las etiquetas de subtotal y total de compra después de la inserción
-                CalcularTotalCompra();
-
-
-                // Recargar la página después de la inserción
-                //Response.Redirect(Request.RawUrl);
-                Session["CompraPage"] = true; // Para la página de ventas
-                Response.Redirect("ResumenCompra.aspx");
+                else
+                {
+                    // Mostrar un mensaje de error si no hay detalles de compra en la sesión
+                    lblError.Text = "No se puede finalizar una compra sin productos.";
+                    lblError.Visible = true;
+                }
             }
-            // Limpiar la lista de productos seleccionados en la sesión
+            else
+            {
+                // Mostrar un mensaje de error si no hay detalles de compra en la sesión
+                lblError.Text = "No se puede finalizar una compra sin productos.";
+                lblError.Visible = true;
+            }
             Session["productosSeleccionados"] = null;
             // Limpiar la lista de detalles de compra en la sesión
             Session["detallesCompra"] = null;
-          
         }
+
+        private void ActualizarDetalle(List<DetalleCompra> detalleComprasSession)
+        {
+            // Iterar sobre la lista de detalleComprasSession usando un bucle for
+            for (int i = 0; i < detalleComprasSession.Count; i++)
+            {
+                // Obtener el detalle de compra en la posición i
+                DetalleCompra detalle = detalleComprasSession[i];
+
+                // Verificar si la cantidad es igual a 0
+                if (detalle.Cantidad == 0)
+                {
+                    // Si la cantidad es 0, eliminar el elemento de la lista
+                    detalleComprasSession.RemoveAt(i);
+
+                    // Decrementar el índice para ajustar el desplazamiento causado por la eliminación del elemento
+                    i--;
+                }
+            }
+        }
+
+        private void ActualizarProductos(List<Productos> productosSeleccionadosSession, int id, int cantidad)
+        {
+            // Iterar sobre los productos en la lista productosSeleccionadosSession
+            for (int i = 0; i < productosSeleccionadosSession.Count; i++)
+            {
+                // Obtener el producto actual
+                Productos producto = productosSeleccionadosSession[i];
+
+                // Verificar si el ID del producto coincide con el ID a eliminar
+                if (producto.IdProductos == id && cantidad == 0)
+                {
+                    // Eliminar el producto de la lista
+                    productosSeleccionadosSession.RemoveAt(i);
+                    // Como ya encontramos y eliminamos el producto, no necesitamos seguir iterando
+                    break;
+                }
+            }
+        }
+
+
+
 
         private Productos ObtenerProductoPorId(int idProducto)
         {
@@ -294,7 +351,7 @@ namespace Comercio
         {
             TextBox txtCantidad = (TextBox)sender;
             GridViewRow row = (GridViewRow)txtCantidad.NamingContainer;
-
+            
             if (int.TryParse(txtCantidad.Text, out int cantidad) && cantidad >= 0)
             {
                 CalcularSubtotales(row);

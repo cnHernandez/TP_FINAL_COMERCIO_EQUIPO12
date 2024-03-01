@@ -214,9 +214,6 @@ namespace Comercio
             ClientesNegocio clientesNegocio = new ClientesNegocio();
             long idVenta;
 
-           
-
-
             try
             {
 
@@ -233,7 +230,7 @@ namespace Comercio
                 
                 }
 
-                if (productosEnSession.Count > 0)
+                if (detalleVentaEnSession.Count > 0)
                 {
                     string dnicliente = Session["DniCliente"].ToString();
                     //insertar venta
@@ -470,8 +467,8 @@ namespace Comercio
 
             if (txtCantidad != null && lblSubtotal != null)
             {
-                // Acceder directamente a las celdas de GridView para obtener los valores
-                decimal PrecioVenta = Convert.ToDecimal(row.Cells[2].Text); // Cambia el índice según la posición de la columna PrecioCompra en tu GridView
+                
+                decimal PrecioVenta = Convert.ToDecimal(row.Cells[2].Text); 
                 int cantidad = Convert.ToInt32(txtCantidad.Text);
                 decimal subtotal = PrecioVenta * cantidad;
 
@@ -498,7 +495,7 @@ namespace Comercio
                     }
                     else
                     {
-                        // Manejo de error: Puedes mostrar un mensaje o tomar otra acción en caso de que haya un problema con el formato.
+                        
                     }
                 }
             }

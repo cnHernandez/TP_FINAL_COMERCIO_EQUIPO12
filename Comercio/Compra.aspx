@@ -62,8 +62,8 @@
                     <label class="total-label">Total de la Compra:</label>
                     <asp:Label ID="lblTotalCompra" runat="server" CssClass="font-weight-bold total-value"></asp:Label>
                 </div>
-            </div>
-
+                <asp:Label runat="server" ID="lblError" CssClass="text-danger" Visible="false" />
+            </div>           
 
 
 
