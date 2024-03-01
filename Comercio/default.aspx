@@ -11,7 +11,7 @@
         <!-- Card 5 -->
         <a href="Compra.aspx" class="custom-card">
             <i class="fas fa-shopping-cart fa-3x"></i>
-            <h2>Compras</h2>
+            <h2>Compra de stock</h2>
         </a>
 
         <!-- Card 1 -->
@@ -45,13 +45,13 @@
         </a>
 
         <a href="CambioDePrecio.aspx" class="custom-card">
-            <i class="fas fa-tags fa-3x"></i>
+           <i class="fas fa-dollar-sign fa-3x"></i>
             <h2>Cambio De Precio</h2>
         </a>
 
         <a href="RegistrosCompras.aspx" class="custom-card">
-            <i class="fas fa-tags fa-3x"></i>
-            <h2>Registros Compras</h2>
+             <i class="fas fa-file-invoice-dollar fa-3x"></i>
+            <h2>Registro de compra de stock</h2>
         </a>
     </div>
 

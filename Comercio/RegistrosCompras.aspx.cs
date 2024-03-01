@@ -38,7 +38,7 @@ namespace Comercio
             }
             catch (Exception ex)
             {
-                // Manejar la excepción de acuerdo a tu lógica de negocio
+                throw ex;
             }
         }
 
@@ -73,15 +73,25 @@ namespace Comercio
 
         protected void btnBuscarCompra_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(txtIdCompra.Text))
+            {
             ListarCompras();
+            lblTotalFacturado.Visible = true;
+
+            } else
+            {
+                ListarCompras();
+                lblTotalFacturado.Visible = false;
+            }
         }
 
         protected void dataGridViewCompras_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             dataGridViewCompras.PageIndex = e.NewPageIndex;
             ListarCompras();
+            lblTotalFacturado.Visible = false;
         }
-        // :)
+       
         protected void dataGridViewCompras_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName == "DetallesCompra")
@@ -129,6 +139,7 @@ namespace Comercio
 
                 // Redireccionar a la página de resumen de la compra
                 Response.Redirect($"ResumenCompra.aspx?id={idCompra}");
+                
             }
         }
 

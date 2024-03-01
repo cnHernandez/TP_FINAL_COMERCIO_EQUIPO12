@@ -19,6 +19,7 @@ namespace Comercio
             {
                 MostrarDetallesCompra();
             }
+
         }
         private void MostrarDetallesCompra()
         {
@@ -36,9 +37,22 @@ namespace Comercio
         }
         protected void btnIrAPaginaPrincipal_Click(object sender, EventArgs e)
         {
-            // Redirigir a la página principal (cambia la URL según tu estructura de proyecto)
-            Response.Redirect("~/default.aspx");
+
+            // Redirigir a la página principal 
+            
+            Session["productosSeleccionados"] = null;
+            Session["detallesCompra"] = null;
+
+           
+            if (Request.QueryString["id"] != null)
+            {
+                Response.Redirect("RegistrosCompras.aspx");
+            }
+            else {
+                Response.Redirect("~/Default.aspx"); 
+            }
         }
+    
 
         protected void gvDetallesCompra_RowDataBound(object sender, GridViewRowEventArgs e)
         {

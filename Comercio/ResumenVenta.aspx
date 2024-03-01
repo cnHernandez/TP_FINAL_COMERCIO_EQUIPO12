@@ -47,7 +47,7 @@
         </asp:GridView>
         <div class="login-container">
             <asp:Button ID="btnDescargarFactura" CssClass="btn btn-primary" runat="server" Text="Descargar Factura" OnClick="btnDescargarFactura_Click" />
-            <asp:Button ID="btnIrAPaginaPrincipal" CssClass="btn btn-primary" runat="server" Text="Volver a la Página Principal" OnClick="btnIrAPaginaPrincipal_Click" />
+            <asp:Button ID="btnIrAPaginaPrincipal" CssClass="btn btn-primary" runat="server" Text="Volver" OnClick="btnIrAPaginaPrincipal_Click" />
         </div>
     </div>
 

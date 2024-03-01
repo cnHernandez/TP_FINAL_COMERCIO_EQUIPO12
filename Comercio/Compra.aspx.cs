@@ -154,6 +154,7 @@ namespace Comercio
 
                 // Deshabilita el DropDownList después de seleccionar un proveedor
                 ddlProveedor.Enabled = false;
+                Session["CompraPage"] = true;
             }
         }
 
@@ -232,21 +233,21 @@ namespace Comercio
 
                 // Recargar la página después de la inserción
                 //Response.Redirect(Request.RawUrl);
+                Session["CompraPage"] = true; // Para la página de ventas
                 Response.Redirect("ResumenCompra.aspx");
             }
             // Limpiar la lista de productos seleccionados en la sesión
             Session["productosSeleccionados"] = null;
             // Limpiar la lista de detalles de compra en la sesión
             Session["detallesCompra"] = null;
-            // No es necesario repetir Response.Redirect aquí
+          
         }
 
         private Productos ObtenerProductoPorId(int idProducto)
         {
-            // Supongamos que tienes una lista de productos llamada 'listaProductos'
-            // y que Producto tiene propiedades IdProducto y NombreProducto
+           
             List<Productos> productosSeleccionados = Session["productosSeleccionados"] as List<Productos>;
-            // Asegúrate de tener la lógica adecuada para obtener el producto desde tu fuente de datos
+           
             Productos productoEncontrado = productosSeleccionados.FirstOrDefault(p => p.IdProductos == idProducto);
 
             return productoEncontrado ?? new Productos(); // Manejo de caso cuando el producto no se encuentra

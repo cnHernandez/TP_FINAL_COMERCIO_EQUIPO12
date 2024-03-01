@@ -38,14 +38,25 @@ namespace Comercio
             }
             catch (Exception ex)
             {
-                // Manejar la excepción de acuerdo a tu lógica de negocio
+                throw ex; 
             }
         }
 
 
         protected void btnBuscarVenta_Click(object sender, EventArgs e)
         {
-            ListarVentas();
+            
+
+            if (string.IsNullOrEmpty(txtIdVenta.Text))
+            {
+                ListarVentas();
+                lblTotalFacturado.Visible = true;
+            } 
+            else
+            {
+                ListarVentas();
+                lblTotalFacturado.Visible = false;
+            }
         }
     
         protected void dataGridViewVentas_PageIndexChanging(object sender, GridViewPageEventArgs e)

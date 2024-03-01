@@ -26,12 +26,12 @@ namespace Negocio
         {
             //PAQUETE DE NUGET: update-package microsoft.codedom.providers.dotnetcompilerplatform -r
             //GERA ACCESO
-            //Conexion = new SqlConnection("server=LAPTOP-OTJVIM30\\SQLEXPRESS; database=Base_Comercio_2024; integrated security=true; Max Pool Size=100;");
+            Conexion = new SqlConnection("server=LAPTOP-OTJVIM30\\SQLEXPRESS; database=Base_Comercio_2024; integrated security=true; Max Pool Size=100;");
 
             //NICO ACCESO
             //Conexion = new SqlConnection("server=DESKTOP-PNIP72A\\SQLEXPRESS; database=Base_Comercio_2024; integrated security=true; Max Pool Size=100;");
             //LUCA ACCESO
-            Conexion = new SqlConnection("server=DESKTOP-LRPR1H0; database=Base_Comercio_2024; integrated security=true; Max Pool Size=100;");
+           // Conexion = new SqlConnection("server=DESKTOP-LRPR1H0; database=Base_Comercio_2024; integrated security=true; Max Pool Size=100;");
 
             Comando = new SqlCommand();
             
