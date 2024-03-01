@@ -263,5 +263,73 @@ namespace Negocio
                 }
             }
 
+        public bool MailExiste(string mail, int idCliente)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                string query = "SELECT COUNT(*) FROM Clientes WHERE Mail = @Mail AND ClienteID != @IdCliente";
+                datos.SetearQuery(query);
+                datos.setearParametros("@Mail", mail);
+                datos.setearParametros("@IdCliente", idCliente);
+                int count = Convert.ToInt32(datos.ejecutarScalar());
+                return count > 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
+        public bool DNIExiste(long dni, int idCliente)
+        {
+            try
+            {
+                using (AccesoDatos datos = new AccesoDatos())
+                {
+                    datos.SetearQuery("SELECT COUNT(*) FROM Clientes WHERE Dni = @Dni AND ClienteID <> @IdCliente");
+                    datos.setearParametros("@Dni", dni);
+                    datos.setearParametros("@IdCliente", idCliente);
+                    int count = Convert.ToInt32(datos.ejecutarScalar());
+                    return count > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejar la excepción según tu lógica de aplicación
+                throw ex;
+            }
+        }
+
+        public bool TelefonoExiste(long telefono, int idCliente)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                string query = "SELECT COUNT(*) FROM Clientes WHERE Telefono = @Telefono AND ClienteID != @IdCliente";
+                datos.SetearQuery(query);
+                datos.setearParametros("@Telefono", telefono);
+                datos.setearParametros("@IdCliente", idCliente);
+                int count = Convert.ToInt32(datos.ejecutarScalar());
+                return count > 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
+
+
     }
 }

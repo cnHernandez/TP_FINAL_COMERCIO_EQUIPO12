@@ -13,7 +13,7 @@
     </div>
 
     <asp:GridView ID="dataGridViewProductos1" runat="server" AutoGenerateColumns="False" CssClass="gridview-style" DataKeyNames="IdProductos"
-    AllowPaging="true" PageSize="5" OnPageIndexChanging="dataGridViewProductos_PageIndexChanging" OnRowDataBound="dataGridViewProductos_RowDataBound">
+    AllowPaging="true"  OnPageIndexChanging="dataGridViewProductos_PageIndexChanging" OnRowDataBound="dataGridViewProductos_RowDataBound">
     <RowStyle CssClass="gridview-row" />
     <HeaderStyle CssClass="gridview-header" />
     <Columns>

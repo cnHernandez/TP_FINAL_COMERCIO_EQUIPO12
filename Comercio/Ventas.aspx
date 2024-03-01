@@ -41,7 +41,7 @@
             <asp:Button runat="server" ID="btnAgregarSeleccionados" Text="Agregar Seleccionados" CssClass="btn btn-primary" OnClick="btnAgregarSeleccionados_Click" Visible="false" />
         </div>
         <asp:Label ID="lblMensajeError" runat="server" ForeColor="Red" Text=""></asp:Label>
-        <asp:Label ID="lblMensajeAdvertencia" runat="server" Visible="false"></asp:Label>
+        <asp:Label ID="lblMensajeAdvertencia" runat="server" ForeColor="Red" Visible="false"></asp:Label>
         <asp:GridView ID="dgvProductosSeleccionados" runat="server" AutoGenerateColumns="False" CssClass="table table-bordered" OnRowDataBound="dgvProductosSeleccionados_RowDataBound" OnRowCommand="dgvProductosSeleccionados_RowCommand">
             <Columns>
                 <asp:BoundField DataField="IdProducto" HeaderText="ID" SortExpression="IdProducto" />
